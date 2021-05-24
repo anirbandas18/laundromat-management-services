@@ -4,7 +4,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <property resource="bootstrap.properties" />
-    <property name="LOGS_DIR" value="./logs" />
+    <property name="LOGS_DIR" value="logs" />
     <property name="LOG_FILE_NAME" value="${spring.application.name}" />
 
     <appender name="Console"

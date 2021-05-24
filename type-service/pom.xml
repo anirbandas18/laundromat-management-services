@@ -13,7 +13,7 @@
     <artifactId>type-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>metadata-service</name>
+    <name>type-service</name>
 
     <build>
         <finalName>type-app-${project.version}</finalName>
