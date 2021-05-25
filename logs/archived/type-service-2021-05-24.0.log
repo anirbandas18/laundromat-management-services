@@ -1,0 +1,921 @@
+2021-05-24 16:30:33.496  INFO [type-service,,,] 34432 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-05-24 16:30:35.713  INFO [type-service,,,] 34432 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+2021-05-24 16:30:35.714  WARN [type-service,,,] 34432 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/type-service/development": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2021-05-24 16:30:35.716  INFO [type-service,,,] 34432 --- [           main] c.t.l.m.type.TypeServiceApplication      : The following profiles are active: development
+2021-05-24 16:30:38.682  INFO [type-service,,,] 34432 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-24 16:30:39.073  INFO [type-service,,,] 34432 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 376ms. Found 2 JPA repository interfaces.
+2021-05-24 16:30:40.010  INFO [type-service,,,] 34432 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=cfcc6a06-ca8a-3cd2-891d-b05900645a70
+2021-05-24 16:30:40.063  INFO [type-service,,,] 34432 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2021-05-24 16:30:40.082  INFO [type-service,,,] 34432 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2021-05-24 16:30:40.125  INFO [type-service,,,] 34432 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2021-05-24 16:30:40.795  INFO [type-service,,,] 34432 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 16:30:40.845  INFO [type-service,,,] 34432 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 16:30:40.855  INFO [type-service,,,] 34432 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 16:30:41.954  INFO [type-service,,,] 34432 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 10080 (http)
+2021-05-24 16:30:41.975  INFO [type-service,,,] 34432 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-24 16:30:41.977  INFO [type-service,,,] 34432 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-05-24 16:30:42.095  INFO [type-service,,,] 34432 --- [           main] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring embedded WebApplicationContext
+2021-05-24 16:30:42.095  INFO [type-service,,,] 34432 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6320 ms
+2021-05-24 16:30:43.977  INFO [type-service,,,] 34432 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-24 16:30:44.167  INFO [type-service,,,] 34432 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.28.Final
+2021-05-24 16:30:44.374  INFO [type-service,,,] 34432 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-05-24 16:30:44.600  INFO [type-service,,,] 34432 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-05-24 16:30:45.264  INFO [type-service,,,] 34432 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-05-24 16:30:45.328  INFO [type-service,,,] 34432 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-05-24 16:30:46.465  INFO [type-service,,,] 34432 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-24 16:30:46.479  INFO [type-service,,,] 34432 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 16:30:47.589  INFO [type-service,,,] 34432 --- [           main] c.n.c.sources.URLConfigurationSource     : URLs to be used as dynamic configuration source: [jar:file:/C:/Users/anirb/CodeBase/teenthofabud/laundromat-manager/laundromat-management-services/type-service/target/type-app-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/config.properties]
+2021-05-24 16:30:47.615  INFO [type-service,,,] 34432 --- [           main] c.n.c.sources.URLConfigurationSource     : URLs to be used as dynamic configuration source: [jar:file:/C:/Users/anirb/CodeBase/teenthofabud/laundromat-manager/laundromat-management-services/type-service/target/type-app-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/config.properties]
+2021-05-24 16:30:48.674  INFO [type-service,,,] 34432 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-24 16:30:50.601  INFO [type-service,,,] 34432 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses Jersey
+2021-05-24 16:30:51.907  INFO [type-service,,,] 34432 --- [           main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-05-24 16:30:52.081  INFO [type-service,,,] 34432 --- [           main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2021-05-24 16:30:52.082  INFO [type-service,,,] 34432 --- [           main] o.s.i.channel.PublishSubscribeChannel    : Channel 'type-service-1.errorChannel' has 1 subscriber(s).
+2021-05-24 16:30:52.083  INFO [type-service,,,] 34432 --- [           main] o.s.i.endpoint.EventDrivenConsumer       : started bean '_org.springframework.integration.errorLogger'
+2021-05-24 16:30:52.126  INFO [type-service,,,] 34432 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 10080 (http) with context path '/v1/type'
+2021-05-24 16:30:52.484  INFO [type-service,,,] 34432 --- [           main] c.t.l.m.type.TypeServiceApplication      : Started TypeServiceApplication in 21.877 seconds (JVM running for 22.89)
+2021-05-24 16:39:56.804  INFO [type-service,,,] 34432 --- [io-10080-exec-1] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-05-24 16:39:56.805  INFO [type-service,,,] 34432 --- [io-10080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-05-24 16:39:56.834  INFO [type-service,,,] 34432 --- [io-10080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 28 ms
+2021-05-24 16:39:56.941  INFO [type-service,535cce48d10c40dd,535cce48d10c40dd,true] 34432 --- [io-10080-exec-1] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:39:57.212  WARN [type-service,535cce48d10c40dd,535cce48d10c40dd,true] 34432 --- [io-10080-exec-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 1146, SQLState: 42S02
+2021-05-24 16:39:57.213 ERROR [type-service,535cce48d10c40dd,535cce48d10c40dd,true] 34432 --- [io-10080-exec-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : Table 'lms_type_db.type_lov' doesn't exist
+2021-05-24 16:39:57.247 ERROR [type-service,,,] 34432 --- [io-10080-exec-1] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [/v1/type] threw exception [Request processing failed; nested exception is org.springframework.dao.InvalidDataAccessResourceUsageException: could not extract ResultSet; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not extract ResultSet] with root cause
+
+java.sql.SQLSyntaxErrorException: Table 'lms_type_db.type_lov' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:953)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1003)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:57)
+	at org.hibernate.loader.Loader.getResultSet(Loader.java:2303)
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:2056)
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:2018)
+	at org.hibernate.loader.Loader.doQuery(Loader.java:948)
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:349)
+	at org.hibernate.loader.Loader.doList(Loader.java:2849)
+	at org.hibernate.loader.Loader.doList(Loader.java:2831)
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2663)
+	at org.hibernate.loader.Loader.list(Loader.java:2658)
+	at org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:506)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:400)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.performList(HQLQueryPlan.java:219)
+	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1414)
+	at org.hibernate.query.internal.AbstractProducedQuery.doList(AbstractProducedQuery.java:1625)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1593)
+	at org.hibernate.query.Query.getResultList(Query.java:165)
+	at org.hibernate.query.criteria.internal.compile.CriteriaQueryTypeQueryAdapter.getResultList(CriteriaQueryTypeQueryAdapter.java:76)
+	at org.springframework.data.jpa.repository.query.JpaQueryExecution$ExistsExecution.doExecute(JpaQueryExecution.java:292)
+	at org.springframework.data.jpa.repository.query.JpaQueryExecution.execute(JpaQueryExecution.java:88)
+	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.doExecute(AbstractJpaQuery.java:154)
+	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.execute(AbstractJpaQuery.java:142)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor$QueryMethodInvoker.invoke(QueryExecutorMethodInterceptor.java:195)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:152)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:130)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:80)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:367)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:118)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:139)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:149)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:95)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212)
+	at com.sun.proxy.$Proxy148.existsByName(Unknown Source)
+	at TypeLOVServiceImpl.createTypeLOV(TypeLOVServiceImpl.java:279)
+	at TypeLOVServiceImpl$$FastClassBySpringCGLIB$$ad896eb3.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:771)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:749)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:367)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:118)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:749)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:691)
+	at TypeLOVServiceImpl$$EnhancerBySpringCGLIB$$5e2df168.createTypeLOV(<generated>)
+	at TypeLOVManagementController.postNewTypeLOV(TypeLOVManagementController.java:35)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:105)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:878)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:792)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:652)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at brave.servlet.TracingFilter.doFilter(TracingFilter.java:68)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at brave.servlet.TracingFilter.doFilter(TracingFilter.java:87)
+	at org.springframework.cloud.sleuth.instrument.web.LazyTracingFilter.doFilter(TraceWebServletAutoConfiguration.java:141)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:346)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:887)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1684)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+
+2021-05-24 16:40:51.017  INFO [type-service,3669f9a997a7a238,3669f9a997a7a238,true] 34432 --- [io-10080-exec-4] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:40:51.109  INFO [type-service,3669f9a997a7a238,3669f9a997a7a238,true] 34432 --- [io-10080-exec-4] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 1
+2021-05-24 16:40:53.515  INFO [type-service,b3015828c6616449,b3015828c6616449,true] 34432 --- [io-10080-exec-5] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:40:54.923  INFO [type-service,0a9500e5b43633ec,0a9500e5b43633ec,true] 34432 --- [io-10080-exec-6] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:41:11.637  INFO [type-service,a8c0fe933fd2f18e,a8c0fe933fd2f18e,true] 34432 --- [io-10080-exec-7] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:41:11.644  INFO [type-service,a8c0fe933fd2f18e,a8c0fe933fd2f18e,true] 34432 --- [io-10080-exec-7] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 2
+2021-05-24 16:41:12.535  INFO [type-service,5e6abbb20da64270,5e6abbb20da64270,true] 34432 --- [io-10080-exec-8] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:41:28.163  INFO [type-service,d6c3b54d6cd9eff2,d6c3b54d6cd9eff2,true] 34432 --- [io-10080-exec-9] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:41:28.168  INFO [type-service,d6c3b54d6cd9eff2,d6c3b54d6cd9eff2,true] 34432 --- [io-10080-exec-9] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 3
+2021-05-24 16:41:30.113  INFO [type-service,3acda505e6277edd,3acda505e6277edd,true] 34432 --- [o-10080-exec-10] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:41:42.215  INFO [type-service,3d7348569e472384,3d7348569e472384,true] 34432 --- [io-10080-exec-3] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:41:42.221  INFO [type-service,3d7348569e472384,3d7348569e472384,true] 34432 --- [io-10080-exec-3] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 4
+2021-05-24 16:41:49.996  INFO [type-service,5e45d24969ff81bb,5e45d24969ff81bb,true] 34432 --- [io-10080-exec-1] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:41:50.000  INFO [type-service,5e45d24969ff81bb,5e45d24969ff81bb,true] 34432 --- [io-10080-exec-1] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 5
+2021-05-24 16:42:00.220  INFO [type-service,f74b51c71ca52860,f74b51c71ca52860,true] 34432 --- [io-10080-exec-2] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:42:00.233  INFO [type-service,f74b51c71ca52860,f74b51c71ca52860,true] 34432 --- [io-10080-exec-2] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 6
+2021-05-24 16:42:14.391  INFO [type-service,8064b842b6810484,8064b842b6810484,true] 34432 --- [io-10080-exec-4] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:42:14.398  INFO [type-service,8064b842b6810484,8064b842b6810484,true] 34432 --- [io-10080-exec-4] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 7
+2021-05-24 16:42:36.212  INFO [type-service,78117a0dc6331d23,78117a0dc6331d23,true] 34432 --- [io-10080-exec-5] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:42:36.217  INFO [type-service,78117a0dc6331d23,78117a0dc6331d23,true] 34432 --- [io-10080-exec-5] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 8
+2021-05-24 16:45:29.408  INFO [type-service,a86b2e1ccc984c77,a86b2e1ccc984c77,true] 34432 --- [io-10080-exec-8] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:45:29.414  INFO [type-service,a86b2e1ccc984c77,a86b2e1ccc984c77,true] 34432 --- [io-10080-exec-8] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 9
+2021-05-24 16:45:30.433  INFO [type-service,e982babcbfdc4fe0,e982babcbfdc4fe0,true] 34432 --- [io-10080-exec-9] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:46:51.705  WARN [type-service,e74781620776cdd8,e74781620776cdd8,true] 34432 --- [io-10080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'PATCH' not supported]
+2021-05-24 16:47:17.870  INFO [type-service,0d4f4d9a77bd4d15,0d4f4d9a77bd4d15,true] 34432 --- [io-10080-exec-2] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Patching TypeLOVEntity by id: 9
+2021-05-24 16:47:18.093  INFO [type-service,0d4f4d9a77bd4d15,0d4f4d9a77bd4d15,true] 34432 --- [io-10080-exec-2] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Patched TypeLOVEntity with id:9
+2021-05-24 16:47:19.077  INFO [type-service,eed469fd6e8b4494,eed469fd6e8b4494,true] 34432 --- [io-10080-exec-4] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Patching TypeLOVEntity by id: 9
+2021-05-24 16:47:19.080  INFO [type-service,eed469fd6e8b4494,eed469fd6e8b4494,true] 34432 --- [io-10080-exec-4] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Patched TypeLOVEntity with id:9
+2021-05-24 16:48:03.312  INFO [type-service,897ad1585b4e15d7,897ad1585b4e15d7,true] 34432 --- [io-10080-exec-5] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:48:03.317  INFO [type-service,897ad1585b4e15d7,897ad1585b4e15d7,true] 34432 --- [io-10080-exec-5] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 10
+2021-05-24 16:48:28.654  INFO [type-service,0fb6bd86b1e4c4ce,0fb6bd86b1e4c4ce,true] 34432 --- [io-10080-exec-6] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:48:28.667  INFO [type-service,0fb6bd86b1e4c4ce,0fb6bd86b1e4c4ce,true] 34432 --- [io-10080-exec-6] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 11
+2021-05-24 16:48:48.254  INFO [type-service,645f862099cdd922,645f862099cdd922,true] 34432 --- [io-10080-exec-7] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:48:48.268  INFO [type-service,645f862099cdd922,645f862099cdd922,true] 34432 --- [io-10080-exec-7] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 12
+2021-05-24 16:49:09.382  INFO [type-service,94889c722a65b882,94889c722a65b882,true] 34432 --- [io-10080-exec-8] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:49:09.395  INFO [type-service,94889c722a65b882,94889c722a65b882,true] 34432 --- [io-10080-exec-8] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 13
+2021-05-24 16:49:32.654  INFO [type-service,f67fe105bf6aeb27,f67fe105bf6aeb27,true] 34432 --- [io-10080-exec-9] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:49:32.667  INFO [type-service,f67fe105bf6aeb27,f67fe105bf6aeb27,true] 34432 --- [io-10080-exec-9] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 14
+2021-05-24 16:49:54.673  INFO [type-service,9d2e30f323ab63c0,9d2e30f323ab63c0,true] 34432 --- [o-10080-exec-10] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:49:54.687  INFO [type-service,9d2e30f323ab63c0,9d2e30f323ab63c0,true] 34432 --- [o-10080-exec-10] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 15
+2021-05-24 16:50:10.285  INFO [type-service,79776a8a6caedd98,79776a8a6caedd98,true] 34432 --- [io-10080-exec-3] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:50:10.299  INFO [type-service,79776a8a6caedd98,79776a8a6caedd98,true] 34432 --- [io-10080-exec-3] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 16
+2021-05-24 16:50:31.903  INFO [type-service,88f53d068b582d32,88f53d068b582d32,true] 34432 --- [io-10080-exec-1] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:50:31.909  INFO [type-service,88f53d068b582d32,88f53d068b582d32,true] 34432 --- [io-10080-exec-1] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 17
+2021-05-24 16:50:47.995  INFO [type-service,de9842591dfc01f0,de9842591dfc01f0,true] 34432 --- [io-10080-exec-2] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:50:48.005  INFO [type-service,de9842591dfc01f0,de9842591dfc01f0,true] 34432 --- [io-10080-exec-2] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 18
+2021-05-24 16:51:07.532  INFO [type-service,f6ef53bbcca01670,f6ef53bbcca01670,true] 34432 --- [io-10080-exec-4] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:51:07.545  INFO [type-service,f6ef53bbcca01670,f6ef53bbcca01670,true] 34432 --- [io-10080-exec-4] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 19
+2021-05-24 16:51:27.042  INFO [type-service,a5a2a6a089a892a3,a5a2a6a089a892a3,true] 34432 --- [io-10080-exec-5] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:51:27.055  INFO [type-service,a5a2a6a089a892a3,a5a2a6a089a892a3,true] 34432 --- [io-10080-exec-5] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 20
+2021-05-24 16:51:40.837  INFO [type-service,9137164b9e8dde4d,9137164b9e8dde4d,true] 34432 --- [io-10080-exec-6] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:51:40.850  INFO [type-service,9137164b9e8dde4d,9137164b9e8dde4d,true] 34432 --- [io-10080-exec-6] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 21
+2021-05-24 16:52:02.568  INFO [type-service,86262a9b7793cd4b,86262a9b7793cd4b,true] 34432 --- [io-10080-exec-7] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:52:02.580  INFO [type-service,86262a9b7793cd4b,86262a9b7793cd4b,true] 34432 --- [io-10080-exec-7] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 22
+2021-05-24 16:52:30.905  INFO [type-service,83e983e89cd5c795,83e983e89cd5c795,true] 34432 --- [io-10080-exec-8] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:52:30.911  INFO [type-service,83e983e89cd5c795,83e983e89cd5c795,true] 34432 --- [io-10080-exec-8] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 23
+2021-05-24 16:52:54.586  INFO [type-service,5c908ddcc1fa966a,5c908ddcc1fa966a,true] 34432 --- [io-10080-exec-9] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Patching TypeLOVEntity by id: 23
+2021-05-24 16:52:54.589  INFO [type-service,5c908ddcc1fa966a,5c908ddcc1fa966a,true] 34432 --- [io-10080-exec-9] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Patched TypeLOVEntity with id:23
+2021-05-24 16:53:19.623  INFO [type-service,86be3f4f3ac267b5,86be3f4f3ac267b5,true] 34432 --- [o-10080-exec-10] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:53:19.634  INFO [type-service,86be3f4f3ac267b5,86be3f4f3ac267b5,true] 34432 --- [o-10080-exec-10] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 24
+2021-05-24 16:53:51.984  INFO [type-service,1a963a6ae6393677,1a963a6ae6393677,true] 34432 --- [io-10080-exec-3] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:53:51.998  INFO [type-service,1a963a6ae6393677,1a963a6ae6393677,true] 34432 --- [io-10080-exec-3] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 25
+2021-05-24 16:55:24.801  INFO [type-service,02fa6a1671d95848,02fa6a1671d95848,true] 34432 --- [io-10080-exec-4] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Patching TypeLOVEntity by id: 6
+2021-05-24 16:55:24.804  INFO [type-service,02fa6a1671d95848,02fa6a1671d95848,true] 34432 --- [io-10080-exec-4] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Patched TypeLOVEntity with id:6
+2021-05-24 16:55:58.925  INFO [type-service,e4c2d8bae1a81fee,e4c2d8bae1a81fee,true] 34432 --- [io-10080-exec-5] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:55:58.931  INFO [type-service,e4c2d8bae1a81fee,e4c2d8bae1a81fee,true] 34432 --- [io-10080-exec-5] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 26
+2021-05-24 16:56:09.631  INFO [type-service,dd87a6a7f8bf972f,dd87a6a7f8bf972f,true] 34432 --- [io-10080-exec-6] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:56:09.643  INFO [type-service,dd87a6a7f8bf972f,dd87a6a7f8bf972f,true] 34432 --- [io-10080-exec-6] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 27
+2021-05-24 16:56:41.608  INFO [type-service,6283d91aa4baf4fb,6283d91aa4baf4fb,true] 34432 --- [io-10080-exec-7] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:56:41.613  INFO [type-service,6283d91aa4baf4fb,6283d91aa4baf4fb,true] 34432 --- [io-10080-exec-7] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 28
+2021-05-24 16:57:09.977  INFO [type-service,a13079489ed3db5b,a13079489ed3db5b,true] 34432 --- [io-10080-exec-8] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Creating new TypeLOVEntity
+2021-05-24 16:57:09.988  INFO [type-service,a13079489ed3db5b,a13079489ed3db5b,true] 34432 --- [io-10080-exec-8] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Created new TypeLOVForm with id: 29
+2021-05-24 16:57:56.745  INFO [type-service,df75e27478691cc2,df75e27478691cc2,true] 34432 --- [io-10080-exec-9] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Requesting all TypeLOVEntity by their natural ordering
+2021-05-24 16:57:56.761  INFO [type-service,df75e27478691cc2,df75e27478691cc2,true] 34432 --- [io-10080-exec-9] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : 29 TypeLOVVo available
+2021-05-24 16:58:16.370  INFO [type-service,216d8039f9369a12,216d8039f9369a12,true] 34432 --- [o-10080-exec-10] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Requesting TypeLOVEntity that match with name: cur
+2021-05-24 16:58:16.379  INFO [type-service,216d8039f9369a12,216d8039f9369a12,true] 34432 --- [o-10080-exec-10] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Found 1 TypeLOVVo matching with name: cur
+2021-05-24 16:58:23.353  INFO [type-service,45560bb7ae59693d,45560bb7ae59693d,true] 34432 --- [io-10080-exec-3] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Requesting TypeLOVEntity that match with name: cx
+2021-05-24 16:58:30.239  INFO [type-service,426edb4a119be292,426edb4a119be292,true] 34432 --- [io-10080-exec-1] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Requesting TypeLOVEntity that match with name: cu
+2021-05-24 16:58:30.242  INFO [type-service,426edb4a119be292,426edb4a119be292,true] 34432 --- [io-10080-exec-1] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Found 1 TypeLOVVo matching with name: cu
+2021-05-24 16:58:34.269  INFO [type-service,75d28cdffa95f810,75d28cdffa95f810,true] 34432 --- [io-10080-exec-2] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Requesting TypeLOVEntity by id: 1
+2021-05-24 16:58:34.272  INFO [type-service,75d28cdffa95f810,75d28cdffa95f810,true] 34432 --- [io-10080-exec-2] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Found TypeLOVVo by id: 1
+2021-05-24 16:59:17.848  WARN [type-service,0b0966cbccb762b7,0b0966cbccb762b7,true] 34432 --- [io-10080-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'DELETE' not supported]
+2021-05-24 16:59:26.138  INFO [type-service,e96ff2150fe91694,e96ff2150fe91694,true] 34432 --- [io-10080-exec-5] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Soft deleting TypeLOVEntity by id: 1
+2021-05-24 16:59:26.141  INFO [type-service,e96ff2150fe91694,e96ff2150fe91694,true] 34432 --- [io-10080-exec-5] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Soft deleted existing TypeLOVEntity with id: 1
+2021-05-24 16:59:26.979  INFO [type-service,7aab351380901ce2,7aab351380901ce2,true] 34432 --- [io-10080-exec-6] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Soft deleting TypeLOVEntity by id: 1
+2021-05-24 16:59:32.908  INFO [type-service,66a3e70be9c09452,66a3e70be9c09452,true] 34432 --- [io-10080-exec-8] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Requesting all TypeLOVEntity by their natural ordering
+2021-05-24 16:59:32.923  INFO [type-service,66a3e70be9c09452,66a3e70be9c09452,true] 34432 --- [io-10080-exec-8] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : 29 TypeLOVVo available
+2021-05-24 16:59:47.127  INFO [type-service,4820c73179d26c5a,4820c73179d26c5a,true] 34432 --- [io-10080-exec-9] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Patching TypeLOVEntity by id: 1
+2021-05-24 16:59:47.131  INFO [type-service,4820c73179d26c5a,4820c73179d26c5a,true] 34432 --- [io-10080-exec-9] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Patched TypeLOVEntity with id:1
+2021-05-24 16:59:56.084  INFO [type-service,bfe75013a849ba15,bfe75013a849ba15,true] 34432 --- [o-10080-exec-10] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Requesting TypeLOVEntity that match with name: cu
+2021-05-24 16:59:56.087  INFO [type-service,bfe75013a849ba15,bfe75013a849ba15,true] 34432 --- [o-10080-exec-10] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Found 1 TypeLOVVo matching with name: cu
+2021-05-24 16:59:59.433  INFO [type-service,0c46dedabee30667,0c46dedabee30667,true] 34432 --- [io-10080-exec-3] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Requesting all TypeLOVEntity by their natural ordering
+2021-05-24 16:59:59.438  INFO [type-service,0c46dedabee30667,0c46dedabee30667,true] 34432 --- [io-10080-exec-3] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : 29 TypeLOVVo available
+2021-05-24 17:00:00.209  INFO [type-service,8f98412be1ecdc72,8f98412be1ecdc72,true] 34432 --- [io-10080-exec-1] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : Requesting all TypeLOVEntity by their natural ordering
+2021-05-24 17:00:00.215  INFO [type-service,8f98412be1ecdc72,8f98412be1ecdc72,true] 34432 --- [io-10080-exec-1] c.t.l.m.t.s.impl.TypeLOVServiceImpl      : 29 TypeLOVVo available
+2021-05-24 17:00:46.804  INFO [type-service,,,] 34432 --- [extShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2021-05-24 17:00:46.805  INFO [type-service,,,] 34432 --- [extShutdownHook] o.s.i.channel.PublishSubscribeChannel    : Channel 'type-service-1.errorChannel' has 0 subscriber(s).
+2021-05-24 17:00:46.805  INFO [type-service,,,] 34432 --- [extShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : stopped bean '_org.springframework.integration.errorLogger'
+2021-05-24 17:00:46.806  INFO [type-service,,,] 34432 --- [extShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-05-24 17:00:46.809  INFO [type-service,,,] 34432 --- [extShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-05-24 17:00:46.817  INFO [type-service,,,] 34432 --- [extShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 17:00:46.819  INFO [type-service,,,] 34432 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-05-24 17:00:46.829  INFO [type-service,,,] 34432 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2021-05-24 17:16:01.767  INFO [type-service,,,] 21164 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-05-24 17:16:03.995  INFO [type-service,,,] 21164 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+2021-05-24 17:16:03.996  WARN [type-service,,,] 21164 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/type-service/development": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2021-05-24 17:16:04.001  INFO [type-service,,,] 21164 --- [           main] c.t.l.m.type.TypeServiceApplication      : The following profiles are active: development
+2021-05-24 17:16:07.242  INFO [type-service,,,] 21164 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-24 17:16:07.635  INFO [type-service,,,] 21164 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 376ms. Found 2 JPA repository interfaces.
+2021-05-24 17:16:08.799  INFO [type-service,,,] 21164 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=cfcc6a06-ca8a-3cd2-891d-b05900645a70
+2021-05-24 17:16:08.873  INFO [type-service,,,] 21164 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2021-05-24 17:16:08.893  INFO [type-service,,,] 21164 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2021-05-24 17:16:08.956  INFO [type-service,,,] 21164 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2021-05-24 17:16:09.786  INFO [type-service,,,] 21164 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:16:09.850  INFO [type-service,,,] 21164 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:16:09.861  INFO [type-service,,,] 21164 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:16:11.110  INFO [type-service,,,] 21164 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 10080 (http)
+2021-05-24 17:16:11.127  INFO [type-service,,,] 21164 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-24 17:16:11.128  INFO [type-service,,,] 21164 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-05-24 17:16:11.270  INFO [type-service,,,] 21164 --- [           main] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring embedded WebApplicationContext
+2021-05-24 17:16:11.270  INFO [type-service,,,] 21164 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7204 ms
+2021-05-24 17:16:13.478  INFO [type-service,,,] 21164 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-24 17:16:13.671  INFO [type-service,,,] 21164 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.28.Final
+2021-05-24 17:16:14.082  INFO [type-service,,,] 21164 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-05-24 17:16:14.499  INFO [type-service,,,] 21164 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-05-24 17:16:15.409  INFO [type-service,,,] 21164 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-05-24 17:16:15.514  INFO [type-service,,,] 21164 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-05-24 17:16:17.064  INFO [type-service,,,] 21164 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-24 17:16:17.078  INFO [type-service,,,] 21164 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 17:16:18.479  INFO [type-service,,,] 21164 --- [           main] c.n.c.sources.URLConfigurationSource     : URLs to be used as dynamic configuration source: [jar:file:/C:/Users/anirb/CodeBase/teenthofabud/laundromat-manager/laundromat-management-services/type-service/target/type-app-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/config.properties]
+2021-05-24 17:16:18.504  INFO [type-service,,,] 21164 --- [           main] c.n.c.sources.URLConfigurationSource     : URLs to be used as dynamic configuration source: [jar:file:/C:/Users/anirb/CodeBase/teenthofabud/laundromat-manager/laundromat-management-services/type-service/target/type-app-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/config.properties]
+2021-05-24 17:16:19.725  INFO [type-service,,,] 21164 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-24 17:16:21.945  INFO [type-service,,,] 21164 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses Jersey
+2021-05-24 17:16:23.718  INFO [type-service,,,] 21164 --- [           main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-05-24 17:16:23.957  INFO [type-service,,,] 21164 --- [           main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2021-05-24 17:16:23.959  INFO [type-service,,,] 21164 --- [           main] o.s.i.channel.PublishSubscribeChannel    : Channel 'type-service-1.errorChannel' has 1 subscriber(s).
+2021-05-24 17:16:23.960  INFO [type-service,,,] 21164 --- [           main] o.s.i.endpoint.EventDrivenConsumer       : started bean '_org.springframework.integration.errorLogger'
+2021-05-24 17:16:23.997  INFO [type-service,,,] 21164 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 10080 (http) with context path '/v1/type'
+2021-05-24 17:16:24.352  INFO [type-service,,,] 21164 --- [           main] c.t.l.m.type.TypeServiceApplication      : Started TypeServiceApplication in 26.536 seconds (JVM running for 28.137)
+2021-05-24 17:18:15.964  INFO [type-service,,,] 21164 --- [extShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2021-05-24 17:18:15.966  INFO [type-service,,,] 21164 --- [extShutdownHook] o.s.i.channel.PublishSubscribeChannel    : Channel 'type-service-1.errorChannel' has 0 subscriber(s).
+2021-05-24 17:18:15.967  INFO [type-service,,,] 21164 --- [extShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : stopped bean '_org.springframework.integration.errorLogger'
+2021-05-24 17:18:15.969  INFO [type-service,,,] 21164 --- [extShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-05-24 17:18:15.975  INFO [type-service,,,] 21164 --- [extShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-05-24 17:18:15.985  INFO [type-service,,,] 21164 --- [extShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 17:18:15.990  INFO [type-service,,,] 21164 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-05-24 17:18:16.017  INFO [type-service,,,] 21164 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2021-05-24 17:18:48.906  INFO [type-service,,,] 31848 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-05-24 17:18:51.123  INFO [type-service,,,] 31848 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+2021-05-24 17:18:51.126  WARN [type-service,,,] 31848 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/type-service/development": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2021-05-24 17:18:51.134  INFO [type-service,,,] 31848 --- [           main] c.t.l.m.type.TypeServiceApplication      : The following profiles are active: development
+2021-05-24 17:18:54.319  INFO [type-service,,,] 31848 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-24 17:18:54.768  INFO [type-service,,,] 31848 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 432ms. Found 2 JPA repository interfaces.
+2021-05-24 17:18:55.842  INFO [type-service,,,] 31848 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=cfcc6a06-ca8a-3cd2-891d-b05900645a70
+2021-05-24 17:18:55.921  INFO [type-service,,,] 31848 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2021-05-24 17:18:55.941  INFO [type-service,,,] 31848 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2021-05-24 17:18:56.001  INFO [type-service,,,] 31848 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2021-05-24 17:18:56.727  INFO [type-service,,,] 31848 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:18:56.799  INFO [type-service,,,] 31848 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:18:56.809  INFO [type-service,,,] 31848 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:18:57.994  INFO [type-service,,,] 31848 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 10080 (http)
+2021-05-24 17:18:58.009  INFO [type-service,,,] 31848 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-24 17:18:58.010  INFO [type-service,,,] 31848 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-05-24 17:18:58.150  INFO [type-service,,,] 31848 --- [           main] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring embedded WebApplicationContext
+2021-05-24 17:18:58.151  INFO [type-service,,,] 31848 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6924 ms
+2021-05-24 17:19:00.289  INFO [type-service,,,] 31848 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-24 17:19:00.450  INFO [type-service,,,] 31848 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.28.Final
+2021-05-24 17:19:00.690  INFO [type-service,,,] 31848 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-05-24 17:19:00.965  INFO [type-service,,,] 31848 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-05-24 17:19:01.564  INFO [type-service,,,] 31848 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-05-24 17:19:01.625  INFO [type-service,,,] 31848 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-05-24 17:19:02.888  INFO [type-service,,,] 31848 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-24 17:19:02.909  INFO [type-service,,,] 31848 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 17:19:04.279  INFO [type-service,,,] 31848 --- [           main] c.n.c.sources.URLConfigurationSource     : URLs to be used as dynamic configuration source: [jar:file:/C:/Users/anirb/CodeBase/teenthofabud/laundromat-manager/laundromat-management-services/type-service/target/type-app-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/config.properties]
+2021-05-24 17:19:04.309  INFO [type-service,,,] 31848 --- [           main] c.n.c.sources.URLConfigurationSource     : URLs to be used as dynamic configuration source: [jar:file:/C:/Users/anirb/CodeBase/teenthofabud/laundromat-manager/laundromat-management-services/type-service/target/type-app-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/config.properties]
+2021-05-24 17:19:05.518  INFO [type-service,,,] 31848 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-24 17:19:07.809  INFO [type-service,,,] 31848 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses Jersey
+2021-05-24 17:19:09.372  INFO [type-service,,,] 31848 --- [           main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-05-24 17:19:09.613  INFO [type-service,,,] 31848 --- [           main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2021-05-24 17:19:09.614  INFO [type-service,,,] 31848 --- [           main] o.s.i.channel.PublishSubscribeChannel    : Channel 'type-service-1.errorChannel' has 1 subscriber(s).
+2021-05-24 17:19:09.615  INFO [type-service,,,] 31848 --- [           main] o.s.i.endpoint.EventDrivenConsumer       : started bean '_org.springframework.integration.errorLogger'
+2021-05-24 17:19:09.654  INFO [type-service,,,] 31848 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 10080 (http) with context path '/v1/type'
+2021-05-24 17:19:10.028  INFO [type-service,,,] 31848 --- [           main] c.t.l.m.type.TypeServiceApplication      : Started TypeServiceApplication in 24.742 seconds (JVM running for 26.503)
+2021-05-24 17:23:12.840  INFO [type-service,,,] 31848 --- [extShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2021-05-24 17:23:12.852  INFO [type-service,,,] 31848 --- [extShutdownHook] o.s.i.channel.PublishSubscribeChannel    : Channel 'type-service-1.errorChannel' has 0 subscriber(s).
+2021-05-24 17:23:12.854  INFO [type-service,,,] 31848 --- [extShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : stopped bean '_org.springframework.integration.errorLogger'
+2021-05-24 17:23:12.856  INFO [type-service,,,] 31848 --- [extShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-05-24 17:23:12.863  INFO [type-service,,,] 31848 --- [extShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-05-24 17:23:12.874  INFO [type-service,,,] 31848 --- [extShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 17:23:12.878  INFO [type-service,,,] 31848 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-05-24 17:23:12.895  INFO [type-service,,,] 31848 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2021-05-24 17:23:45.777  INFO [type-service,,,] 32688 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-05-24 17:23:48.012  INFO [type-service,,,] 32688 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+2021-05-24 17:23:48.013  WARN [type-service,,,] 32688 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/type-service/development": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2021-05-24 17:23:48.019  INFO [type-service,,,] 32688 --- [           main] c.t.l.m.type.TypeServiceApplication      : The following profiles are active: development
+2021-05-24 17:23:51.212  INFO [type-service,,,] 32688 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-24 17:23:51.646  INFO [type-service,,,] 32688 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 416ms. Found 2 JPA repository interfaces.
+2021-05-24 17:23:52.717  INFO [type-service,,,] 32688 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=7f1ddd3c-7584-3ae5-aa03-e24fc4b845e1
+2021-05-24 17:23:52.787  INFO [type-service,,,] 32688 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2021-05-24 17:23:52.805  INFO [type-service,,,] 32688 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2021-05-24 17:23:52.865  INFO [type-service,,,] 32688 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2021-05-24 17:23:53.561  INFO [type-service,,,] 32688 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:23:53.621  INFO [type-service,,,] 32688 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:23:53.631  INFO [type-service,,,] 32688 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:23:54.808  INFO [type-service,,,] 32688 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 10080 (http)
+2021-05-24 17:23:54.823  INFO [type-service,,,] 32688 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-24 17:23:54.824  INFO [type-service,,,] 32688 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-05-24 17:23:54.954  INFO [type-service,,,] 32688 --- [           main] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring embedded WebApplicationContext
+2021-05-24 17:23:54.954  INFO [type-service,,,] 32688 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6867 ms
+2021-05-24 17:23:56.923  INFO [type-service,,,] 32688 --- [           main] o.h.j.b.internal.PersistenceXmlParser    : HHH000318: Could not find any META-INF/persistence.xml file in the classpath
+2021-05-24 17:23:56.924 ERROR [type-service,,,] 32688 --- [           main] o.s.o.jpa.LocalEntityManagerFactoryBean  : Failed to initialize JPA EntityManagerFactory: No Persistence provider for EntityManager named type-persistence-unit
+2021-05-24 17:23:56.927  WARN [type-service,,,] 32688 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'typeLOVManagementController': Unsatisfied dependency expressed through method 'setService' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'typeLOVServiceImpl': Unsatisfied dependency expressed through method 'setRepository' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'typeLOVRepository' defined in TypeLOVRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot create inner bean '(inner bean)#1dc76fa1' of type [org.springframework.orm.jpa.SharedEntityManagerCreator] while setting bean property 'entityManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name '(inner bean)#1dc76fa1': Cannot resolve reference to bean 'entityManagerFactory' while setting constructor argument; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/teenthofabud/laundromat/manager/type/configuration/TypeConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: No Persistence provider for EntityManager named type-persistence-unit
+2021-05-24 17:23:56.932  INFO [type-service,,,] 32688 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2021-05-24 17:23:56.951  INFO [type-service,,,] 32688 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-05-24 17:23:56.958 ERROR [type-service,,,] 32688 --- [           main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'typeLOVManagementController': Unsatisfied dependency expressed through method 'setService' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'typeLOVServiceImpl': Unsatisfied dependency expressed through method 'setRepository' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'typeLOVRepository' defined in TypeLOVRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot create inner bean '(inner bean)#1dc76fa1' of type [org.springframework.orm.jpa.SharedEntityManagerCreator] while setting bean property 'entityManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name '(inner bean)#1dc76fa1': Cannot resolve reference to bean 'entityManagerFactory' while setting constructor argument; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/teenthofabud/laundromat/manager/type/configuration/TypeConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: No Persistence provider for EntityManager named type-persistence-unit
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.resolveMethodArguments(AutowiredAnnotationBeanPostProcessor.java:768)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.inject(AutowiredAnnotationBeanPostProcessor.java:720)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1425)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:516)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:322)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:897)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:879)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:551)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:750)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:405)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at TypeServiceApplication.main(TypeServiceApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:49)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:107)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:58)
+	at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:88)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'typeLOVServiceImpl': Unsatisfied dependency expressed through method 'setRepository' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'typeLOVRepository' defined in TypeLOVRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot create inner bean '(inner bean)#1dc76fa1' of type [org.springframework.orm.jpa.SharedEntityManagerCreator] while setting bean property 'entityManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name '(inner bean)#1dc76fa1': Cannot resolve reference to bean 'entityManagerFactory' while setting constructor argument; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/teenthofabud/laundromat/manager/type/configuration/TypeConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: No Persistence provider for EntityManager named type-persistence-unit
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.resolveMethodArguments(AutowiredAnnotationBeanPostProcessor.java:768)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.inject(AutowiredAnnotationBeanPostProcessor.java:720)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1425)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:516)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:322)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1307)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1227)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.resolveMethodArguments(AutowiredAnnotationBeanPostProcessor.java:760)
+	... 29 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'typeLOVRepository' defined in TypeLOVRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot create inner bean '(inner bean)#1dc76fa1' of type [org.springframework.orm.jpa.SharedEntityManagerCreator] while setting bean property 'entityManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name '(inner bean)#1dc76fa1': Cannot resolve reference to bean 'entityManagerFactory' while setting constructor argument; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/teenthofabud/laundromat/manager/type/configuration/TypeConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: No Persistence provider for EntityManager named type-persistence-unit
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveInnerBean(BeanDefinitionValueResolver.java:389)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:134)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1702)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1447)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:516)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:322)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1307)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1227)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.resolveMethodArguments(AutowiredAnnotationBeanPostProcessor.java:760)
+	... 43 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name '(inner bean)#1dc76fa1': Cannot resolve reference to bean 'entityManagerFactory' while setting constructor argument; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/teenthofabud/laundromat/manager/type/configuration/TypeConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: No Persistence provider for EntityManager named type-persistence-unit
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:342)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:113)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:692)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1181)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:556)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:516)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveInnerBean(BeanDefinitionValueResolver.java:374)
+	... 56 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/teenthofabud/laundromat/manager/type/configuration/TypeConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: No Persistence provider for EntityManager named type-persistence-unit
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1799)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:516)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:322)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:330)
+	... 64 common frames omitted
+Caused by: javax.persistence.PersistenceException: No Persistence provider for EntityManager named type-persistence-unit
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:86)
+	at org.springframework.orm.jpa.LocalEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalEntityManagerFactoryBean.java:96)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:391)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:378)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1858)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1795)
+	... 71 common frames omitted
+
+2021-05-24 17:29:10.909  INFO [type-service,,,] 30336 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-05-24 17:29:13.138  INFO [type-service,,,] 30336 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+2021-05-24 17:29:13.140  WARN [type-service,,,] 30336 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/type-service/development": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2021-05-24 17:29:13.144  INFO [type-service,,,] 30336 --- [           main] c.t.l.m.type.TypeServiceApplication      : The following profiles are active: development
+2021-05-24 17:29:15.743  INFO [type-service,,,] 30336 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-24 17:29:16.169  INFO [type-service,,,] 30336 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 406ms. Found 2 JPA repository interfaces.
+2021-05-24 17:29:17.793  INFO [type-service,,,] 30336 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=8a0d2210-67d5-3a93-a025-7da73c9fd617
+2021-05-24 17:29:17.861  INFO [type-service,,,] 30336 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2021-05-24 17:29:17.879  INFO [type-service,,,] 30336 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2021-05-24 17:29:17.941  INFO [type-service,,,] 30336 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2021-05-24 17:29:18.692  INFO [type-service,,,] 30336 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:29:18.754  INFO [type-service,,,] 30336 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:29:18.764  INFO [type-service,,,] 30336 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:29:19.952  INFO [type-service,,,] 30336 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 10080 (http)
+2021-05-24 17:29:19.969  INFO [type-service,,,] 30336 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-24 17:29:19.970  INFO [type-service,,,] 30336 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-05-24 17:29:20.122  INFO [type-service,,,] 30336 --- [           main] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring embedded WebApplicationContext
+2021-05-24 17:29:20.123  INFO [type-service,,,] 30336 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6914 ms
+2021-05-24 17:29:22.126  WARN [type-service,,,] 30336 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/teenthofabud/laundromat/manager/type/configuration/TypeConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: No persistence unit with name 'type-persistence-unit' found
+2021-05-24 17:29:22.132  INFO [type-service,,,] 30336 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2021-05-24 17:29:22.199  INFO [type-service,,,] 30336 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-05-24 17:29:22.205 ERROR [type-service,,,] 30336 --- [           main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/teenthofabud/laundromat/manager/type/configuration/TypeConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: No persistence unit with name 'type-persistence-unit' found
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1799)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:516)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:322)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1109)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:869)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:551)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:750)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:405)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at TypeServiceApplication.main(TypeServiceApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:49)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:107)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:58)
+	at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:88)
+Caused by: java.lang.IllegalArgumentException: No persistence unit with name 'type-persistence-unit' found
+	at org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager.obtainPersistenceUnitInfo(DefaultPersistenceUnitManager.java:737)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.determinePersistenceUnitInfo(LocalContainerEntityManagerFactoryBean.java:384)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:332)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1858)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1795)
+	... 25 common frames omitted
+
+2021-05-24 17:31:55.288  INFO [type-service,,,] 1672 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-05-24 17:31:57.546  INFO [type-service,,,] 1672 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+2021-05-24 17:31:57.547  WARN [type-service,,,] 1672 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/type-service/development": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2021-05-24 17:31:57.551  INFO [type-service,,,] 1672 --- [           main] c.t.l.m.type.TypeServiceApplication      : The following profiles are active: development
+2021-05-24 17:32:00.184  INFO [type-service,,,] 1672 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-24 17:32:00.594  INFO [type-service,,,] 1672 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 396ms. Found 2 JPA repository interfaces.
+2021-05-24 17:32:02.335  INFO [type-service,,,] 1672 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=8a0d2210-67d5-3a93-a025-7da73c9fd617
+2021-05-24 17:32:02.408  INFO [type-service,,,] 1672 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2021-05-24 17:32:02.427  INFO [type-service,,,] 1672 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2021-05-24 17:32:02.496  INFO [type-service,,,] 1672 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2021-05-24 17:32:03.297  INFO [type-service,,,] 1672 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:32:03.359  INFO [type-service,,,] 1672 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:32:03.367  INFO [type-service,,,] 1672 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:32:04.529  INFO [type-service,,,] 1672 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 10080 (http)
+2021-05-24 17:32:04.545  INFO [type-service,,,] 1672 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-24 17:32:04.545  INFO [type-service,,,] 1672 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-05-24 17:32:04.679  INFO [type-service,,,] 1672 --- [           main] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring embedded WebApplicationContext
+2021-05-24 17:32:04.679  INFO [type-service,,,] 1672 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7070 ms
+2021-05-24 17:32:06.692  WARN [type-service,,,] 1672 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/teenthofabud/laundromat/manager/type/configuration/TypeConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: No persistence unit with name 'type' found
+2021-05-24 17:32:06.696  INFO [type-service,,,] 1672 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2021-05-24 17:32:06.753  INFO [type-service,,,] 1672 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-05-24 17:32:06.760 ERROR [type-service,,,] 1672 --- [           main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/teenthofabud/laundromat/manager/type/configuration/TypeConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: No persistence unit with name 'type' found
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1799)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:516)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:322)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1109)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:869)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:551)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:750)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:405)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at TypeServiceApplication.main(TypeServiceApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:49)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:107)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:58)
+	at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:88)
+Caused by: java.lang.IllegalArgumentException: No persistence unit with name 'type' found
+	at org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager.obtainPersistenceUnitInfo(DefaultPersistenceUnitManager.java:737)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.determinePersistenceUnitInfo(LocalContainerEntityManagerFactoryBean.java:384)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:332)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1858)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1795)
+	... 25 common frames omitted
+
+2021-05-24 17:33:50.998  INFO [type-service,,,] 20944 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-05-24 17:33:53.226  INFO [type-service,,,] 20944 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+2021-05-24 17:33:53.227  WARN [type-service,,,] 20944 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/type-service/development": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2021-05-24 17:33:53.231  INFO [type-service,,,] 20944 --- [           main] c.t.l.m.type.TypeServiceApplication      : The following profiles are active: development
+2021-05-24 17:33:55.899  INFO [type-service,,,] 20944 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-24 17:33:56.238  INFO [type-service,,,] 20944 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 321ms. Found 2 JPA repository interfaces.
+2021-05-24 17:33:57.906  INFO [type-service,,,] 20944 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=8a0d2210-67d5-3a93-a025-7da73c9fd617
+2021-05-24 17:33:57.976  INFO [type-service,,,] 20944 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2021-05-24 17:33:57.994  INFO [type-service,,,] 20944 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2021-05-24 17:33:58.053  INFO [type-service,,,] 20944 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2021-05-24 17:33:58.830  INFO [type-service,,,] 20944 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:33:58.897  INFO [type-service,,,] 20944 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:33:58.907  INFO [type-service,,,] 20944 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:33:59.997  INFO [type-service,,,] 20944 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 10080 (http)
+2021-05-24 17:34:00.020  INFO [type-service,,,] 20944 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-24 17:34:00.021  INFO [type-service,,,] 20944 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-05-24 17:34:00.170  INFO [type-service,,,] 20944 --- [           main] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring embedded WebApplicationContext
+2021-05-24 17:34:00.170  INFO [type-service,,,] 20944 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6873 ms
+2021-05-24 17:34:02.240  INFO [type-service,,,] 20944 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: type]
+2021-05-24 17:34:02.450  INFO [type-service,,,] 20944 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.28.Final
+2021-05-24 17:34:02.700  INFO [type-service,,,] 20944 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-05-24 17:34:03.179 ERROR [type-service,,,] 20944 --- [           main] com.zaxxer.hikari.HikariConfig           : HikariPool-1 - dataSource or dataSourceClassName or jdbcUrl is required.
+2021-05-24 17:34:03.183  WARN [type-service,,,] 20944 --- [           main] o.h.e.j.e.i.JdbcEnvironmentInitiator     : HHH000342: Could not obtain connection to query metadata
+
+java.lang.IllegalArgumentException: dataSource or dataSourceClassName or jdbcUrl is required.
+	at com.zaxxer.hikari.HikariConfig.validate(HikariConfig.java:1004)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:109)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:180)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:68)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:176)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:127)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1224)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1255)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:391)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:378)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1858)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1795)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:516)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:322)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1109)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:869)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:551)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:750)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:405)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at TypeServiceApplication.main(TypeServiceApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:49)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:107)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:58)
+	at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:88)
+
+2021-05-24 17:34:03.201 ERROR [type-service,,,] 20944 --- [           main] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+2021-05-24 17:34:03.203  WARN [type-service,,,] 20944 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/teenthofabud/laundromat/manager/type/configuration/TypeConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+2021-05-24 17:34:03.207  INFO [type-service,,,] 20944 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2021-05-24 17:34:03.262  INFO [type-service,,,] 20944 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-05-24 17:34:03.266 ERROR [type-service,,,] 20944 --- [           main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/teenthofabud/laundromat/manager/type/configuration/TypeConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1799)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:516)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:322)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1109)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:869)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:551)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:750)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:405)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at TypeServiceApplication.main(TypeServiceApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:49)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:107)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:58)
+	at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:88)
+Caused by: org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:275)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:176)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:127)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1224)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1255)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:391)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:378)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1858)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1795)
+	... 25 common frames omitted
+Caused by: org.hibernate.HibernateException: Access to DialectResolutionInfo cannot be null when 'hibernate.dialect' not set
+	at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.determineDialect(DialectFactoryImpl.java:100)
+	at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.buildDialect(DialectFactoryImpl.java:54)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:137)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	... 42 common frames omitted
+
+2021-05-24 17:38:33.430  INFO [type-service,,,] 32472 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-05-24 17:38:35.691  INFO [type-service,,,] 32472 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+2021-05-24 17:38:35.692  WARN [type-service,,,] 32472 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/type-service/development": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2021-05-24 17:38:35.696  INFO [type-service,,,] 32472 --- [           main] c.t.l.m.type.TypeServiceApplication      : The following profiles are active: development
+2021-05-24 17:38:38.877  INFO [type-service,,,] 32472 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-24 17:38:39.318  INFO [type-service,,,] 32472 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 428ms. Found 2 JPA repository interfaces.
+2021-05-24 17:38:40.419  INFO [type-service,,,] 32472 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=cfcc6a06-ca8a-3cd2-891d-b05900645a70
+2021-05-24 17:38:40.493  INFO [type-service,,,] 32472 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2021-05-24 17:38:40.513  INFO [type-service,,,] 32472 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2021-05-24 17:38:40.575  INFO [type-service,,,] 32472 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2021-05-24 17:38:41.354  INFO [type-service,,,] 32472 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:38:41.412  INFO [type-service,,,] 32472 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:38:41.424  INFO [type-service,,,] 32472 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:38:42.627  INFO [type-service,,,] 32472 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 10080 (http)
+2021-05-24 17:38:42.643  INFO [type-service,,,] 32472 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-24 17:38:42.643  INFO [type-service,,,] 32472 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-05-24 17:38:42.770  INFO [type-service,,,] 32472 --- [           main] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring embedded WebApplicationContext
+2021-05-24 17:38:42.770  INFO [type-service,,,] 32472 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7004 ms
+2021-05-24 17:38:44.401  WARN [type-service,,,] 32472 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cloud.autoconfigure.RefreshAutoConfiguration$JpaInvokerConfiguration': Invocation of init method failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker': Invocation of init method failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Failed to determine suitable jdbc url
+2021-05-24 17:38:44.407  INFO [type-service,,,] 32472 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2021-05-24 17:38:44.457  INFO [type-service,,,] 32472 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-05-24 17:38:44.461 ERROR [type-service,,,] 32472 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine suitable jdbc url
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+
+2021-05-24 17:39:34.261  INFO [type-service,,,] 948 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-05-24 17:39:36.513  INFO [type-service,,,] 948 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+2021-05-24 17:39:36.515  WARN [type-service,,,] 948 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/type-service/development": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2021-05-24 17:39:36.519  INFO [type-service,,,] 948 --- [           main] c.t.l.m.type.TypeServiceApplication      : The following profiles are active: development
+2021-05-24 17:39:39.624  INFO [type-service,,,] 948 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-24 17:39:40.060  INFO [type-service,,,] 948 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 415ms. Found 2 JPA repository interfaces.
+2021-05-24 17:39:41.103  INFO [type-service,,,] 948 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=cfcc6a06-ca8a-3cd2-891d-b05900645a70
+2021-05-24 17:39:41.179  INFO [type-service,,,] 948 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2021-05-24 17:39:41.195  INFO [type-service,,,] 948 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2021-05-24 17:39:41.257  INFO [type-service,,,] 948 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2021-05-24 17:39:42.027  INFO [type-service,,,] 948 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:39:42.088  INFO [type-service,,,] 948 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:39:42.098  INFO [type-service,,,] 948 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:39:43.251  INFO [type-service,,,] 948 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 10080 (http)
+2021-05-24 17:39:43.278  INFO [type-service,,,] 948 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-24 17:39:43.279  INFO [type-service,,,] 948 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-05-24 17:39:43.457  INFO [type-service,,,] 948 --- [           main] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring embedded WebApplicationContext
+2021-05-24 17:39:43.458  INFO [type-service,,,] 948 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6868 ms
+2021-05-24 17:39:45.624  INFO [type-service,,,] 948 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-24 17:39:45.845  INFO [type-service,,,] 948 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.28.Final
+2021-05-24 17:39:46.173  INFO [type-service,,,] 948 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-05-24 17:39:46.490  INFO [type-service,,,] 948 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-05-24 17:39:47.102  INFO [type-service,,,] 948 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-05-24 17:39:47.169  INFO [type-service,,,] 948 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-05-24 17:39:48.392  INFO [type-service,,,] 948 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-24 17:39:48.410  INFO [type-service,,,] 948 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 17:39:49.762  INFO [type-service,,,] 948 --- [           main] c.n.c.sources.URLConfigurationSource     : URLs to be used as dynamic configuration source: [jar:file:/C:/Users/anirb/CodeBase/teenthofabud/laundromat-manager/laundromat-management-services/type-service/target/type-app-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/config.properties]
+2021-05-24 17:39:49.790  INFO [type-service,,,] 948 --- [           main] c.n.c.sources.URLConfigurationSource     : URLs to be used as dynamic configuration source: [jar:file:/C:/Users/anirb/CodeBase/teenthofabud/laundromat-manager/laundromat-management-services/type-service/target/type-app-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/config.properties]
+2021-05-24 17:39:51.030  INFO [type-service,,,] 948 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-24 17:39:53.257  INFO [type-service,,,] 948 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses Jersey
+2021-05-24 17:39:54.930  INFO [type-service,,,] 948 --- [           main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-05-24 17:39:55.158  INFO [type-service,,,] 948 --- [           main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2021-05-24 17:39:55.160  INFO [type-service,,,] 948 --- [           main] o.s.i.channel.PublishSubscribeChannel    : Channel 'type-service-1.errorChannel' has 1 subscriber(s).
+2021-05-24 17:39:55.161  INFO [type-service,,,] 948 --- [           main] o.s.i.endpoint.EventDrivenConsumer       : started bean '_org.springframework.integration.errorLogger'
+2021-05-24 17:39:55.201  INFO [type-service,,,] 948 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 10080 (http) with context path '/v1/type'
+2021-05-24 17:39:55.549  INFO [type-service,,,] 948 --- [           main] c.t.l.m.type.TypeServiceApplication      : Started TypeServiceApplication in 25.107 seconds (JVM running for 26.725)
+2021-05-24 17:40:34.514  INFO [type-service,,,] 948 --- [extShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2021-05-24 17:40:34.516  INFO [type-service,,,] 948 --- [extShutdownHook] o.s.i.channel.PublishSubscribeChannel    : Channel 'type-service-1.errorChannel' has 0 subscriber(s).
+2021-05-24 17:40:34.517  INFO [type-service,,,] 948 --- [extShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : stopped bean '_org.springframework.integration.errorLogger'
+2021-05-24 17:40:34.518  INFO [type-service,,,] 948 --- [extShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-05-24 17:40:34.524  INFO [type-service,,,] 948 --- [extShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-05-24 17:40:34.534  INFO [type-service,,,] 948 --- [extShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 17:40:34.539  INFO [type-service,,,] 948 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-05-24 17:40:34.559  INFO [type-service,,,] 948 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2021-05-24 17:44:32.040  INFO [type-service,,,] 9240 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-05-24 17:44:34.294  INFO [type-service,,,] 9240 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+2021-05-24 17:44:34.295  WARN [type-service,,,] 9240 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/type-service/development": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2021-05-24 17:44:34.300  INFO [type-service,,,] 9240 --- [           main] c.t.l.m.type.TypeServiceApplication      : The following profiles are active: development
+2021-05-24 17:44:37.487  INFO [type-service,,,] 9240 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-24 17:44:37.950  INFO [type-service,,,] 9240 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 446ms. Found 2 JPA repository interfaces.
+2021-05-24 17:44:39.048  INFO [type-service,,,] 9240 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=cfcc6a06-ca8a-3cd2-891d-b05900645a70
+2021-05-24 17:44:39.124  INFO [type-service,,,] 9240 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2021-05-24 17:44:39.155  INFO [type-service,,,] 9240 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2021-05-24 17:44:39.221  INFO [type-service,,,] 9240 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2021-05-24 17:44:39.988  INFO [type-service,,,] 9240 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:44:40.060  INFO [type-service,,,] 9240 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:44:40.073  INFO [type-service,,,] 9240 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:44:41.314  INFO [type-service,,,] 9240 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 10080 (http)
+2021-05-24 17:44:41.342  INFO [type-service,,,] 9240 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-24 17:44:41.343  INFO [type-service,,,] 9240 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-05-24 17:44:41.488  INFO [type-service,,,] 9240 --- [           main] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring embedded WebApplicationContext
+2021-05-24 17:44:41.488  INFO [type-service,,,] 9240 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7126 ms
+2021-05-24 17:44:43.836  INFO [type-service,,,] 9240 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-24 17:44:44.043  INFO [type-service,,,] 9240 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.28.Final
+2021-05-24 17:44:44.271  INFO [type-service,,,] 9240 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-05-24 17:44:44.505  INFO [type-service,,,] 9240 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-05-24 17:44:45.157  INFO [type-service,,,] 9240 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-05-24 17:44:45.233  INFO [type-service,,,] 9240 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-05-24 17:44:46.426  INFO [type-service,,,] 9240 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-24 17:44:46.442  INFO [type-service,,,] 9240 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 17:44:47.878  INFO [type-service,,,] 9240 --- [           main] c.n.c.sources.URLConfigurationSource     : URLs to be used as dynamic configuration source: [jar:file:/C:/Users/anirb/CodeBase/teenthofabud/laundromat-manager/laundromat-management-services/type-service/target/type-app-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/config.properties]
+2021-05-24 17:44:47.915  INFO [type-service,,,] 9240 --- [           main] c.n.c.sources.URLConfigurationSource     : URLs to be used as dynamic configuration source: [jar:file:/C:/Users/anirb/CodeBase/teenthofabud/laundromat-manager/laundromat-management-services/type-service/target/type-app-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/config.properties]
+2021-05-24 17:44:49.235  INFO [type-service,,,] 9240 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-24 17:44:51.642  INFO [type-service,,,] 9240 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses Jersey
+2021-05-24 17:44:53.505  INFO [type-service,,,] 9240 --- [           main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-05-24 17:44:53.721  INFO [type-service,,,] 9240 --- [           main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2021-05-24 17:44:53.722  INFO [type-service,,,] 9240 --- [           main] o.s.i.channel.PublishSubscribeChannel    : Channel 'type-service-1.errorChannel' has 1 subscriber(s).
+2021-05-24 17:44:53.723  INFO [type-service,,,] 9240 --- [           main] o.s.i.endpoint.EventDrivenConsumer       : started bean '_org.springframework.integration.errorLogger'
+2021-05-24 17:44:53.769  INFO [type-service,,,] 9240 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 10080 (http) with context path '/v1/type'
+2021-05-24 17:44:54.184  INFO [type-service,,,] 9240 --- [           main] c.t.l.m.type.TypeServiceApplication      : Started TypeServiceApplication in 26.088 seconds (JVM running for 27.731)
+2021-05-24 17:45:31.491  INFO [type-service,,,] 9240 --- [io-10080-exec-2] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-05-24 17:45:31.493  INFO [type-service,,,] 9240 --- [io-10080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-05-24 17:45:31.528  INFO [type-service,,,] 9240 --- [io-10080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 35 ms
+2021-05-24 17:47:11.222  INFO [type-service,,,] 9240 --- [extShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2021-05-24 17:47:11.224  INFO [type-service,,,] 9240 --- [extShutdownHook] o.s.i.channel.PublishSubscribeChannel    : Channel 'type-service-1.errorChannel' has 0 subscriber(s).
+2021-05-24 17:47:11.225  INFO [type-service,,,] 9240 --- [extShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : stopped bean '_org.springframework.integration.errorLogger'
+2021-05-24 17:47:11.227  INFO [type-service,,,] 9240 --- [extShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-05-24 17:47:11.234  INFO [type-service,,,] 9240 --- [extShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-05-24 17:47:11.247  INFO [type-service,,,] 9240 --- [extShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 17:47:11.252  INFO [type-service,,,] 9240 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-05-24 17:47:11.270  INFO [type-service,,,] 9240 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2021-05-24 17:47:46.030  INFO [type-service,,,] 34688 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-05-24 17:47:48.263  INFO [type-service,,,] 34688 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+2021-05-24 17:47:48.265  WARN [type-service,,,] 34688 --- [           main] c.c.c.ConfigServicePropertySourceLocator : Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/type-service/development": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2021-05-24 17:47:48.267  INFO [type-service,,,] 34688 --- [           main] c.t.l.m.type.TypeServiceApplication      : The following profiles are active: development
+2021-05-24 17:47:52.136  INFO [type-service,,,] 34688 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-24 17:47:52.581  INFO [type-service,,,] 34688 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 431ms. Found 2 JPA repository interfaces.
+2021-05-24 17:47:53.668  INFO [type-service,,,] 34688 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=da58a103-5746-3309-95b1-016675c95d8f
+2021-05-24 17:47:53.733  INFO [type-service,,,] 34688 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2021-05-24 17:47:53.749  INFO [type-service,,,] 34688 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2021-05-24 17:47:53.810  INFO [type-service,,,] 34688 --- [           main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2021-05-24 17:47:54.525  INFO [type-service,,,] 34688 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:47:54.593  INFO [type-service,,,] 34688 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:47:54.602  INFO [type-service,,,] 34688 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-24 17:47:55.859  INFO [type-service,,,] 34688 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 10080 (http)
+2021-05-24 17:47:55.879  INFO [type-service,,,] 34688 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-24 17:47:55.880  INFO [type-service,,,] 34688 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-05-24 17:47:56.030  INFO [type-service,,,] 34688 --- [           main] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring embedded WebApplicationContext
+2021-05-24 17:47:56.031  INFO [type-service,,,] 34688 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7698 ms
+2021-05-24 17:47:56.476  INFO [type-service,,,] 34688 --- [           main] c.n.c.sources.URLConfigurationSource     : URLs to be used as dynamic configuration source: [jar:file:/C:/Users/anirb/CodeBase/teenthofabud/laundromat-manager/laundromat-management-services/type-service/target/type-app-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/config.properties]
+2021-05-24 17:47:56.549  INFO [type-service,,,] 34688 --- [           main] c.netflix.config.DynamicPropertyFactory  : DynamicPropertyFactory is initialized with configuration sources: com.netflix.config.ConcurrentCompositeConfiguration@1e7ab390
+2021-05-24 17:47:59.566  INFO [type-service,,,] 34688 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-24 17:47:59.741  INFO [type-service,,,] 34688 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.28.Final
+2021-05-24 17:48:00.017  INFO [type-service,,,] 34688 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-05-24 17:48:00.293  INFO [type-service,,,] 34688 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-05-24 17:48:00.902  INFO [type-service,,,] 34688 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-05-24 17:48:00.970  INFO [type-service,,,] 34688 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-05-24 17:48:02.291  INFO [type-service,,,] 34688 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-24 17:48:02.311  INFO [type-service,,,] 34688 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 17:48:03.655  INFO [type-service,,,] 34688 --- [           main] c.n.c.sources.URLConfigurationSource     : URLs to be used as dynamic configuration source: [jar:file:/C:/Users/anirb/CodeBase/teenthofabud/laundromat-manager/laundromat-management-services/type-service/target/type-app-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/config.properties]
+2021-05-24 17:48:04.996  INFO [type-service,,,] 34688 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-24 17:48:07.975  INFO [type-service,,,] 34688 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses Jersey
+2021-05-24 17:48:09.303  INFO [type-service,,,] 34688 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-05-24 17:48:09.531  INFO [type-service,,,] 34688 --- [           main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-05-24 17:48:09.732  INFO [type-service,,,] 34688 --- [           main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2021-05-24 17:48:09.733  INFO [type-service,,,] 34688 --- [           main] o.s.i.channel.PublishSubscribeChannel    : Channel 'type-service-1.errorChannel' has 1 subscriber(s).
+2021-05-24 17:48:09.734  INFO [type-service,,,] 34688 --- [           main] o.s.i.endpoint.EventDrivenConsumer       : started bean '_org.springframework.integration.errorLogger'
+2021-05-24 17:48:09.774  INFO [type-service,,,] 34688 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 10080 (http) with context path '/v1/type'
+2021-05-24 17:48:10.142  INFO [type-service,,,] 34688 --- [           main] c.t.l.m.type.TypeServiceApplication      : Started TypeServiceApplication in 27.347 seconds (JVM running for 28.584)
+2021-05-24 17:48:33.156  INFO [type-service,,,] 34688 --- [io-10080-exec-1] o.a.c.c.C.[.[localhost].[/v1/type]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-05-24 17:48:33.158  INFO [type-service,,,] 34688 --- [io-10080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-05-24 17:48:33.211  INFO [type-service,,,] 34688 --- [io-10080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 52 ms
+2021-05-24 17:48:33.397  INFO [type-service,a208281914a55148,a208281914a55148,false] 34688 --- [io-10080-exec-1] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-05-24 17:48:35.423  INFO [type-service,a208281914a55148,a208281914a55148,false] 34688 --- [io-10080-exec-1] c.c.c.ConfigServicePropertySourceLocator : Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+2021-05-24 17:48:35.425  WARN [type-service,a208281914a55148,a208281914a55148,false] 34688 --- [io-10080-exec-1] c.c.c.ConfigServicePropertySourceLocator : Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/type-service/development": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2021-05-24 17:49:22.519  INFO [type-service,37617483d2be29fc,37617483d2be29fc,false] 34688 --- [io-10080-exec-4] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-05-24 17:49:24.541  INFO [type-service,37617483d2be29fc,37617483d2be29fc,false] 34688 --- [io-10080-exec-4] c.c.c.ConfigServicePropertySourceLocator : Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+2021-05-24 17:49:24.543  WARN [type-service,37617483d2be29fc,37617483d2be29fc,false] 34688 --- [io-10080-exec-4] c.c.c.ConfigServicePropertySourceLocator : Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/type-service/development": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2021-05-24 17:57:40.584  INFO [type-service,,,] 34688 --- [extShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2021-05-24 17:57:40.589  INFO [type-service,,,] 34688 --- [extShutdownHook] o.s.i.channel.PublishSubscribeChannel    : Channel 'type-service-1.errorChannel' has 0 subscriber(s).
+2021-05-24 17:57:40.590  INFO [type-service,,,] 34688 --- [extShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : stopped bean '_org.springframework.integration.errorLogger'
+2021-05-24 17:57:40.593  INFO [type-service,,,] 34688 --- [extShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-05-24 17:57:40.608  INFO [type-service,,,] 34688 --- [extShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-05-24 17:57:40.633  INFO [type-service,,,] 34688 --- [extShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 17:57:40.643  INFO [type-service,,,] 34688 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-05-24 17:57:40.669  INFO [type-service,,,] 34688 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
