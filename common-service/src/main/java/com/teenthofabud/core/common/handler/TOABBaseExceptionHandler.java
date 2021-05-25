@@ -5,14 +5,18 @@ import com.teenthofabud.core.common.model.vo.ErrorVo;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Locale;
+import java.util.*;
 
 public abstract class TOABBaseExceptionHandler {
 
     public ResponseEntity<ErrorVo> parseExceptionToResponse(TOABBaseException e, MessageSource messageSource) {
         ErrorVo vo = new ErrorVo();
         String msg = messageSource.getMessage(e.getError().getErrorCode(), null, Locale.US);
-        msg = e.getParameters() != null ? String.format(msg, e.getParameters()) : msg;
+        if(e.getParameters() != null) {
+            Deque<Object> parameters = new ArrayDeque<>(Arrays.asList(e.getParameters()));
+            parameters.addFirst(e.getSubDomain().getName());
+            msg = String.format(msg, parameters.toArray(new Object[parameters.size()]));
+        }
         vo.setCode(e.getError().getErrorCode());
         vo.setMessage(msg);
         vo.setDomain(e.getError().getDomain());

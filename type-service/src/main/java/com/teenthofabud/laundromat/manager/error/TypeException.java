@@ -1,0 +1,42 @@
+package com.teenthofabud.laundromat.manager.error;
+
+import com.teenthofabud.core.common.model.error.TOABBaseException;
+import com.teenthofabud.core.common.model.error.TOABError;
+import com.teenthofabud.laundromat.manager.constant.TypeSubDomain;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class TypeException extends TOABBaseException {
+
+    @ToString.Include
+    private TOABError error;
+    @ToString.Include
+    private TypeSubDomain type;
+
+    public TypeException(TypeSubDomain type, String message) {
+        super(message);
+        this.type = type;
+    }
+
+    public TypeException(TypeSubDomain type, String message, Object[] parameters) {
+        super(message, parameters);
+        this.type = type;
+    }
+
+    public TypeException(TypeSubDomain type, TOABError error, String message, Object[] parameters) {
+        super(error, type, message, parameters);
+        this.error = error;
+        this.type = type;
+    }
+
+    public TypeException(TypeSubDomain type, TOABError error, Object[] parameters) {
+        super(error, type, parameters);
+        this.error = error;
+        this.type = type;
+    }
+
+}

@@ -1,5 +1,6 @@
 package com.teenthofabud.core.common.model.error;
 
+import com.teenthofabud.core.common.model.constant.SubDomain;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ public class TOABBaseException extends Exception {
     private String message;
     private TOABError error;
     private Object[] parameters;
+    private SubDomain subDomain;
 
     public TOABBaseException(String message) {
         this.message = message;
@@ -26,6 +28,20 @@ public class TOABBaseException extends Exception {
         this.error = error;
         this.message = message;
         this.parameters = parameters;
+    }
+
+    public TOABBaseException(TOABError error, SubDomain subDomain, String message, Object[] parameters) {
+        this.error = error;
+        this.message = message;
+        this.parameters = parameters;
+        this.subDomain = subDomain;
+    }
+
+    public TOABBaseException(TOABError error, SubDomain subDomain, Object[] parameters) {
+        this.error = error;
+        this.message = "";
+        this.parameters = parameters;
+        this.subDomain = subDomain;
     }
 
     public TOABBaseException(TOABError error, Object[] parameters) {
