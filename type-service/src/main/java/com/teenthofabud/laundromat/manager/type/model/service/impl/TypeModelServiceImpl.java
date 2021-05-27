@@ -52,10 +52,6 @@ public class TypeModelServiceImpl implements TypeModelService {
         return s1.getName().compareTo(s2.getName());
     };
 
-    //private static RelaxedValidator<TypeModelForm> LOOSE_CURRENCY_TYPE_VALIDATOR;
-    //private static SingleChannelMapper<TypeModelEntity> COMPARE_AND_COPY_ENTITY;
-    //private static DualChannelMapper<TypeModelEntity, TypeModelForm> COMPARE_AND_COPY_FORM;
-
     private TOABBaseService toabBaseService;
     private ObjectMapper om;
     private TypeLOVService typeLovService;
@@ -230,18 +226,21 @@ public class TypeModelServiceImpl implements TypeModelService {
             log.debug("TypeModelForm has {} errors", err.getErrorCount());
             TypeErrorCode ec = TypeErrorCode.valueOf(err.getFieldError().getCode());
             log.debug("TypeModelForm error detail: {}", ec);
-            throw new TypeException(TypeSubDomain.TYPE_MODEL, ec, new Object[] { err.getFieldError().getField(), err.getFieldError().getDefaultMessage() });
+            throw new TypeException(TypeSubDomain.TYPE_MODEL, ec, new Object[] { err.getFieldError().getField() });
         }
         log.debug("All attributes of TypeModelForm are valid");
 
-        log.debug("Checking existence of TypeModelEntity with name: {}", form.getName());
-        TypeModelEntity expectedEntity = form2EntityConverter.convert(form);
-        if(repository.existsByName(expectedEntity.getName())) {
-            log.debug("TypeModelEntity already exists with name: {}", expectedEntity.getName());
+        log.debug("Checking existence of TypeModelEntity with name: {} and typeLovId: {}", form.getName(), form.getTypeLovId());
+        if(repository.existsByNameAndTypeLovId(form.getName(), form.getTypeLovId())) {
+            log.debug("TypeModelEntity already exists with name: {} for typeLovId: {}", form.getName(), form.getTypeLovId());
             throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_EXISTS,
-                    new Object[]{ "name", form.getName() });
+                    new Object[]{ "name " + form.getName(), "typeLovId " + form.getTypeLovId() });
         }
-        log.debug("No TypeModelEntity exists with name: {}", expectedEntity.getName());
+        log.debug("No TypeModelEntity exists with name: {} and typeLovId: {}", form.getName(), form.getTypeLovId());
+
+        log.debug("Attempting to convert TypeModelForm to TypeModelEntity");
+        TypeModelEntity expectedEntity = form2EntityConverter.convert(form);
+        log.debug("Converted TypeModelForm to TypeModelEntity");
 
         log.debug("Saving {}", expectedEntity);
         TypeModelEntity actualEntity = repository.save(expectedEntity);
@@ -284,7 +283,6 @@ public class TypeModelServiceImpl implements TypeModelService {
 
         log.debug("Validating provided attributes of TypeModelForm");
         Errors err = new DirectFieldBindingResult(form, form.getClass().getSimpleName());
-        //Boolean allEmpty = LOOSE_CURRENCY_TYPE_VALIDATOR.validateLoosely(form, err);
         Boolean allEmpty = relaxedFormValidator.validateLoosely(form, err);
         if(err.hasErrors()) {
             log.debug("TypeModelForm has {} errors", err.getErrorCount());
@@ -299,7 +297,6 @@ public class TypeModelServiceImpl implements TypeModelService {
 
         TypeModelEntity expectedEntity = null;
 
-        //Optional<TypeModelEntity> optExpectedEntity = COMPARE_AND_COPY_FORM.compareAndMap(actualEntity, form);
         try {
             Optional<TypeModelEntity> optExpectedEntity = form2EntityMapper.compareAndMap(actualEntity, form);
             if(optExpectedEntity.isEmpty()) {
@@ -312,15 +309,14 @@ public class TypeModelServiceImpl implements TypeModelService {
             throw (TypeException) e;
         }
 
-        log.debug("Checking existence of TypeModelEntity with name: {}", form.getName());
-        if(repository.existsByName(expectedEntity.getName())) {
+        log.debug("Checking existence of TypeModelEntity with name: {}", expectedEntity.getName());
+        if(repository.existsByNameAndTypeLovId(expectedEntity.getName(), expectedEntity.getTypeLov().getId())) {
             log.debug("TypeModelEntity already exists with name: {}", expectedEntity.getName());
             throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_EXISTS,
                     new Object[]{ "name", actualEntity.getName() });
         }
         log.debug("No TypeModelEntity exists with name: {}", expectedEntity.getName());
 
-        //COMPARE_AND_COPY_ENTITY.compareAndMap(expectedEntity, actualEntity);
         entitySelfMapper.compareAndMap(expectedEntity, actualEntity);
         log.debug("Compared and copied attributes from TypeModelEntity to TypeModelForm");
         actualEntity.setModifiedOn(LocalDateTime.now(ZoneOffset.UTC));
