@@ -1,5 +1,6 @@
 package com.teenthofabud.laundromat.manager.type.lov.controller;
 
+import com.teenthofabud.core.common.model.constant.TOABBaseMessageTemplate;
 import com.teenthofabud.core.common.model.form.PatchOperationForm;
 import com.teenthofabud.laundromat.manager.constant.TypeSubDomain;
 import com.teenthofabud.laundromat.manager.error.TypeErrorCode;
@@ -35,7 +36,8 @@ public class TypeLOVManagementController {
             long id = service.createTypeLOV(form);
             return ResponseEntity.status(HttpStatus.CREATED).body(id);
         }
-        throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "not provided" });
+        throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
+                new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
     }
 
     @PutMapping(path = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -48,7 +50,8 @@ public class TypeLOVManagementController {
                     service.updateTypeLOV(actualId, form);
                     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
                 }
-                throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "not provided" });
+                throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
+                        new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -80,7 +83,8 @@ public class TypeLOVManagementController {
                     service.applyPatchOnTypeLOV(actualId, dtoList);
                     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
                 }
-                throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", "not provided" });
+                throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
+                        new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }

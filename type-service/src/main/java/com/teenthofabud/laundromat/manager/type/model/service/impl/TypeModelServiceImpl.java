@@ -4,24 +4,21 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import com.teenthofabud.core.common.model.constant.TOABBaseMessageTemplate;
 import com.teenthofabud.core.common.model.error.TOABBaseException;
 import com.teenthofabud.core.common.model.form.PatchOperationForm;
 import com.teenthofabud.core.common.service.TOABBaseService;
-import com.teenthofabud.laundromat.manager.constant.LOVType;
 import com.teenthofabud.laundromat.manager.constant.TypeSubDomain;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVVo;
 import com.teenthofabud.laundromat.manager.type.lov.service.TypeLOVService;
 import com.teenthofabud.laundromat.manager.type.model.converter.TypeModelDto2EntityConverter;
 import com.teenthofabud.laundromat.manager.type.model.converter.TypeModelEntity2VoConverter;
 import com.teenthofabud.laundromat.manager.type.model.converter.TypeModelForm2EntityConverter;
+import com.teenthofabud.laundromat.manager.type.model.data.*;
 import com.teenthofabud.laundromat.manager.type.model.mapper.TypeModelEntitySelfMapper;
 import com.teenthofabud.laundromat.manager.type.model.mapper.TypeModelForm2EntityMapper;
-import com.teenthofabud.laundromat.manager.type.model.data.TypeModelDto;
-import com.teenthofabud.laundromat.manager.type.model.data.TypeModelEntity;
 import com.teenthofabud.laundromat.manager.error.TypeErrorCode;
 import com.teenthofabud.laundromat.manager.error.TypeException;
-import com.teenthofabud.laundromat.manager.type.model.data.TypeModelForm;
-import com.teenthofabud.laundromat.manager.type.model.data.TypeModelVo;
 import com.teenthofabud.laundromat.manager.type.model.repository.TypeModelRepository;
 import com.teenthofabud.laundromat.manager.type.model.service.TypeModelService;
 import com.teenthofabud.laundromat.manager.type.model.validator.TypeModelDtoValidator;
@@ -141,7 +138,7 @@ public class TypeModelServiceImpl implements TypeModelService {
     public Set<TypeModelVo> retrieveAllByNaturalOrdering() {
         log.info("Requesting all TypeModelEntity by their natural ordering");
         List<TypeModelEntity> studentEntityList = repository.findAll();
-        Set<TypeModelVo> naturallyOrderedSet = new TreeSet<TypeModelVo>();
+        Set<TypeModelVo> naturallyOrderedSet = new TreeSet<TypeModelVo>(CMP_BY_NAME);
         for(TypeModelEntity entity : studentEntityList) {
             TypeModelVo dto = entity2VoConverter.convert(entity);
             log.debug("Converting {} to {}", entity, dto);
@@ -215,7 +212,7 @@ public class TypeModelServiceImpl implements TypeModelService {
 
         if(form == null) {
             log.debug("TypeModelForm provided is null");
-            throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "not provided" });
+            throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
         }
         log.debug("Form details: {}", form);
 
@@ -260,13 +257,13 @@ public class TypeModelServiceImpl implements TypeModelService {
     public void updateTypeModel(Long id, TypeModelForm form) throws TypeException {
         log.info("Updating TypeModelForm by id: {}", id);
 
-        log.debug("Searching for TypeModelEntity with id: {}", id);
+        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TYPEMODELENTITY_ID, id);
         Optional<TypeModelEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
-            log.debug("No TypeModelEntity available with id: {}", id);
+            log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_NO_TYPEMODELENTITY_ID_AVAILABLE, id);
             throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug("Found TypeModelEntity with id: {}", id);
+        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_FOUND_TYPEMODELENTITY_ID, id);
 
         TypeModelEntity actualEntity = optActualEntity.get();
         if(!actualEntity.getActive()) {
@@ -277,7 +274,7 @@ public class TypeModelServiceImpl implements TypeModelService {
 
         if(form == null) {
             log.debug("TypeModelForm is null");
-            throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "not provided" });
+            throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
         }
         log.debug("Form details : {}", form);
 
@@ -337,13 +334,13 @@ public class TypeModelServiceImpl implements TypeModelService {
     public void deleteTypeModel(Long id) throws TypeException {
         log.info("Soft deleting TypeModelEntity by id: {}", id);
 
-        log.debug("Searching for TypeModelEntity with id: {}", id);
+        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TYPEMODELENTITY_ID, id);
         Optional<TypeModelEntity> optEntity = repository.findById(id);
         if(optEntity.isEmpty()) {
-            log.debug("No TypeModelEntity available with id: {}", id);
+            log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_NO_TYPEMODELENTITY_ID_AVAILABLE, id);
             throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug("Found TypeModelEntity with id: {}", id);
+        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_FOUND_TYPEMODELENTITY_ID, id);
 
         TypeModelEntity actualEntity = optEntity.get();
         if(!actualEntity.getActive()) {
@@ -371,18 +368,18 @@ public class TypeModelServiceImpl implements TypeModelService {
     public void applyPatchOnTypeModel(Long id, List<PatchOperationForm> patches) throws TypeException {
         log.info("Patching TypeModelEntity by id: {}", id);
 
-        log.debug("Searching for TypeModelEntity with id: {}", id);
+        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TYPEMODELENTITY_ID, id);
         Optional<TypeModelEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
-            log.debug("No TypeModelEntity available with id: {}", id);
+            log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_NO_TYPEMODELENTITY_ID_AVAILABLE, id);
             throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug("Found TypeModelEntity with id: {}", id);
+        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_FOUND_TYPEMODELENTITY_ID, id);
 
         TypeModelEntity actualEntity = optActualEntity.get();
         if(patches == null || (patches != null && patches.isEmpty())) {
             log.debug("TypeModel patch list not provided");
-            throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", "not provided" });
+            throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
         }
         log.debug("TypeModel patch list has {} items", patches.size());
 

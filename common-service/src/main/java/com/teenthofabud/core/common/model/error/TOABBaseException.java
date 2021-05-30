@@ -8,10 +8,10 @@ import lombok.Setter;
 @Getter
 public class TOABBaseException extends Exception {
 
-    private String message;
-    private TOABError error;
-    private Object[] parameters;
-    private SubDomain subDomain;
+    private transient String message;
+    private transient TOABError error;
+    private transient Object[] parameters;
+    private transient SubDomain subDomain;
 
     public TOABBaseException(String message) {
         this.message = message;

@@ -45,21 +45,21 @@ public class TypeModelForm2EntityMapper implements DualChannelMapper<TypeModelEn
             log.debug("TypeModelForm.name: {} is different as TypeModelEntity.name: {}", form.getName(), actualEntity.getName());
         } else {
             expectedEntity.setName(actualEntity.getName());
-            changeSW = true;
+            //changeSW = true;
             log.debug("TypeModelForm.name: {} is same to TypeModelEntity.name: {}", form.getName(), actualEntity.getName());
         }
         if(StringUtils.hasText(form.getDescription()) &&
                 form.getDescription().toLowerCase().compareTo(actualEntity.getDescription().toLowerCase()) != 0) {
             expectedEntity.setDescription(form.getDescription());
-            changeSW = true;
+            //changeSW = true;
             log.debug("TypeModelForm.description: {} is different as TypeModelEntity.description: {}", form.getDescription(), actualEntity.getDescription());
         } else {
             expectedEntity.setDescription(actualEntity.getDescription());
-            changeSW = true;
+            //changeSW = true;
             log.debug("TypeModelForm.description: {} is same to TypeModelEntity.description: {}", form.getDescription(), actualEntity.getDescription());
         }
         if(form.getTypeLovId() != null &&
-                form.getTypeLovId() != actualEntity.getTypeLov().getId()) {
+                form.getTypeLovId().equals(actualEntity.getTypeLov().getId())) {
             if(typeLOVRepository.existsById(form.getTypeLovId())) {
                 Optional<TypeLOVEntity> optTypeLOVEntity = typeLOVRepository.findById(form.getTypeLovId());
                 TypeLOVEntity typeLOVEntity = optTypeLOVEntity.get();
@@ -75,7 +75,7 @@ public class TypeModelForm2EntityMapper implements DualChannelMapper<TypeModelEn
             }
         } else {
             expectedEntity.setTypeLov(actualEntity.getTypeLov());
-            changeSW = true;
+            //changeSW = true;
             log.debug("TypeModelForm.description: {} is same to TypeModelEntity.description: {}", form.getDescription(), actualEntity.getDescription());
         }
         return changeSW ? Optional.of(expectedEntity) : Optional.empty();

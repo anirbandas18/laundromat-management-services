@@ -6,12 +6,12 @@
     <parent>
         <groupId>com.teenthofabud.laundromat.manager</groupId>
         <artifactId>laundromat-management-services</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.1.1-SNAPSHOT</version>
     </parent>
 
     <groupId>com.teenthofabud.laundromat.manager</groupId>
     <artifactId>type-service</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>type-service</name>
 
@@ -50,7 +50,7 @@
         <dependency>
             <groupId>com.teenthofabud.core.common</groupId>
             <artifactId>teenthofabud-autoconfigure</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>0.1.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -63,12 +63,6 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.teenthofabud.core.common</groupId>
-            <artifactId>teenthofabud-autoconfigure</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

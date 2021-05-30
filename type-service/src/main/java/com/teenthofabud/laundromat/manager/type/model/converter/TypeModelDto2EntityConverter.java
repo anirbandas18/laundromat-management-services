@@ -38,23 +38,27 @@ public class TypeModelDto2EntityConverter implements ComparativePatchConverter<T
         boolean[] changeSW = new boolean[NO_OF_COMPARABLE_AND_MAPPABLE_FIELDS]; // size = number of attributes in dto
         Arrays.fill(changeSW, Boolean.FALSE);
         int i = 0;
-        if(dto.getDescription().isPresent()) {
-            actualEntity.setDescription(dto.getDescription().get());
+        Optional<String> optDescription = dto.getDescription();
+        if(optDescription.isPresent()) {
+            actualEntity.setDescription(optDescription.get());
             changeSW[i++] = true;
             log.debug("TypeModelDto.description is valid");
         }
-        if(dto.getName().isPresent()) {
-            actualEntity.setName(dto.getName().get());
+        Optional<String> optName = dto.getName();
+        if(optName.isPresent()) {
+            actualEntity.setName(optName.get());
             changeSW[i++] = true;
             log.debug("TypeModelDto.name is valid");
         }
-        if(dto.getActive().isPresent()) {
-            actualEntity.setActive(Boolean.valueOf(dto.getActive().get()));
+        Optional<String> optActive = dto.getActive();
+        if(optActive.isPresent()) {
+            actualEntity.setActive(Boolean.valueOf(optActive.get()));
             changeSW[i++] = true;
             log.debug("TypeModelDto.active is valid");
         }
-        if(dto.getTypeLovId().isPresent()) {
-            Long typeLovId = Long.parseLong(dto.getTypeLovId().get());
+        Optional<String> optTypeLovId = dto.getTypeLovId();
+        if(optTypeLovId.isPresent()) {
+            Long typeLovId = Long.parseLong(optTypeLovId.get());
             if(typeLOVRepository.existsById(typeLovId)) {
                 Optional<TypeLOVEntity> optTypeLOV = typeLOVRepository.findById(typeLovId);
                 if(optTypeLOV.isPresent()) {

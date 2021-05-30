@@ -21,7 +21,7 @@ public class TypeModelDtoValidator implements Validator {
     public void validate(Object target, Errors errors) {
         TypeModelDto dto = (TypeModelDto) target;
         Optional<String> optTypeLovId = dto.getTypeLovId();
-        if((optTypeLovId != null && optTypeLovId.isPresent())) {
+        if((/*optTypeLovId != null &&*/ optTypeLovId.isPresent())) {
             boolean isValid = true;
             if(optTypeLovId.get() == null) {
                 isValid = false;
@@ -41,12 +41,12 @@ public class TypeModelDtoValidator implements Validator {
             return;
         }
         Optional<String> optName = dto.getName();
-        if((optName != null && optName.isPresent()) && StringUtils.isEmpty(optName.get())) {
+        if((/*optName != null &&*/ optName.isPresent()) && StringUtils.isEmpty(optName.get())) {
             errors.rejectValue("name", TypeErrorCode.TYPE_ATTRIBUTE_INVALID.name());
             return;
         }
         Optional<String> optActive = dto.getActive();
-        if((optActive != null && optActive.isPresent()) && StringUtils.isEmpty(optActive.get())
+        if((/*optActive != null &&*/ optActive.isPresent()) && StringUtils.isEmpty(optActive.get())
             && ((optActive.get().compareToIgnoreCase(Boolean.TRUE.toString()) != 0) || (optActive.get().compareToIgnoreCase(Boolean.FALSE.toString()) != 0))) {
             errors.rejectValue("name", TypeErrorCode.TYPE_ATTRIBUTE_INVALID.name());
             return;

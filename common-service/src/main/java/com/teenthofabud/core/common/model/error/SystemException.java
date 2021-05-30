@@ -9,9 +9,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public abstract class SystemException extends RuntimeException {
 
-    private String message;
-    private TOABError error;
-    private Object[] parameters;
+    private transient String message;
+    private transient TOABError error;
+    private transient Object[] parameters;
 
     public SystemException(String message) {
         this.message = message;

@@ -7,7 +7,6 @@ import java.util.Optional;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
 public class TypeLOVDto {
 
@@ -17,5 +16,11 @@ public class TypeLOVDto {
     private Optional<String> description;
     @ToString.Include
     private Optional<String> active;
+
+    public TypeLOVDto() {
+        this.name = Optional.empty();
+        this.description = Optional.empty();
+        this.active = Optional.empty();
+    }
 
 }

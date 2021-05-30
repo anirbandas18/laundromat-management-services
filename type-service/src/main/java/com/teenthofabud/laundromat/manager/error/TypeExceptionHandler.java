@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class TypeExceptionHandler extends TOABBaseExceptionHandler {
+public class TypeExceptionHandler implements TOABBaseExceptionHandler {
 
     @Autowired
     public void setMessageSource(MessageSource messageSource) {
@@ -21,7 +21,7 @@ public class TypeExceptionHandler extends TOABBaseExceptionHandler {
 
     @ExceptionHandler(TypeException.class)
     public ResponseEntity<ErrorVo> handleStudentException(TypeException e) {
-        ResponseEntity<ErrorVo>  response = super.parseExceptionToResponse(e, messageSource);
+        ResponseEntity<ErrorVo>  response = parseExceptionToResponse(e, messageSource);
         return response;
     }
 

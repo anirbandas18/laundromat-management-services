@@ -7,7 +7,6 @@ import java.util.Optional;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
 public class TypeModelDto {
 
@@ -19,5 +18,12 @@ public class TypeModelDto {
     private Optional<String> description;
     @ToString.Include
     private Optional<String> active;
+
+    public TypeModelDto() {
+        this.name = Optional.empty();
+        this.typeLovId = Optional.empty();
+        this.description = Optional.empty();
+        this.active = Optional.empty();
+    }
 
 }

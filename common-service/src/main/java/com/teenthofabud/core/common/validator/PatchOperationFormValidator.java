@@ -23,7 +23,7 @@ public class PatchOperationFormValidator implements Validator {
             return;
         } else {
             try {
-                JsonPatch.Operation op = JsonPatch.Operation.valueOf(form.getOp().toUpperCase());
+                JsonPatch.Operation.valueOf(form.getOp().toUpperCase());
             } catch (IllegalArgumentException e) {
                 errors.rejectValue("op", TOABErrorCode.PATCH_ATTRIBUTE_INVALID.name());
                 return;

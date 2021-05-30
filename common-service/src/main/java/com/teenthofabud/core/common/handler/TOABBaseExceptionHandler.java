@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.*;
 
-public abstract class TOABBaseExceptionHandler {
+public interface TOABBaseExceptionHandler {
 
-    public ResponseEntity<ErrorVo> parseExceptionToResponse(TOABBaseException e, MessageSource messageSource) {
+    default ResponseEntity<ErrorVo> parseExceptionToResponse(TOABBaseException e, MessageSource messageSource) {
         ErrorVo vo = new ErrorVo();
         String msg = messageSource.getMessage(e.getError().getErrorCode(), null, Locale.US);
         if(e.getParameters() != null) {
@@ -20,8 +20,7 @@ public abstract class TOABBaseExceptionHandler {
         vo.setCode(e.getError().getErrorCode());
         vo.setMessage(msg);
         vo.setDomain(e.getError().getDomain());
-        ResponseEntity<ErrorVo>  response = ResponseEntity.status(e.getError().getHttpStatusCode()).body(vo);
-        return response;
+        return ResponseEntity.status(e.getError().getHttpStatusCode()).body(vo);
     }
 
 

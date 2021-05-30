@@ -13,9 +13,9 @@ import lombok.ToString;
 public class TypeException extends TOABBaseException {
 
     @ToString.Include
-    private TOABError error;
+    private transient TOABError error;
     @ToString.Include
-    private TypeSubDomain type;
+    private transient TypeSubDomain type;
 
     public TypeException(TypeSubDomain type, String message) {
         super(message);
