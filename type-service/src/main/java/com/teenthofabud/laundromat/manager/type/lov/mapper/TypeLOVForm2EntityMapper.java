@@ -31,7 +31,7 @@ public class TypeLOVForm2EntityMapper implements DualChannelMapper<TypeLOVEntity
         } else {
             expectedEntity.setName(actualEntity.getName());
             //changeSW = true;
-            log.debug("TypeLOVForm.name: {} is same to TypeLOVEntity.name: {}", form.getName(), actualEntity.getName());
+            log.debug("TypeLOVForm.name: is unchanged");
         }
         if(StringUtils.hasText(form.getDescription()) &&
                 form.getDescription().toLowerCase().compareTo(actualEntity.getDescription().toLowerCase()) != 0) {
@@ -41,7 +41,7 @@ public class TypeLOVForm2EntityMapper implements DualChannelMapper<TypeLOVEntity
         } else {
             expectedEntity.setDescription(actualEntity.getDescription());
             //changeSW = true;
-            log.debug("TypeLOVForm.description: {} is same to TypeLOVEntity.description: {}", form.getDescription(), actualEntity.getDescription());
+            log.debug("TypeLOVForm.description: is unchanged");
         }
         return changeSW ? Optional.of(expectedEntity) : Optional.empty();
     }

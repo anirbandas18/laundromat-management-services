@@ -46,7 +46,7 @@ public class TypeModelForm2EntityMapper implements DualChannelMapper<TypeModelEn
         } else {
             expectedEntity.setName(actualEntity.getName());
             //changeSW = true;
-            log.debug("TypeModelForm.name: {} is same to TypeModelEntity.name: {}", form.getName(), actualEntity.getName());
+            log.debug("TypeModelForm.name: is unchanged");
         }
         if(StringUtils.hasText(form.getDescription()) &&
                 form.getDescription().toLowerCase().compareTo(actualEntity.getDescription().toLowerCase()) != 0) {
@@ -56,7 +56,7 @@ public class TypeModelForm2EntityMapper implements DualChannelMapper<TypeModelEn
         } else {
             expectedEntity.setDescription(actualEntity.getDescription());
             //changeSW = true;
-            log.debug("TypeModelForm.description: {} is same to TypeModelEntity.description: {}", form.getDescription(), actualEntity.getDescription());
+            log.debug("TypeModelForm.description: is unchanged");
         }
         if(form.getTypeLovId() != null &&
                 form.getTypeLovId().equals(actualEntity.getTypeLov().getId())) {
@@ -76,7 +76,7 @@ public class TypeModelForm2EntityMapper implements DualChannelMapper<TypeModelEn
         } else {
             expectedEntity.setTypeLov(actualEntity.getTypeLov());
             //changeSW = true;
-            log.debug("TypeModelForm.description: {} is same to TypeModelEntity.description: {}", form.getDescription(), actualEntity.getDescription());
+            log.debug("TypeModelForm.description: is unchanged");
         }
         return changeSW ? Optional.of(expectedEntity) : Optional.empty();
     }

@@ -297,8 +297,8 @@ public class TypeModelServiceImpl implements TypeModelService {
         try {
             Optional<TypeModelEntity> optExpectedEntity = form2EntityMapper.compareAndMap(actualEntity, form);
             if(optExpectedEntity.isEmpty()) {
-                log.debug("All attributes of TypeModelForm are empty");
-                throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are empty" });
+                log.debug("No new value for attributes of TypeLOVForm");
+                throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are expected with new values" });
             }
             log.debug("Successfully compared and copied attributes from TypeModelForm to TypeModelEntity");
             expectedEntity = optExpectedEntity.get();
@@ -307,7 +307,9 @@ public class TypeModelServiceImpl implements TypeModelService {
         }
 
         log.debug("Checking existence of TypeModelEntity with name: {}", expectedEntity.getName());
-        if(repository.existsByNameAndTypeLovId(expectedEntity.getName(), expectedEntity.getTypeLov().getId())) {
+        if(actualEntity.getTypeLov().getId().equals(expectedEntity.getTypeLov().getId()) &&
+                actualEntity.getName().compareTo(expectedEntity.getName()) != 0 &&
+                repository.existsByNameAndTypeLovId(expectedEntity.getName(), expectedEntity.getTypeLov().getId())) {
             log.debug("TypeModelEntity already exists with name: {}", expectedEntity.getName());
             throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_EXISTS,
                     new Object[]{ "name", actualEntity.getName() });

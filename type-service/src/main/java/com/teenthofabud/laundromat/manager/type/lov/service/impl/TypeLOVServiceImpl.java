@@ -254,14 +254,14 @@ public class TypeLOVServiceImpl implements TypeLOVService {
 
         Optional<TypeLOVEntity> optExpectedEntity = form2EntityMapper.compareAndMap(actualEntity, form);
         if(optExpectedEntity.isEmpty()) {
-            log.debug("All attributes of TypeLOVForm are empty");
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are empty" });
+            log.debug("No new value for attributes of TypeLOVForm");
+            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are expected with new values" });
         }
         log.debug("Successfully compared and copied attributes from TypeLOVForm to TypeLOVEntity");
 
         log.debug("Checking existence of TypeLOVEntity with name: {}", form.getName());
         TypeLOVEntity expectedEntity = optExpectedEntity.get();
-        if(repository.existsByName(expectedEntity.getName())) {
+        if(actualEntity.getName().compareTo(expectedEntity.getName()) != 0 && repository.existsByName(expectedEntity.getName())) {
             log.debug("TypeLOVEntity already exists with name: {}", expectedEntity.getName());
             throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_EXISTS,
                     new Object[]{ "name", actualEntity.getName() });
