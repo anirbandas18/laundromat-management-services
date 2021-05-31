@@ -31,7 +31,7 @@ public class TypeLOVDto2EntityConverter implements ComparativePatchConverter<Typ
             changeSW[i++] = true;
             log.debug("TypeLOVDto.description is valid");
         }
-        Optional<String> optName = dto.getDescription();
+        Optional<String> optName = dto.getName();
         if(optName.isPresent()) {
             actualEntity.setName(optName.get());
             changeSW[i++] = true;

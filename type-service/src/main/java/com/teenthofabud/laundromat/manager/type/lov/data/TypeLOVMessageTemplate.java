@@ -1,8 +1,10 @@
 package com.teenthofabud.laundromat.manager.type.lov.data;
 
-import com.teenthofabud.core.common.model.constant.TOABBaseMessageTemplate;
+public final class TypeLOVMessageTemplate {
 
-public class TypeLOVMessageTemplate extends TOABBaseMessageTemplate {
+    private TypeLOVMessageTemplate() {
+
+    }
 
     public static final String MSG_TEMPLATE_SEARCHING_FOR_TYPELOVENTITY_ID = "Searching for TypeLOVEntity with id: {}";
     public static final String MSG_TEMPLATE_NO_TYPELOVENTITY_ID_AVAILABLE = "No TypeLOVEntity available with id: {}";

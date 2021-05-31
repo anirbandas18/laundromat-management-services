@@ -368,16 +368,16 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         }
         log.debug("Successfully to patch list items to TypeLOVDto");
 
-        log.debug("Validating patched TypeLOVForm");
+        log.debug("Validating patched TypeLOVDto");
         Errors err = new DirectFieldBindingResult(patchedTypeLOVForm, patchedTypeLOVForm.getClass().getSimpleName());
         dtoValidator.validate(patchedTypeLOVForm, err);
         if(err.hasErrors()) {
-            log.debug("Patched TypeLOVForm has {} errors", err.getErrorCount());
+            log.debug("Patched TypeLOVDto has {} errors", err.getErrorCount());
             TypeErrorCode ec = TypeErrorCode.valueOf(err.getFieldError().getCode());
-            log.debug("Patched TypeLOVForm error detail: {}", ec);
+            log.debug("Patched TypeLOVDto error detail: {}", ec);
             throw new TypeException(TypeSubDomain.TYPE_LOV, ec, new Object[] { err.getFieldError().getField(), err.getFieldError().getDefaultMessage() });
         }
-        log.debug("All attributes of patched TypeLOVForm are valid");
+        log.debug("All attributes of patched TypeLOVDto are valid");
 
         log.debug("Comparatively copying patched attributes from TypeLOVDto to TypeLOVEntity");
         try {

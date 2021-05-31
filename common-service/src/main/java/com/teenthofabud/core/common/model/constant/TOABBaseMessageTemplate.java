@@ -1,9 +1,10 @@
 package com.teenthofabud.core.common.model.constant;
 
-import lombok.NoArgsConstructor;
+public final class TOABBaseMessageTemplate {
 
-@NoArgsConstructor
-public abstract class TOABBaseMessageTemplate {
+    private TOABBaseMessageTemplate() {
+
+    }
 
     public static final String MSG_TEMPLATE_NOT_PROVIDED = "not provided";
 

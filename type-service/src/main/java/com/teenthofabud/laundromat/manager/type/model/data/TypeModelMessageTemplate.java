@@ -1,8 +1,10 @@
 package com.teenthofabud.laundromat.manager.type.model.data;
 
-import com.teenthofabud.core.common.model.constant.TOABBaseMessageTemplate;
+public final class TypeModelMessageTemplate {
 
-public class TypeModelMessageTemplate extends TOABBaseMessageTemplate {
+    private TypeModelMessageTemplate() {
+
+    }
 
     public static final String MSG_TEMPLATE_SEARCHING_FOR_TYPEMODELENTITY_ID = "Searching for TypeModelEntity with id: {}";
     public static final String MSG_TEMPLATE_NO_TYPEMODELENTITY_ID_AVAILABLE = "No TypeModelEntity available with id: {}";

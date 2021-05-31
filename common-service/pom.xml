@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.teenthofabud.core.common</groupId>
-    <artifactId>teenthofabud-autoconfigure</artifactId>
+    <artifactId>teenthofabud-common-api</artifactId>
     <version>0.1.1-SNAPSHOT</version>
 
     <properties>

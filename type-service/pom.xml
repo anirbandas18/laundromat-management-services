@@ -49,7 +49,7 @@
 
         <dependency>
             <groupId>com.teenthofabud.core.common</groupId>
-            <artifactId>teenthofabud-autoconfigure</artifactId>
+            <artifactId>teenthofabud-common-api</artifactId>
             <version>0.1.1-SNAPSHOT</version>
         </dependency>
 
