@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.teenthofabud.laundromat.manager</groupId>
         <artifactId>laundromat-management-services</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.2.1-SNAPSHOT</version>
     </parent>
 
     <groupId>com.teenthofabud.laundromat.manager</groupId>
