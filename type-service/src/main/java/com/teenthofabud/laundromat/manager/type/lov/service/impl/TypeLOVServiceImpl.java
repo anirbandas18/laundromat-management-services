@@ -363,7 +363,6 @@ public class TypeLOVServiceImpl implements TypeLOVService {
             log.debug("Applied patch list items to TypeLOVDto");
         } catch (IOException | JsonPatchException e) {
             log.debug("Failed to patch list items to TypeLOVDto: {}", e);
-            e.printStackTrace();
             throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ACTION_FAILURE, new Object[]{ "patching", "internal error: " + e.getMessage() });
         }
         log.debug("Successfully to patch list items to TypeLOVDto");

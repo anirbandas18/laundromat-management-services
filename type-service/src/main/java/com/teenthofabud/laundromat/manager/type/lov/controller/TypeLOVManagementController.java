@@ -33,7 +33,7 @@ public class TypeLOVManagementController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Long> postNewTypeLOV(@RequestBody(required = false) TypeLOVForm form) throws TypeException {
         if(form != null) {
-            long id = service.createTypeLOV(form);
+            Long id = service.createTypeLOV(form);
             return ResponseEntity.status(HttpStatus.CREATED).body(id);
         }
         throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
@@ -53,7 +53,7 @@ public class TypeLOVManagementController {
                 throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
                         new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
@@ -63,11 +63,11 @@ public class TypeLOVManagementController {
     public ResponseEntity<Void> deleteExistingTypeLOV(@PathVariable String id) throws TypeException {
         if(StringUtils.hasText(id)) {
             try {
-                long actualId = Long.parseLong(id);
+                Long actualId = Long.parseLong(id);
                 service.deleteTypeLOV(actualId);
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
@@ -78,7 +78,7 @@ public class TypeLOVManagementController {
                                                              @RequestBody(required = false) List<PatchOperationForm> dtoList) throws TypeException {
         if(StringUtils.hasText(id)) {
             try {
-                long actualId = Long.parseLong(id);
+                Long actualId = Long.parseLong(id);
                 if(dtoList != null) {
                     service.applyPatchOnTypeLOV(actualId, dtoList);
                     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -86,7 +86,7 @@ public class TypeLOVManagementController {
                 throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
                         new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
@@ -115,7 +115,7 @@ public class TypeLOVManagementController {
                 TypeLOVVo studentDetails = service.retrieveDetailsById(actualId);
                 return studentDetails;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });

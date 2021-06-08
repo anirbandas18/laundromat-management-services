@@ -5,7 +5,7 @@ import feign.Response;
 
 import java.util.Optional;
 
-public interface TOABBaseFeignExceptionHandler<T extends TOABFeignException> {
-    public Optional<T> parseResponseToException(Response response);
+public interface TOABBaseFeignExceptionHandler/*<T extends TOABFeignException>*/ {
+    public Optional<? extends TOABFeignException> parseResponseToException(Response response);
 
 }

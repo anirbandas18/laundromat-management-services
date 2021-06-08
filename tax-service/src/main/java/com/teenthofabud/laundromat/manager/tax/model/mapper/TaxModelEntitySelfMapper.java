@@ -13,7 +13,6 @@ import java.util.Optional;
 public class TaxModelEntitySelfMapper implements SingleChannelMapper<TaxModelEntity> {
     @Override
     public Optional<TaxModelEntity> compareAndMap(TaxModelEntity source, TaxModelEntity target) {
-        TaxModelEntity expectedEntity = new TaxModelEntity();
         boolean changeSW = false;
         if(source.getId() != null && source.getId() > 0 && !source.getId().equals(target.getId())) {
             target.setId(source.getId());

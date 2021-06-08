@@ -52,7 +52,7 @@ public class TaxModelManagementController {
                 }
                 throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
@@ -66,7 +66,7 @@ public class TaxModelManagementController {
                 service.deleteTaxModel(actualId);
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
@@ -84,7 +84,7 @@ public class TaxModelManagementController {
                 }
                 throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
@@ -109,11 +109,11 @@ public class TaxModelManagementController {
     public TaxModelVo getTaxModelDetailsById(@PathVariable String id) throws TaxException {
         if(StringUtils.hasText(id)) {
             try {
-                long actualId = Long.parseLong(id);
+                Long actualId = Long.parseLong(id);
                 TaxModelVo studentDetails = service.retrieveDetailsById(actualId);
                 return studentDetails;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
@@ -123,11 +123,11 @@ public class TaxModelManagementController {
     public List<TaxModelVo> getTaxModelDetailsByTaxTypeModelId(@PathVariable String taxTypeModelId) throws TaxException {
         if(StringUtils.hasText(taxTypeModelId)) {
             try {
-                long actualTaxTypeModelId = Long.parseLong(taxTypeModelId);
+                Long actualTaxTypeModelId = Long.parseLong(taxTypeModelId);
                 List<TaxModelVo> typeModelDetails = service.retrieveDetailsByTaxTypeModelId(actualTaxTypeModelId);
                 return typeModelDetails;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "taxTypeModelId", taxTypeModelId });
             }
         }
         throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "taxTypeModelId", taxTypeModelId });
@@ -141,7 +141,7 @@ public class TaxModelManagementController {
                 List<TaxModelVo> typeModelDetails = service.retrieveDetailsByCurrencyTypeModelId(actualCurrencyTypeModelId);
                 return typeModelDetails;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "currencyTypeModelId", currencyTypeModelId });
             }
         }
         throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "currencyTypeModelId", currencyTypeModelId });

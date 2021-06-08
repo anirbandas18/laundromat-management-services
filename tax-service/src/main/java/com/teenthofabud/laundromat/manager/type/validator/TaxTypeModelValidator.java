@@ -43,22 +43,18 @@ public class TaxTypeModelValidator implements Validator {
             if(taxTypeModelVo.getId() == null) {
                 log.debug("taxTypeModelId is null");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
-                //errors.rejectValue("taxTypeModelId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
-            } else if (taxTypeModelVo.getId() != taxTypeModelId) {
+            } else if (!taxTypeModelVo.getId().equals(taxTypeModelId)) {
                 log.debug("taxTypeModelId doesn't match with registered value");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
-                //errors.rejectValue("taxTypeModelId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
             } else if (taxTypeModelVo.getTypeLovVo() == null || taxTypeModelVo.getTypeLovVo().getId() == null) {
                 log.debug("taxTypeModel.typeLovId is invalid");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
-                //errors.rejectValue("taxTypeModel.typeLovId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
-            } else if (taxTypeModelVo.getTypeLovVo().getId() != taxTypeLovId) {
+            } else if (!taxTypeModelVo.getTypeLovVo().getId().equals(taxTypeLovId)) {
                 log.debug("taxTypeModel.typeLovId is not for any registered tax type models");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
-                //errors.rejectValue("taxTypeModel.typeLovId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
             }
         } catch (TypeException e) {

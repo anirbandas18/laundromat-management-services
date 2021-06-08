@@ -1,6 +1,6 @@
 package com.teenthofabud.core.common.handler;
 
-import com.teenthofabud.core.common.data.error.TOABBaseException;
+import com.teenthofabud.core.common.data.error.TOABFeignException;
 import com.teenthofabud.core.common.proxy.TOABBaseFeignExceptionHandler;
 import com.teenthofabud.core.common.proxy.TOABFeignErrorHandler;
 import feign.Feign;
@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TOABBaseFeignErrorDecoder implements ErrorDecoder {
 
-    private static Map<String, TOABBaseFeignExceptionHandler> FEIGN_CLIENT_EXCEPTION_HANDLERS;
-    private static ErrorDecoder.Default DEFAULT_FEIGN_ERROR_DECODER;
+    private Map<String, TOABBaseFeignExceptionHandler/*<? extends TOABFeignException>*/> feignClientExceptionHandlers;
+    private ErrorDecoder.Default defaultFeignErrorDecoder;
 
     @Autowired
     public void setApplicationContext(ApplicationContext applicationContext) {
@@ -41,8 +41,8 @@ public class TOABBaseFeignErrorDecoder implements ErrorDecoder {
 
     @PostConstruct
     private void init() {
-        DEFAULT_FEIGN_ERROR_DECODER = new Default();
-        FEIGN_CLIENT_EXCEPTION_HANDLERS = new TreeMap<>();
+        defaultFeignErrorDecoder = new Default();
+        feignClientExceptionHandlers = new TreeMap<>();
         Map<String, Object> feignClients = applicationContext.getBeansWithAnnotation(FeignClient.class);
         List<Method> clientMethods = feignClients.values().stream()
                 .map(Object::getClass)
@@ -54,21 +54,21 @@ public class TOABBaseFeignErrorDecoder implements ErrorDecoder {
             String configKey = Feign.configKey(m.getDeclaringClass(), m);
             TOABFeignErrorHandler errorMarker = getFeignErrorHandlingMarker(m);
             if (errorMarker != null) {
-                TOABBaseFeignExceptionHandler feignClientExceptionHandler = applicationContext.getBean(errorMarker.value());
-                FEIGN_CLIENT_EXCEPTION_HANDLERS.put(configKey, feignClientExceptionHandler);
+                TOABBaseFeignExceptionHandler/*<? extends TOABFeignException>*/ feignClientExceptionHandler = applicationContext.getBean(errorMarker.value());
+                feignClientExceptionHandlers.put(configKey, feignClientExceptionHandler);
             }
         }
     }
 
     @Override
     public Exception decode(String s, Response response) {
-        TOABBaseFeignExceptionHandler feignClientExceptionHandler = FEIGN_CLIENT_EXCEPTION_HANDLERS.get(s);
+        TOABBaseFeignExceptionHandler/*<? extends TOABFeignException>*/ feignClientExceptionHandler = feignClientExceptionHandlers.get(s);
         if (feignClientExceptionHandler != null) {
-            Optional<TOABBaseException> optionalTOABBaseException = feignClientExceptionHandler.parseResponseToException(response);
+            Optional<? extends TOABFeignException> optionalTOABBaseException = feignClientExceptionHandler.parseResponseToException(response);
             if(optionalTOABBaseException.isPresent()) {
                 return optionalTOABBaseException.get();
             }
         }
-        return DEFAULT_FEIGN_ERROR_DECODER.decode(s, response);
+        return defaultFeignErrorDecoder.decode(s, response);
     }
 }

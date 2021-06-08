@@ -458,7 +458,6 @@ public class TaxModelServiceImpl implements TaxModelService {
             log.debug("Applied patch list items to TaxModelDto");
         } catch (IOException | JsonPatchException e) {
             log.debug("Failed to patch list items to TaxModelDto: {}", e);
-            e.printStackTrace();
             throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ACTION_FAILURE, new Object[]{ "patching", "internal error: " + e.getMessage() });
         }
         log.debug("Successfully to patch list items to TaxModelDto");

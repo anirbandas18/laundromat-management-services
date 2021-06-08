@@ -87,9 +87,9 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
                 !form.getTaxTypeModelId().equals(actualEntity.getTaxTypeModelId())) {
             try {
                 TypeModelVo taxTypeModelVo = typeServiceClient.getTypeModelDetailsById(form.getTaxTypeModelId());
-                if(taxTypeModelVo == null || taxTypeModelVo.getId() == null || taxTypeModelVo.getId() != form.getTaxTypeModelId()
+                if(taxTypeModelVo == null || taxTypeModelVo.getId() == null || !taxTypeModelVo.getId().equals(form.getTaxTypeModelId())
                     || taxTypeModelVo.getTypeLovVo() == null || taxTypeModelVo.getTypeLovVo().getId() == null
-                        || taxTypeModelVo.getTypeLovVo().getId() != taxTypeLovId) {
+                        || !taxTypeModelVo.getTypeLovVo().getId().equals(taxTypeLovId)) {
                     throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_NOT_FOUND,
                             new Object [] { "taxTypeModelId", String.valueOf(form.getTaxTypeModelId()) });
                 } else {
@@ -113,9 +113,10 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
                 !form.getCurrencyTypeModelForm().getId().equals(actualEntity.getCurrencyTypeModelId())) {
             try {
                 TypeModelVo currencyTypeModelVo = typeServiceClient.getTypeModelDetailsById(form.getCurrencyTypeModelForm().getId());
-                if(currencyTypeModelVo == null || currencyTypeModelVo.getId() == null || currencyTypeModelVo.getId() != form.getCurrencyTypeModelForm().getId()
+                if(currencyTypeModelVo == null || currencyTypeModelVo.getId() == null
+                        || !currencyTypeModelVo.getId().equals(form.getCurrencyTypeModelForm().getId())
                         || currencyTypeModelVo.getTypeLovVo() == null || currencyTypeModelVo.getTypeLovVo().getId() == null
-                        || currencyTypeModelVo.getTypeLovVo().getId() != currencyTypeLovId) {
+                        || !currencyTypeModelVo.getTypeLovVo().getId().equals(currencyTypeLovId)) {
                     throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_NOT_FOUND,
                             new Object [] { "currencyTypeLov.id", String.valueOf(form.getCurrencyTypeModelForm().getId()) });
                 } else {

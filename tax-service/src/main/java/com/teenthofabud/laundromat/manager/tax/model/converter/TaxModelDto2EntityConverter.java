@@ -4,9 +4,7 @@ import com.teenthofabud.core.common.converter.ComparativePatchConverter;
 import com.teenthofabud.core.common.data.error.TOABBaseException;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelDto;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
-import com.teenthofabud.laundromat.manager.tax.model.repository.TaxModelRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -20,14 +18,6 @@ import java.util.Optional;
 public class TaxModelDto2EntityConverter implements ComparativePatchConverter<TaxModelDto, TaxModelEntity> {
 
     private static final Integer NO_OF_COMPARABLE_AND_MAPPABLE_FIELDS = 7;
-
-    @Autowired
-    public void setTaxModelRepository(TaxModelRepository taxModelRepository) {
-        this.taxModelRepository = taxModelRepository;
-    }
-
-    private TaxModelRepository taxModelRepository;
-
 
     @Override
     public void compareAndMap(TaxModelDto dto, TaxModelEntity actualEntity) throws TOABBaseException {

@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-public class TypeServiceClientExceptionHandler implements TOABBaseFeignExceptionHandler<TypeException> {
+public class TypeServiceClientExceptionHandler implements TOABBaseFeignExceptionHandler/*<TypeException>*/ {
 
     @Autowired
     public void setOm(ObjectMapper om) {
@@ -35,16 +35,15 @@ public class TypeServiceClientExceptionHandler implements TOABBaseFeignException
             ErrorVo errorDetails = om.readValue(rawErrorResponseBody, ErrorVo.class);
 
             if (HttpStatus.BAD_REQUEST.equals(httpStatusCode) || HttpStatus.NOT_FOUND.equals(httpStatusCode)) {
-                throw new TypeException(errorDetails.getCode(), errorDetails.getMessage(), errorDetails.getDomain());
+                optEx = Optional.of(new TypeException(errorDetails.getCode(), errorDetails.getMessage(), errorDetails.getDomain()));
             } else {
                 throw new TOABSystemException(TOABErrorCode.UNEXPECTED_CLIENT_RESPONSE_STATUS, errorDetails.getMessage());
             }
 
+            return optEx;
         } catch (IOException e) {
             log.error("Unable to parse response body", e);
             throw new TOABSystemException(TOABErrorCode.SYSTEM_IO_FAILURE, "Unable to parse response body", e);
-        } finally {
-            return optEx;
         }
     }
 }

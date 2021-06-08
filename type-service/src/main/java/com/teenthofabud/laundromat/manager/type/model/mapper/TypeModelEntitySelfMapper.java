@@ -13,7 +13,6 @@ import java.util.Optional;
 public class TypeModelEntitySelfMapper implements SingleChannelMapper<TypeModelEntity> {
     @Override
     public Optional<TypeModelEntity> compareAndMap(TypeModelEntity source, TypeModelEntity target) {
-        TypeModelEntity expectedEntity = new TypeModelEntity();
         boolean changeSW = false;
         if(source.getId() != null && source.getId() > 0 && source.getId().compareTo(target.getId()) != 0) {
             target.setId(source.getId());

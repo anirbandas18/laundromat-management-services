@@ -52,7 +52,7 @@ public class TypeModelManagementController {
                 }
                 throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
@@ -66,7 +66,7 @@ public class TypeModelManagementController {
                 service.deleteTypeModel(actualId);
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
@@ -84,7 +84,7 @@ public class TypeModelManagementController {
                 }
                 throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
@@ -113,7 +113,7 @@ public class TypeModelManagementController {
                 TypeModelVo studentDetails = service.retrieveDetailsById(actualId);
                 return studentDetails;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
@@ -127,7 +127,7 @@ public class TypeModelManagementController {
                 List<TypeModelVo> typeModelDetails = service.retrieveDetailsByTypeLOVId(actualTypeLovId);
                 return typeModelDetails;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "typelovid", typelovid });
             }
         }
         throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "typelovid", typelovid });

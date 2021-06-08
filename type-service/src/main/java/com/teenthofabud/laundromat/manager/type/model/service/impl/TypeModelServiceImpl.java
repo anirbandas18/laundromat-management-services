@@ -411,7 +411,6 @@ public class TypeModelServiceImpl implements TypeModelService {
             log.debug("Applied patch list items to TypeModelDto");
         } catch (IOException | JsonPatchException e) {
             log.debug("Failed to patch list items to TypeModelDto: {}", e);
-            e.printStackTrace();
             throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ACTION_FAILURE, new Object[]{ "patching", "internal error: " + e.getMessage() });
         }
         log.debug("Successfully to patch list items to TypeModelDto");

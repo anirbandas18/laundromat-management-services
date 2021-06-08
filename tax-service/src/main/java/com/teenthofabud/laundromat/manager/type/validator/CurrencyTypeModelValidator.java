@@ -41,22 +41,18 @@ public class CurrencyTypeModelValidator implements Validator {
             if(currencyTypeModelVo.getId() == null) {
                 log.debug("currencyTypeModel.id is null");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
-                //errors.rejectValue("currencyTypeModel.id", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
-            } else if (currencyTypeModelVo.getId() != currencyTypeModelId) {
+            } else if (!currencyTypeModelVo.getId().equals(currencyTypeModelId)) {
                 log.debug("currencyTypeModel.id doesn't match with registered value");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
-                //errors.rejectValue("currencyTypeModel.id", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
             } else if (currencyTypeModelVo.getTypeLovVo() == null || currencyTypeModelVo.getTypeLovVo().getId() == null) {
                 log.debug("currencyTypeModel.typeLovId is invalid");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
-                //errors.rejectValue("currencyTypeModel.typeLovId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
-            } else if (currencyTypeModelVo.getTypeLovVo().getId() != currencyTypeLovId) {
+            } else if (!currencyTypeModelVo.getTypeLovVo().getId().equals(currencyTypeLovId)) {
                 log.debug("currencyTypeModel.typeLovId is not for any registered currency type models");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
-                //errors.rejectValue("currencyTypeModel.typeLovId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
             }
         } catch (TypeException e) {

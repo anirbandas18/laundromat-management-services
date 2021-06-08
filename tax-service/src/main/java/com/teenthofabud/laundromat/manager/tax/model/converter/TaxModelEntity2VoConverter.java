@@ -42,12 +42,11 @@ public class TaxModelEntity2VoConverter implements Converter<TaxModelEntity, Tax
             internalCurrencyTypeModelVo.setName(entity.getCurrencyName());
             vo.setCurrencyTypeModelVo(internalCurrencyTypeModelVo);
             log.debug("Converted {} to {} ", entity, vo);
+            return vo;
         } catch (TypeException e) {
             log.debug("Unable to convert {} to {}", entity, vo.getClass());
             log.error("Unable to convert TaxModel from Entity to Vo", e);
             throw new TOABSystemException("Unable to convert TaxModel from Entity to Vo", e);
-        } finally {
-            return vo;
         }
     }
 }
