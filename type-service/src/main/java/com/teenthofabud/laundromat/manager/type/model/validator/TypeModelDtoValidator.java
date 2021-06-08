@@ -1,7 +1,7 @@
 package com.teenthofabud.laundromat.manager.type.model.validator;
 
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelDto;
-import com.teenthofabud.laundromat.manager.error.TypeErrorCode;
+import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;

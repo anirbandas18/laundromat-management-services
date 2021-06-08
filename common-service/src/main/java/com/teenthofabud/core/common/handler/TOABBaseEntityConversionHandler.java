@@ -1,6 +1,6 @@
 package com.teenthofabud.core.common.handler;
 
-import com.teenthofabud.core.common.model.entity.TOABBaseEntity;
+import com.teenthofabud.core.common.data.entity.TOABBaseEntity;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;

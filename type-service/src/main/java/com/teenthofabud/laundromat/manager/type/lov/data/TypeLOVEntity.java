@@ -1,6 +1,6 @@
 package com.teenthofabud.laundromat.manager.type.lov.data;
 
-import com.teenthofabud.core.common.model.entity.TOABBaseEntity;
+import com.teenthofabud.core.common.data.entity.TOABBaseEntity;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

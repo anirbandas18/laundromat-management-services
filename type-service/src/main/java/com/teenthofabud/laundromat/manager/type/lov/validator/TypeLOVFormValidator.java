@@ -1,6 +1,6 @@
 package com.teenthofabud.laundromat.manager.type.lov.validator;
 
-import com.teenthofabud.laundromat.manager.error.TypeErrorCode;
+import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

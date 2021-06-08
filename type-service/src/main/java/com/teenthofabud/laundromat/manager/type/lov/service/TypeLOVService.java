@@ -1,7 +1,7 @@
 package com.teenthofabud.laundromat.manager.type.lov.service;
 
-import com.teenthofabud.core.common.model.form.PatchOperationForm;
-import com.teenthofabud.laundromat.manager.error.TypeException;
+import com.teenthofabud.core.common.data.form.PatchOperationForm;
+import com.teenthofabud.laundromat.manager.type.error.TypeException;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVForm;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVVo;
 import org.springframework.stereotype.Service;

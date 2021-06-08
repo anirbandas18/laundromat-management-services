@@ -1,10 +1,10 @@
 package com.teenthofabud.laundromat.manager.type.lov.controller;
 
-import com.teenthofabud.core.common.model.constant.TOABBaseMessageTemplate;
-import com.teenthofabud.core.common.model.form.PatchOperationForm;
-import com.teenthofabud.laundromat.manager.constant.TypeSubDomain;
-import com.teenthofabud.laundromat.manager.error.TypeErrorCode;
-import com.teenthofabud.laundromat.manager.error.TypeException;
+import com.teenthofabud.core.common.data.constant.TOABBaseMessageTemplate;
+import com.teenthofabud.core.common.data.form.PatchOperationForm;
+import com.teenthofabud.laundromat.manager.type.constant.TypeSubDomain;
+import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
+import com.teenthofabud.laundromat.manager.type.error.TypeException;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVForm;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVVo;
 import com.teenthofabud.laundromat.manager.type.lov.service.TypeLOVService;
@@ -107,7 +107,7 @@ public class TypeLOVManagementController {
         throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "name", name });
     }
 
-    @GetMapping("id/{id}")
+    @GetMapping("{id}")
     public TypeLOVVo getTypeLOVDetailsById(@PathVariable String id) throws TypeException {
         if(StringUtils.hasText(id)) {
             try {

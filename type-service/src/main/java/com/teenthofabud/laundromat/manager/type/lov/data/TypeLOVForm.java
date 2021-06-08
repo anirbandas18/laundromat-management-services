@@ -1,6 +1,6 @@
 package com.teenthofabud.laundromat.manager.type.lov.data;
 
-import com.teenthofabud.core.common.model.form.LOVForm;
+import com.teenthofabud.core.common.data.form.LOVForm;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

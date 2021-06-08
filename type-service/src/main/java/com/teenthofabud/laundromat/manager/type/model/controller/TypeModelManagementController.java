@@ -1,11 +1,11 @@
 package com.teenthofabud.laundromat.manager.type.model.controller;
 
-import com.teenthofabud.core.common.model.constant.TOABBaseMessageTemplate;
-import com.teenthofabud.core.common.model.error.TOABBaseException;
-import com.teenthofabud.core.common.model.form.PatchOperationForm;
-import com.teenthofabud.laundromat.manager.constant.TypeSubDomain;
-import com.teenthofabud.laundromat.manager.error.TypeErrorCode;
-import com.teenthofabud.laundromat.manager.error.TypeException;
+import com.teenthofabud.core.common.data.constant.TOABBaseMessageTemplate;
+import com.teenthofabud.core.common.data.error.TOABBaseException;
+import com.teenthofabud.core.common.data.form.PatchOperationForm;
+import com.teenthofabud.laundromat.manager.type.constant.TypeSubDomain;
+import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
+import com.teenthofabud.laundromat.manager.type.error.TypeException;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelForm;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelVo;
 import com.teenthofabud.laundromat.manager.type.model.service.TypeModelService;
@@ -105,7 +105,7 @@ public class TypeModelManagementController {
         throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "name", name });
     }
 
-    @GetMapping("id/{id}")
+    @GetMapping("{id}")
     public TypeModelVo getTypeModelDetailsById(@PathVariable String id) throws TypeException {
         if(StringUtils.hasText(id)) {
             try {

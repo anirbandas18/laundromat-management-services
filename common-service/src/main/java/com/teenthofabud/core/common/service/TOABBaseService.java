@@ -1,7 +1,7 @@
 package com.teenthofabud.core.common.service;
 
-import com.teenthofabud.core.common.model.error.TOABBaseException;
-import com.teenthofabud.core.common.model.form.PatchOperationForm;
+import com.teenthofabud.core.common.data.error.TOABBaseException;
+import com.teenthofabud.core.common.data.form.PatchOperationForm;
 
 import java.util.List;
 

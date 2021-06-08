@@ -1,6 +1,6 @@
 package com.teenthofabud.core.common.mapper;
 
-import com.teenthofabud.core.common.model.error.TOABBaseException;
+import com.teenthofabud.core.common.data.error.TOABBaseException;
 
 import java.util.Optional;
 

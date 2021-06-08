@@ -1,10 +1,10 @@
 package com.teenthofabud.laundromat.manager.type.model.converter;
 
 import com.teenthofabud.core.common.converter.ComparativePatchConverter;
-import com.teenthofabud.core.common.model.error.TOABBaseException;
-import com.teenthofabud.laundromat.manager.constant.TypeSubDomain;
-import com.teenthofabud.laundromat.manager.error.TypeErrorCode;
-import com.teenthofabud.laundromat.manager.error.TypeException;
+import com.teenthofabud.core.common.data.error.TOABBaseException;
+import com.teenthofabud.laundromat.manager.type.constant.TypeSubDomain;
+import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
+import com.teenthofabud.laundromat.manager.type.error.TypeException;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVEntity;
 import com.teenthofabud.laundromat.manager.type.lov.repository.TypeLOVRepository;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelDto;

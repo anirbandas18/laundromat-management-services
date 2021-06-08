@@ -1,6 +1,6 @@
 package com.teenthofabud.laundromat.manager.type.model.validator;
 
-import com.teenthofabud.laundromat.manager.error.TypeErrorCode;
+import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
 import com.teenthofabud.laundromat.manager.type.lov.repository.TypeLOVRepository;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelForm;
 import lombok.extern.slf4j.Slf4j;

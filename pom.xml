@@ -11,12 +11,13 @@
 
     <groupId>com.teenthofabud.laundromat.manager</groupId>
     <artifactId>laundromat-management-services</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
     <name>laundromat-management-services</name>
     <packaging>pom</packaging>
 
     <modules>
         <module>type-service</module>
+        <module>tax-service</module>
         <module>common-service</module>
     </modules>
 
@@ -118,6 +119,11 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.teenthofabud.core.common</groupId>
+            <artifactId>teenthofabud-common-api</artifactId>
+            <version>0.1.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

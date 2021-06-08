@@ -1,0 +1,14 @@
+
+
+(_______|_______|_)   (_)
+    _    _______   ___
+   | |  |  ___  | |   |
+   | |  | |   | |/ / \ \
+   |_|  |_|   |_|_|   |_|
+
+   : : ${application.title} : :             (v${application.version})
+
+https://patorjk.com/software/taag/#p=display&f=Rounded&t=TYPE
+
+
+   

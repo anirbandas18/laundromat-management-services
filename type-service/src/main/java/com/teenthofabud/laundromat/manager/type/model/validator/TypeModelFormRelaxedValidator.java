@@ -1,7 +1,7 @@
 package com.teenthofabud.laundromat.manager.type.model.validator;
 
 import com.teenthofabud.core.common.validator.RelaxedValidator;
-import com.teenthofabud.laundromat.manager.error.TypeErrorCode;
+import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
