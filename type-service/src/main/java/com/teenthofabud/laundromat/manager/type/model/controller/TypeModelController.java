@@ -3,6 +3,7 @@ package com.teenthofabud.laundromat.manager.type.model.controller;
 import com.teenthofabud.core.common.constant.TOABBaseMessageTemplate;
 import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.core.common.data.form.PatchOperationForm;
+import com.teenthofabud.laundromat.manager.type.constant.TypeMessageTemplate;
 import com.teenthofabud.laundromat.manager.type.constant.TypeSubDomain;
 import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
 import com.teenthofabud.laundromat.manager.type.error.TypeException;
@@ -53,7 +54,7 @@ public class TypeModelController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug("type model id: {} is semantically valid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_VALID, id);
                 if(form != null) {
                     service.updateTypeModel(actualId, form);
                     log.debug("Responding with successful updation of attributes for existing type model");
@@ -63,11 +64,11 @@ public class TypeModelController {
                 throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
                         new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                log.debug("type model id: {} is invalid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_INVALID, id);
                 throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug("type model id is empty");
+        log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_EMPTY);
         throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -77,16 +78,16 @@ public class TypeModelController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug("type model id: {} is semantically valid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_VALID, id);
                 service.deleteTypeModel(actualId);
                 log.debug("Responding with successful deletion of existing type model");
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } catch (NumberFormatException e) {
-                log.debug("type model id: {} is invalid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_INVALID, id);
                 throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug("type model id is empty");
+        log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_EMPTY);
         throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -97,7 +98,7 @@ public class TypeModelController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug("type model id: {} is semantically valid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_VALID, id);
                 if(dtoList != null) {
                     service.applyPatchOnTypeModel(actualId, dtoList);
                     log.debug("Responding with successful patch of attributes for existing type model");
@@ -106,11 +107,11 @@ public class TypeModelController {
                 log.debug("type model patch document is null");
                 throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                log.debug("type model id: {} is invalid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_INVALID, id);
                 throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug("type model id is empty");
+        log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_EMPTY);
         throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -140,16 +141,16 @@ public class TypeModelController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug("type model id: {} is semantically valid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_VALID, id);
                 TypeModelVo studentDetails = service.retrieveDetailsById(actualId);
                 log.debug("Responding with successful retrieval of existing type model details by id");
                 return studentDetails;
             } catch (NumberFormatException e) {
-                log.debug("type model id: {} is invalid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_INVALID, id);
                 throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug("type model id is empty");
+        log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_EMPTY);
         throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 

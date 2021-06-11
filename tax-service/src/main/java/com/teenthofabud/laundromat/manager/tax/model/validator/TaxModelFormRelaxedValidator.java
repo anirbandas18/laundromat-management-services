@@ -31,8 +31,8 @@ public class TaxModelFormRelaxedValidator implements RelaxedValidator<TaxModelFo
             return false;
         }
         log.debug("TaxModelForm.taxTypeModelId is valid");
-        if(form.getCurrencyTypeModelForm() != null &&
-                (form.getCurrencyTypeModelForm().getId() <= 0L || StringUtils.isEmpty(form.getCurrencyTypeModelForm().getName()))) {
+        if(form.getCurrencyTypeModel() != null &&
+                (form.getCurrencyTypeModel().getId() <= 0L || StringUtils.isEmpty(form.getCurrencyTypeModel().getName()))) {
             errors.rejectValue("currencyTypeModel", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             log.debug("TaxModelForm.currencyTypeModel is empty");
             return false;

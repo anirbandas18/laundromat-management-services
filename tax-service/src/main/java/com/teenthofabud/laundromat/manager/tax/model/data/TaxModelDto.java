@@ -1,9 +1,6 @@
 package com.teenthofabud.laundromat.manager.tax.model.data;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Optional;
 
@@ -24,19 +21,34 @@ public class TaxModelDto {
     @ToString.Include
     private Optional<String> taxTypeModelId;
     @ToString.Include
-    private Optional<String> currencyTypeModelId;
-    @ToString.Include
-    private Optional<String> currencyTypeModelName;
+    private Optional<TypeModelDto> currencyTypeModel;
 
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @ToString
+    @EqualsAndHashCode
+    public static final class TypeModelDto {
+        @ToString.Include
+        @EqualsAndHashCode.Include
+        private Optional<String> name;
+        @ToString.Include
+        @EqualsAndHashCode.Include
+        private Optional<String> id;
+        public TypeModelDto() {
+            this.id = Optional.empty();
+            this.name = Optional.empty();
+        }
+    }
 
     public TaxModelDto() {
         this.name = Optional.empty();
         this.description = Optional.empty();
         this.active = Optional.empty();
         this.taxTypeModelId = Optional.empty();
-        this.currencyTypeModelId = Optional.empty();
-        this.currencyTypeModelName = Optional.empty();
         this.rate = Optional.empty();
+        this.currencyTypeModel = Optional.of(new TypeModelDto());
     }
 
 }

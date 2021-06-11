@@ -56,22 +56,22 @@ public class TaxModelFormValidator implements Validator {
             errors.rejectValue("rate", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             return;
         }
-        if(form.getCurrencyTypeModelForm() == null) {
+        if(form.getCurrencyTypeModel() == null) {
             log.debug("TaxModelForm.currencyTypeModel is invalid");
             errors.rejectValue("currencyTypeModel", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             return;
         } else {
-            TaxModelForm.TypeModelForm currencyTypeModelForm = form.getCurrencyTypeModelForm();
+            TaxModelForm.TypeModelForm currencyTypeModelForm = form.getCurrencyTypeModel();
             if(currencyTypeModelForm.getId() == null) {
                 log.debug("TaxModelForm.currencyTypeModel.id is invalid");
                 errors.rejectValue("currencyTypeModel.id", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
             } else {
-                Errors internalErrors = new DirectFieldBindingResult(form.getCurrencyTypeModelForm().getId(), "TaxModelForm.currencyTypeModelForm.id");
-                currencyTypeModelValidator.validate(form.getCurrencyTypeModelForm().getId(), internalErrors);
+                Errors internalErrors = new DirectFieldBindingResult(form.getCurrencyTypeModel().getId(), "TaxModelForm.currencyTypeModel.id");
+                currencyTypeModelValidator.validate(form.getCurrencyTypeModel().getId(), internalErrors);
                 if(internalErrors.hasErrors()) {
-                    log.debug("TaxModelForm.currencyTypeModelForm.id is invalid");
-                    errors.rejectValue("currencyTypeModelForm.id", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
+                    log.debug("TaxModelForm.currencyTypeModel.id is invalid");
+                    errors.rejectValue("currencyTypeModel.id", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                     return;
                 }
             }

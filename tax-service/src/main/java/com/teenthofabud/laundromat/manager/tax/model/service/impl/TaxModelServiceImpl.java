@@ -17,7 +17,7 @@ import com.teenthofabud.laundromat.manager.tax.model.converter.TaxModelForm2Enti
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelDto;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;
-import com.teenthofabud.laundromat.manager.tax.constant.TaxModelMessageTemplate;
+import com.teenthofabud.laundromat.manager.tax.constant.TaxMessageTemplate;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelVo;
 import com.teenthofabud.laundromat.manager.tax.model.mapper.TaxModelEntitySelfMapper;
 import com.teenthofabud.laundromat.manager.tax.model.mapper.TaxModelForm2EntityMapper;
@@ -302,13 +302,13 @@ public class TaxModelServiceImpl implements TaxModelService {
     public void updateTaxModel(Long id, TaxModelForm form) throws TaxException {
         log.info("Updating TaxModelForm by id: {}", id);
 
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID, id);
+        log.debug(TaxMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID, id);
         Optional<TaxModelEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE, id);
+            log.debug(TaxMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE, id);
             throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID, id);
+        log.debug(TaxMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID, id);
 
         TaxModelEntity actualEntity = optActualEntity.get();
         if(!actualEntity.getActive()) {
@@ -331,7 +331,7 @@ public class TaxModelServiceImpl implements TaxModelService {
             log.debug("TaxModelForm has {} errors", err.getErrorCount());
             TaxErrorCode ec = TaxErrorCode.valueOf(err.getFieldError().getCode());
             log.debug("TaxModelForm error detail: {}", ec);
-            throw new TaxException(TaxSubDomain.MODEL, ec, new Object[] { err.getFieldError().getField(), err.getFieldError().getDefaultMessage() });
+            throw new TaxException(TaxSubDomain.MODEL, ec, new Object[] { err.getFieldError().getField() });
         } else if (!allEmpty) {
             log.debug("All attributes of TaxModelForm are empty");
             throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are empty" });
@@ -383,13 +383,13 @@ public class TaxModelServiceImpl implements TaxModelService {
     public void deleteTaxModel(Long id) throws TaxException {
         log.info("Soft deleting TaxModelEntity by id: {}", id);
 
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID, id);
+        log.debug(TaxMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID, id);
         Optional<TaxModelEntity> optEntity = repository.findById(id);
         if(optEntity.isEmpty()) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE, id);
+            log.debug(TaxMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE, id);
             throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID, id);
+        log.debug(TaxMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID, id);
 
         TaxModelEntity actualEntity = optEntity.get();
         if(!actualEntity.getActive()) {
@@ -417,13 +417,13 @@ public class TaxModelServiceImpl implements TaxModelService {
     public void applyPatchOnTaxModel(Long id, List<PatchOperationForm> patches) throws TaxException {
         log.info("Patching TaxModelEntity by id: {}", id);
 
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID, id);
+        log.debug(TaxMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID, id);
         Optional<TaxModelEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE, id);
+            log.debug(TaxMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE, id);
             throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID, id);
+        log.debug(TaxMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID, id);
 
         TaxModelEntity actualEntity = optActualEntity.get();
         if(patches == null || (patches != null && patches.isEmpty())) {
@@ -458,6 +458,7 @@ public class TaxModelServiceImpl implements TaxModelService {
             log.debug("Applied patch list items to TaxModelDto");
         } catch (IOException | JsonPatchException e) {
             log.debug("Failed to patch list items to TaxModelDto: {}", e);
+            log.error("Failed to patch list items to TaxModelDto: {}", e);
             throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ACTION_FAILURE, new Object[]{ "patching", "internal error: " + e.getMessage() });
         }
         log.debug("Successfully to patch list items to TaxModelDto");
@@ -469,7 +470,7 @@ public class TaxModelServiceImpl implements TaxModelService {
             log.debug("Patched TaxModelForm has {} errors", err.getErrorCount());
             TaxErrorCode ec = TaxErrorCode.valueOf(err.getFieldError().getCode());
             log.debug("Patched TaxModelForm error detail: {}", ec);
-            throw new TaxException(TaxSubDomain.MODEL, ec, new Object[] { err.getFieldError().getField(), err.getFieldError().getDefaultMessage() });
+            throw new TaxException(TaxSubDomain.MODEL, ec, new Object[] { err.getFieldError().getField() });
         }
         log.debug("All attributes of patched TaxModelForm are valid");
 

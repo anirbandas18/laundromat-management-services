@@ -3,6 +3,7 @@ package com.teenthofabud.laundromat.manager.tax.model.controller;
 import com.teenthofabud.core.common.constant.TOABBaseMessageTemplate;
 import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.core.common.data.form.PatchOperationForm;
+import com.teenthofabud.laundromat.manager.tax.constant.TaxMessageTemplate;
 import com.teenthofabud.laundromat.manager.tax.constant.TaxSubDomain;
 import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
 import com.teenthofabud.laundromat.manager.tax.error.TaxException;
@@ -51,7 +52,7 @@ public class TaxModelController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug("tax model id: {} is semantically valid", id);
+                log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_VALID, id);
                 if(form != null) {
                     service.updateTaxModel(actualId, form);
                     log.debug("Responding with successful updation of attributes for existing tax model");
@@ -60,11 +61,11 @@ public class TaxModelController {
                 log.debug("TaxModelForm is null");
                 throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                log.debug("tax model id: {} is invalid", id);
+                log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_INVALID, id);
                 throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug("tax model id is empty");
+        log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_EMPTY);
         throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -74,16 +75,16 @@ public class TaxModelController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug("tax model id: {} is semantically valid", id);
+                log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_VALID, id);
                 service.deleteTaxModel(actualId);
                 log.debug("Responding with successful deletion of existing tax model");
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } catch (NumberFormatException e) {
-                log.debug("tax model id: {} is invalid", id);
+                log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_INVALID, id);
                 throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug("tax model id is empty");
+        log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_EMPTY);
         throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -94,7 +95,7 @@ public class TaxModelController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug("tax model id: {} is semantically valid", id);
+                log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_VALID, id);
                 if(dtoList != null) {
                     service.applyPatchOnTaxModel(actualId, dtoList);
                     log.debug("Responding with successful patch of attributes for existing tax model");
@@ -103,11 +104,11 @@ public class TaxModelController {
                 log.debug("tax model patch document is null");
                 throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                log.debug("tax model id: {} is invalid", id);
+                log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_INVALID, id);
                 throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug("tax model id is empty");
+        log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_EMPTY);
         throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -137,16 +138,16 @@ public class TaxModelController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug("tax model id: {} is semantically valid", id);
+                log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_VALID, id);
                 TaxModelVo studentDetails = service.retrieveDetailsById(actualId);
                 log.debug("Responding with successful retrieval of existing tax model details by id");
                 return studentDetails;
             } catch (NumberFormatException e) {
-                log.debug("tax model id: {} is invalid", id);
+                log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_INVALID, id);
                 throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug("tax model id is empty");
+        log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_EMPTY);
         throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 

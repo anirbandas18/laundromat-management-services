@@ -18,8 +18,10 @@ public class TaxModelForm2EntityConverter extends TOABBaseEntityAuditHandler imp
         entity.setDescription(form.getDescription());
         entity.setRate(form.getRate());
         entity.setTaxTypeModelId(form.getTaxTypeModelId());
-        entity.setCurrencyTypeModelId(form.getCurrencyTypeModelForm().getId());
-        entity.setCurrencyName(form.getCurrencyTypeModelForm().getName());
+        TaxModelEntity.TypeModelEntity currencyTypeModel = new TaxModelEntity.TypeModelEntity();
+        currencyTypeModel.setId(form.getCurrencyTypeModel().getId());
+        currencyTypeModel.setName(form.getCurrencyTypeModel().getName());
+        entity.setCurrencyTypeModel(currencyTypeModel);
         super.assignAuditValues(entity, Boolean.TRUE);
         log.debug("Converting {} to {}", form, entity);
         return entity;

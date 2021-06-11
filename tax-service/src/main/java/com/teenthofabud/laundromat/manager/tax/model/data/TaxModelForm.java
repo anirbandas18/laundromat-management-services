@@ -3,7 +3,6 @@ package com.teenthofabud.laundromat.manager.tax.model.data;
 import com.teenthofabud.core.common.data.form.LOVForm;
 import lombok.*;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class TaxModelForm implements LOVForm {
@@ -19,7 +18,7 @@ public class TaxModelForm implements LOVForm {
     @Getter
     @Setter
     @ToString.Include
-    private TypeModelForm currencyTypeModelForm; //  pojo in nature to store both id and client friendly name, turnover rate is negligible
+    private TypeModelForm currencyTypeModel; //  pojo in nature to store both id and client friendly name, turnover rate is negligible
     @Getter
     @Setter
     @ToString.Include
@@ -61,5 +60,13 @@ public class TaxModelForm implements LOVForm {
             this.id = 0L;
             this.name = "";
         }
+    }
+
+    public TaxModelForm() {
+        this.name = "";
+        this.description = "";
+        this.rate = 0.0F;
+        this.taxTypeModelId = 0L;
+        this.currencyTypeModel = new TypeModelForm();
     }
 }

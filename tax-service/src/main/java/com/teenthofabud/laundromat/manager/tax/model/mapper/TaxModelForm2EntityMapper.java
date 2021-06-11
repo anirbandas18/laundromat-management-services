@@ -107,32 +107,32 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
             expectedEntity.setTaxTypeModelId(actualEntity.getTaxTypeModelId());
             log.debug("TaxModelForm.taxTypeModelId: is unchanged");
         }
-        if(form.getCurrencyTypeModelForm() != null && StringUtils.hasText(form.getCurrencyTypeModelForm().getName())
-                && !form.getCurrencyTypeModelForm().getName().equalsIgnoreCase(actualEntity.getCurrencyName())) {
-            expectedEntity.setCurrencyName(form.getCurrencyTypeModelForm().getName());
+        if(form.getCurrencyTypeModel() != null && StringUtils.hasText(form.getCurrencyTypeModel().getName())
+                && !form.getCurrencyTypeModel().getName().equalsIgnoreCase(actualEntity.getCurrencyTypeModel().getName())) {
+            expectedEntity.getCurrencyTypeModel().setName(form.getCurrencyTypeModel().getName());
             changeSW = true;
             log.debug("TaxModelForm.currencyTypeModel.name: {} is different as TaxModelEntity.currencyTypeModel.name: {}",
-                    form.getCurrencyTypeModelForm().getName(), actualEntity.getCurrencyName());
+                    form.getCurrencyTypeModel().getName(), actualEntity.getCurrencyTypeModel().getName());
         } else {
-            expectedEntity.setCurrencyName(actualEntity.getCurrencyName());
+            expectedEntity.getCurrencyTypeModel().setName(actualEntity.getCurrencyTypeModel().getName());
             log.debug("TaxModelForm.currencyTypeModel.name: is unchanged");
         }
-        if(form.getCurrencyTypeModelForm() != null &&
-                !form.getCurrencyTypeModelForm().getId().equals(actualEntity.getCurrencyTypeModelId())) {
-            Errors internalErrors = new DirectFieldBindingResult(form.getCurrencyTypeModelForm().getId(), "TaxModelForm.currencyTypeModel.id");
-            currencyTypeModelValidator.validate(form.getCurrencyTypeModelForm().getId(), internalErrors);
+        if(form.getCurrencyTypeModel() != null &&
+                !form.getCurrencyTypeModel().getId().equals(actualEntity.getCurrencyTypeModel().getId())) {
+            Errors internalErrors = new DirectFieldBindingResult(form.getCurrencyTypeModel().getId(), "TaxModelForm.currencyTypeModel.id");
+            currencyTypeModelValidator.validate(form.getCurrencyTypeModel().getId(), internalErrors);
             if(internalErrors.hasErrors()) {
                 log.debug("TaxModelForm.currencyTypeModel.id is invalid");
                 throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND,
-                        new Object [] { "currencyTypeModel.id", String.valueOf(form.getCurrencyTypeModelForm().getId()) });
+                        new Object [] { "currencyTypeModel.id", String.valueOf(form.getCurrencyTypeModel().getId()) });
             } else {
-                expectedEntity.setCurrencyTypeModelId(form.getCurrencyTypeModelForm().getId());
+                expectedEntity.getCurrencyTypeModel().setId(form.getCurrencyTypeModel().getId());
                 changeSW = true;
                 log.debug("TaxModelForm.currencyTypeModel.id: {} is different as TaxModelEntity.currencyTypeModel.id: {}",
-                        form.getCurrencyTypeModelForm().getId(), actualEntity.getCurrencyTypeModelId());
+                        form.getCurrencyTypeModel().getId(), actualEntity.getCurrencyTypeModel().getId());
             }
         } else {
-            expectedEntity.setCurrencyTypeModelId(actualEntity.getCurrencyTypeModelId());
+            expectedEntity.getCurrencyTypeModel().setId(actualEntity.getCurrencyTypeModel().getId());
             log.debug("TaxModelForm.currencyTypeModel.id: is unchanged");
         }
         return changeSW ? Optional.of(expectedEntity) : Optional.empty();

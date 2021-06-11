@@ -38,8 +38,8 @@ public class TaxModelEntity2VoConverter implements Converter<TaxModelEntity, Tax
             internalTaxTypeModelVo.setName(taxTypeModelVo.getName());
             vo.setTaxTypeModel(internalTaxTypeModelVo);
             TaxModelVo.TypeModelVo internalCurrencyTypeModelVo = new TaxModelVo.TypeModelVo();
-            internalCurrencyTypeModelVo.setId(entity.getCurrencyTypeModelId());
-            internalCurrencyTypeModelVo.setName(entity.getCurrencyName());
+            internalCurrencyTypeModelVo.setId(entity.getCurrencyTypeModel().getId());
+            internalCurrencyTypeModelVo.setName(entity.getCurrencyTypeModel().getName());
             vo.setCurrencyTypeModel(internalCurrencyTypeModelVo);
             log.debug("Converted {} to {} ", entity, vo);
             return vo;

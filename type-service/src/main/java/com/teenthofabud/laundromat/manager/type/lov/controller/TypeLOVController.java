@@ -2,6 +2,7 @@ package com.teenthofabud.laundromat.manager.type.lov.controller;
 
 import com.teenthofabud.core.common.constant.TOABBaseMessageTemplate;
 import com.teenthofabud.core.common.data.form.PatchOperationForm;
+import com.teenthofabud.laundromat.manager.type.constant.TypeMessageTemplate;
 import com.teenthofabud.laundromat.manager.type.constant.TypeSubDomain;
 import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
 import com.teenthofabud.laundromat.manager.type.error.TypeException;
@@ -51,7 +52,7 @@ public class TypeLOVController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug("type LOV id: {} is semantically valid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_VALID, id);
                 if(form != null) {
                     service.updateTypeLOV(actualId, form);
                     log.debug("Responding with successful updation of attributes for existing type LOV");
@@ -61,11 +62,11 @@ public class TypeLOVController {
                 throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
                         new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                log.debug("type LOV id: {} is invalid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
                 throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug("type LOV id is empty");
+        log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
         throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -75,16 +76,16 @@ public class TypeLOVController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug("type LOV id: {} is semantically valid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_VALID, id);
                 service.deleteTypeLOV(actualId);
                 log.debug("Responding with successful deletion of existing type LOV");
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } catch (NumberFormatException e) {
-                log.debug("type LOV id: {} is invalid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
                 throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug("type LOV id is empty");
+        log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
         throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -95,7 +96,7 @@ public class TypeLOVController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug("type LOV id: {} is semantically valid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_VALID, id);
                 if(dtoList != null) {
                     service.applyPatchOnTypeLOV(actualId, dtoList);
                     log.debug("Responding with successful patch of attributes for existing type LOV");
@@ -105,11 +106,11 @@ public class TypeLOVController {
                 throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
                         new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                log.debug("type LOV id: {} is invalid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
                 throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug("type LOV id is empty");
+        log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
         throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -139,16 +140,16 @@ public class TypeLOVController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug("type LOV id: {} is semantically valid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_VALID, id);
                 TypeLOVVo studentDetails = service.retrieveDetailsById(actualId);
                 log.debug("Responding with successful retrieval of existing type LOV details by id");
                 return studentDetails;
             } catch (NumberFormatException e) {
-                log.debug("type LOV id: {} is invalid", id);
+                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
                 throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug("type LOV id is empty");
+        log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
         throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 

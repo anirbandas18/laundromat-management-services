@@ -40,15 +40,15 @@ public class TaxModelEntitySelfMapper implements SingleChannelMapper<TaxModelEnt
             changeSW = true;
             log.debug("Source TaxModelEntity.taxTypeModelId is valid");
         }
-        if(source.getCurrencyTypeModelId() != null && source.getCurrencyTypeModelId() > 0
-                && !source.getCurrencyTypeModelId().equals(target.getCurrencyTypeModelId())) {
-            target.setCurrencyTypeModelId(source.getCurrencyTypeModelId());
+        if(source.getCurrencyTypeModel() != null && source.getCurrencyTypeModel().getId() != null && source.getCurrencyTypeModel().getId() > 0
+                && !source.getCurrencyTypeModel().getId().equals(target.getCurrencyTypeModel().getId())) {
+            target.getCurrencyTypeModel().setId(source.getCurrencyTypeModel().getId());
             changeSW = true;
             log.debug("Source TaxModelEntity.currencyTypeModelId is valid");
         }
-        if(source.getCurrencyName() != null && StringUtils.hasText(source.getCurrencyName())
-                && source.getCurrencyName().compareTo(target.getCurrencyName()) != 0) {
-            target.setCurrencyName(source.getCurrencyName());
+        if(source.getCurrencyTypeModel() != null && StringUtils.hasText(source.getCurrencyTypeModel().getName())
+                && source.getCurrencyTypeModel().getName().compareTo(target.getCurrencyTypeModel().getName()) != 0) {
+            target.getCurrencyTypeModel().setName(source.getCurrencyTypeModel().getName());
             changeSW = true;
             log.debug("Source TaxModelEntity.currencyName is valid");
         }

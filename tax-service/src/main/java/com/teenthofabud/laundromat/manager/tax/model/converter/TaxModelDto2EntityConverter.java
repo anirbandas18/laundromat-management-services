@@ -4,8 +4,10 @@ import com.teenthofabud.core.common.converter.ComparativePatchConverter;
 import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelDto;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
+import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -54,17 +56,26 @@ public class TaxModelDto2EntityConverter implements ComparativePatchConverter<Ta
             changeSW[i++] = true;
             log.debug("TaxModelDto.taxTypeModelId is valid");
         }
-        Optional<String> optCurrencyTypeModelId = dto.getCurrencyTypeModelId();
-        if(optCurrencyTypeModelId.isPresent()) {
-            actualEntity.setCurrencyTypeModelId(Long.parseLong(optCurrencyTypeModelId.get()));
-            changeSW[i++] = true;
-            log.debug("TaxModelDto.currencyTypeModelId is valid");
-        }
-        Optional<String> optCurrencyTypeModelName = dto.getCurrencyTypeModelName();
-        if(optCurrencyTypeModelName.isPresent()) {
-            actualEntity.setCurrencyName(optCurrencyTypeModelName.get());
-            changeSW[i++] = true;
-            log.debug("TaxModelDto.currencyTypeModelName is valid");
+        Optional<TaxModelDto.TypeModelDto> optCurrencyTypeModel = dto.getCurrencyTypeModel();
+        if(optCurrencyTypeModel.isPresent()) {
+            TaxModelDto.TypeModelDto currencyTypeModelDto = optCurrencyTypeModel.get();
+            TaxModelEntity.TypeModelEntity currencyTypeModelEntity = new TaxModelEntity.TypeModelEntity();
+            Optional<String> optCurrencyTypeModelId = currencyTypeModelDto.getId();
+            boolean isPresent = false;
+            if(optCurrencyTypeModelId.isPresent()) {
+                currencyTypeModelEntity.setId(Long.parseLong(optCurrencyTypeModelId.get()));
+                changeSW[i++] = isPresent = true;
+                log.debug("TaxModelDto.currencyTypeModel.id is valid");
+            }
+            Optional<String> optCurrencyTypeModelName = currencyTypeModelDto.getName();
+            if(optCurrencyTypeModelName.isPresent() && StringUtils.isEmpty(optCurrencyTypeModelName.get())) {
+                currencyTypeModelEntity.setName(optCurrencyTypeModelName.get());
+                changeSW[i++] = isPresent = true;
+                log.debug("TaxModelDto.currencyTypeModel.name is valid");
+            }
+            if(isPresent) {
+                actualEntity.setCurrencyTypeModel(currencyTypeModelEntity);
+            }
         }
         if(Collections.frequency(Arrays.asList(changeSW), Boolean.TRUE) >= 1) {
             log.debug("All provided TaxModelDto attributes are valid");
