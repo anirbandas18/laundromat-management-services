@@ -3,11 +3,13 @@ package com.teenthofabud.laundromat.manager.type.model.converter;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelEntity;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelVo;
 import com.teenthofabud.laundromat.manager.type.lov.converter.TypeLOVEntity2VoConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class TypeModelEntity2VoConverter implements Converter<TypeModelEntity, TypeModelVo> {
 
     @Autowired
@@ -24,7 +26,8 @@ public class TypeModelEntity2VoConverter implements Converter<TypeModelEntity, T
         vo.setDescription(entity.getDescription());
         vo.setId(entity.getId());
         vo.setActive(entity.getActive());
-        vo.setTypeLovVo(modelEntity2VoConverter.convert(entity.getTypeLov()));
+        vo.setTypeLov(modelEntity2VoConverter.convert(entity.getTypeLov()));
+        log.debug("Converted {} to {} ", entity, vo);
         return vo;
     }
 }

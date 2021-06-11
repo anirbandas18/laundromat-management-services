@@ -79,13 +79,13 @@ public class TaxModelDtoValidator implements Validator {
             boolean isValid = true;
             if(optCurrencyTypeModelId.get() == null) {
                 isValid = false;
-                log.debug("TaxModelDto.taxTypeModelId is null");
+                log.debug("TaxModelDto.currencyTypeModelId is null");
             } else {
                 try {
                     Long currencyTypeModelId = Long.parseLong(optCurrencyTypeModelId.get());
                     if(currencyTypeModelId <= 0L) {
                         isValid = false;
-                        log.debug("TaxModelDto.taxTypeModelId is invalid: taxTypeModelId <= 0");
+                        log.debug("TaxModelDto.currencyTypeModelId is invalid: currencyTypeModelId <= 0");
                     } else {
                         Errors internalErrors = new DirectFieldBindingResult(currencyTypeModelId, "TaxModelDto.currencyTypeModelForm.id");
                         currencyTypeModelValidator.validate(currencyTypeModelId, internalErrors);
@@ -134,24 +134,31 @@ public class TaxModelDtoValidator implements Validator {
 
         Optional<String> optCurrencyTypeModelName = dto.getCurrencyTypeModelName();
         if((optCurrencyTypeModelName.isPresent()) && StringUtils.isEmpty(optCurrencyTypeModelName.get())) {
-            log.debug("TaxModelForm.currencyTypeModelName is invalid");
+            log.debug("TypeModelDto.currencyTypeModelName is invalid");
             errors.rejectValue("currencyTypeModelName", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             return;
         }
 
         Optional<String> optName = dto.getName();
         if((optName.isPresent()) && StringUtils.isEmpty(optName.get())) {
-            log.debug("TaxModelForm.name is invalid");
+            log.debug("TypeModelDto.name is invalid");
             errors.rejectValue("name", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             return;
         }
 
         Optional<String> optActive = dto.getActive();
-        if((optActive.isPresent()) && StringUtils.isEmpty(optActive.get())
-            && ((optActive.get().compareToIgnoreCase(Boolean.TRUE.toString()) != 0) || (optActive.get().compareToIgnoreCase(Boolean.FALSE.toString()) != 0))) {
-            log.debug("TaxModelForm.active is invalid");
+        if(!optActive.isPresent() || (optActive.isPresent() && StringUtils.isEmpty(optActive.get()))) {
             errors.rejectValue("active", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
+            log.debug("TypeModelDto.active is invalid");
             return;
+        } else {
+            Boolean trueSW = optActive.get().equalsIgnoreCase(Boolean.TRUE.toString());
+            Boolean falseSW = optActive.get().equalsIgnoreCase(Boolean.FALSE.toString());
+            if(!trueSW && !falseSW) {
+                errors.rejectValue("active", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
+                log.debug("TypeModelDto.active is invalid");
+                return;
+            }
         }
     }
 }

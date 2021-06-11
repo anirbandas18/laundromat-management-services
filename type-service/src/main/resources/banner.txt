@@ -1,14 +1,25 @@
 
 
-_______) |   | (_____ (_______)
-    _   | |___| |_____) )____
-   | |  |_____  |  ____/  ___)
-   | |   _____| | |    | |_____
-   |_|  (_______|_|    |_______)
+TTTTTTTTTTTTTTTTTTTTTTTYYYYYYY       YYYYYYYPPPPPPPPPPPPPPPPP   EEEEEEEEEEEEEEEEEEEEEE
+T:::::::::::::::::::::TY:::::Y       Y:::::YP::::::::::::::::P  E::::::::::::::::::::E
+T:::::::::::::::::::::TY:::::Y       Y:::::YP::::::PPPPPP:::::P E::::::::::::::::::::E
+T:::::TT:::::::TT:::::TY::::::Y     Y::::::YPP:::::P     P:::::PEE::::::EEEEEEEEE::::E
+TTTTTT  T:::::T  TTTTTTYYY:::::Y   Y:::::YYY  P::::P     P:::::P  E:::::E       EEEEEE
+        T:::::T           Y:::::Y Y:::::Y     P::::P     P:::::P  E:::::E
+        T:::::T            Y:::::Y:::::Y      P::::PPPPPP:::::P   E::::::EEEEEEEEEE
+        T:::::T             Y:::::::::Y       P:::::::::::::PP    E:::::::::::::::E
+        T:::::T              Y:::::::Y        P::::PPPPPPPPP      E:::::::::::::::E
+        T:::::T               Y:::::Y         P::::P              E::::::EEEEEEEEEE
+        T:::::T               Y:::::Y         P::::P              E:::::E
+        T:::::T               Y:::::Y         P::::P              E:::::E       EEEEEE
+      TT:::::::TT             Y:::::Y       PP::::::PP          EE::::::EEEEEEEE:::::E
+      T:::::::::T          YYYY:::::YYYY    P::::::::P          E::::::::::::::::::::E
+      T:::::::::T          Y:::::::::::Y    P::::::::P          E::::::::::::::::::::E
+      TTTTTTTTTTT          YYYYYYYYYYYYY    PPPPPPPPPP          EEEEEEEEEEEEEEEEEEEEEE
+
 
    : : ${application.title} : :             (v${application.version})
 
-https://patorjk.com/software/taag/#p=display&f=Rounded&t=TYPE
 
+https://patorjk.com/software/taag/#p=display&f=Doh&t=TYPE
 
-   

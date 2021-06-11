@@ -46,6 +46,11 @@
         <appender-ref ref="Console" />
     </logger>
 
+    <logger name="com.teenthofabud.laundromat.manager.type" level="info" additivity="false">
+        <appender-ref ref="RollingFile" />
+        <appender-ref ref="Console" />
+    </logger>
+
     <logger name="logging.level.org.hibernate.SQL" level="debug">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />

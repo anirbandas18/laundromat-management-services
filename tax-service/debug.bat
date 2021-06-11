@@ -1,0 +1,1 @@
+java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006 -jar target\tax-app.jar

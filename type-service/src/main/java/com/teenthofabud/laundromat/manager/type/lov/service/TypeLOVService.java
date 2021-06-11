@@ -26,6 +26,4 @@ public interface TypeLOVService {
 
     public void applyPatchOnTypeLOV(Long id, List<PatchOperationForm> patches) throws TypeException;
 
-
-
 }

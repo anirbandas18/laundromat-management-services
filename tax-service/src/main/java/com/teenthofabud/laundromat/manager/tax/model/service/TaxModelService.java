@@ -1,6 +1,6 @@
 package com.teenthofabud.laundromat.manager.tax.model.service;
 
-import com.teenthofabud.core.common.data.error.TOABBaseException;
+import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.core.common.data.form.PatchOperationForm;
 import com.teenthofabud.laundromat.manager.tax.error.TaxException;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;

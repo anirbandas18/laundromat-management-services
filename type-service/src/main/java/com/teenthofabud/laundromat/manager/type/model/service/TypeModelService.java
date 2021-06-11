@@ -1,6 +1,6 @@
 package com.teenthofabud.laundromat.manager.type.model.service;
 
-import com.teenthofabud.core.common.data.error.TOABBaseException;
+import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.core.common.data.form.PatchOperationForm;
 import com.teenthofabud.laundromat.manager.type.error.TypeException;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelForm;

@@ -1,6 +1,6 @@
 package com.teenthofabud.laundromat.manager.type.lov.converter;
 
-import com.teenthofabud.core.common.handler.TOABBaseEntityConversionHandler;
+import com.teenthofabud.core.common.handler.TOABBaseEntityAuditHandler;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVEntity;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVForm;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class TypeLOVForm2EntityConverter extends TOABBaseEntityConversionHandler implements Converter<TypeLOVForm, TypeLOVEntity> {
+public class TypeLOVForm2EntityConverter extends TOABBaseEntityAuditHandler implements Converter<TypeLOVForm, TypeLOVEntity> {
 
     @Override
     public TypeLOVEntity convert(TypeLOVForm form) {

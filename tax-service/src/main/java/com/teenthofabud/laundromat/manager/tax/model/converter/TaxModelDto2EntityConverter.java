@@ -1,7 +1,7 @@
 package com.teenthofabud.laundromat.manager.tax.model.converter;
 
 import com.teenthofabud.core.common.converter.ComparativePatchConverter;
-import com.teenthofabud.core.common.data.error.TOABBaseException;
+import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelDto;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
 import lombok.extern.slf4j.Slf4j;

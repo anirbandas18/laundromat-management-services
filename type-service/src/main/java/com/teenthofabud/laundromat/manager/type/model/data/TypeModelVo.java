@@ -19,7 +19,7 @@ public class TypeModelVo implements Comparable<TypeModelVo> {
     @ToString.Include
     private String description;
     @ToString.Include
-    private TypeLOVVo typeLovVo;
+    private TypeLOVVo typeLov;
 
     @Override
     public int compareTo(TypeModelVo o) {

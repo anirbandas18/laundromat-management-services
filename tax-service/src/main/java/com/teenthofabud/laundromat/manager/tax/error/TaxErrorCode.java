@@ -1,6 +1,6 @@
 package com.teenthofabud.laundromat.manager.tax.error;
 
-import com.teenthofabud.core.common.data.error.TOABError;
+import com.teenthofabud.core.common.error.TOABError;
 
 public enum TaxErrorCode implements TOABError {
 
@@ -21,7 +21,7 @@ public enum TaxErrorCode implements TOABError {
 
     @Override
     public String toString() {
-        return "ErrorCode{" +
+        return "TaxErrorCode{" +
                 this.name() + " -> " +
                 "errorCode='" + errorCode + '\'' +
                 ", httpStatusCode=" + httpStatusCode +

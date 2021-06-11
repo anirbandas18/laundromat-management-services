@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
-import com.teenthofabud.core.common.data.constant.TOABBaseMessageTemplate;
-import com.teenthofabud.core.common.data.error.TOABBaseException;
+import com.teenthofabud.core.common.constant.TOABBaseMessageTemplate;
+import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.core.common.data.form.PatchOperationForm;
 import com.teenthofabud.core.common.service.TOABBaseService;
 import com.teenthofabud.laundromat.manager.tax.constant.TaxSubDomain;
@@ -17,7 +17,7 @@ import com.teenthofabud.laundromat.manager.tax.model.converter.TaxModelForm2Enti
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelDto;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;
-import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelMessageTemplate;
+import com.teenthofabud.laundromat.manager.tax.constant.TaxModelMessageTemplate;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelVo;
 import com.teenthofabud.laundromat.manager.tax.model.mapper.TaxModelEntitySelfMapper;
 import com.teenthofabud.laundromat.manager.tax.model.mapper.TaxModelForm2EntityMapper;
@@ -133,23 +133,23 @@ public class TaxModelServiceImpl implements TaxModelService {
         this.formValidator = formValidator;
     }
 
-    private List<TaxModelVo> entity2DetailedVoList(List<TaxModelEntity> studentEntityList) {
-        List<TaxModelVo> studentDetailsList = new ArrayList<>(studentEntityList.size());
-        for(TaxModelEntity entity : studentEntityList) {
+    private List<TaxModelVo> entity2DetailedVoList(List<TaxModelEntity> taxModelEntityList) {
+        List<TaxModelVo> taxModelDetailsList = new ArrayList<>(taxModelEntityList.size());
+        for(TaxModelEntity entity : taxModelEntityList) {
             TaxModelVo vo = entity2VoConverter.convert(entity);
             log.debug("Converting {} to {}", entity, vo);
-            studentDetailsList.add(vo);
+            taxModelDetailsList.add(vo);
         }
-        return studentDetailsList;
+        return taxModelDetailsList;
     }
 
     @Override
     @Transactional(readOnly = true)
     public Set<TaxModelVo> retrieveAllByNaturalOrdering() {
         log.info("Requesting all TaxModelEntity by their natural ordering");
-        List<TaxModelEntity> studentEntityList = repository.findAll();
+        List<TaxModelEntity> taxModelEntityList = repository.findAll();
         Set<TaxModelVo> naturallyOrderedSet = new TreeSet<TaxModelVo>(CMP_BY_NAME);
-        for(TaxModelEntity entity : studentEntityList) {
+        for(TaxModelEntity entity : taxModelEntityList) {
             TaxModelVo dto = entity2VoConverter.convert(entity);
             log.debug("Converting {} to {}", entity, dto);
             naturallyOrderedSet.add(dto);
@@ -165,12 +165,12 @@ public class TaxModelServiceImpl implements TaxModelService {
         Optional<TaxModelEntity> optEntity = repository.findById(id);
         if(optEntity.isEmpty()) {
             log.debug("No TaxModelEntity found by id: {}", id);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
         TaxModelEntity entity = optEntity.get();
         if(!entity.getActive()) {
             log.debug("TaxModelEntity is inactive by id: {}", id);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_INACTIVE, new Object[] { String.valueOf(id) });
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_INACTIVE, new Object[] { String.valueOf(id) });
         }
         TaxModelVo vo = entity2VoConverter.convert(entity);
         log.info("Found TaxModelVo by id: {}", id);
@@ -189,7 +189,7 @@ public class TaxModelServiceImpl implements TaxModelService {
             log.debug("taxTypeModelId is invalid");
             TaxErrorCode ec = TaxErrorCode.valueOf(internalErrors.getGlobalError().getCodes()[1]);
             log.debug("taxTypeModelId error detail: {}", ec);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, ec, new Object[] { "taxTypeModelId" });
+            throw new TaxException(TaxSubDomain.MODEL, ec, new Object[] { "taxTypeModelId" });
         }
         log.debug("taxTypeModelId: {} is valid", taxTypeModelId);
 
@@ -203,7 +203,7 @@ public class TaxModelServiceImpl implements TaxModelService {
         }
 
         log.debug("No TaxModelVo found belonging to taxTypeModelId: {}", taxTypeModelId);
-        throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "taxTypeModelId", String.valueOf(taxTypeModelId) });
+        throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "taxTypeModelId", String.valueOf(taxTypeModelId) });
     }
 
     @Override
@@ -218,7 +218,7 @@ public class TaxModelServiceImpl implements TaxModelService {
             log.debug("currencyTypeModelId is invalid");
             TaxErrorCode ec = TaxErrorCode.valueOf(internalErrors.getGlobalError().getCodes()[1]);
             log.debug("currencyTypeModelId error detail: {}", ec);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, ec, new Object[] { "currencyTypeModelId" });
+            throw new TaxException(TaxSubDomain.MODEL, ec, new Object[] { "currencyTypeModelId" });
         }
         log.debug("currencyTypeModelId: {} is valid", currencyTypeModelId);
 
@@ -232,21 +232,21 @@ public class TaxModelServiceImpl implements TaxModelService {
         }
 
         log.debug("No TaxModelVo found belonging to currencyTypeModelId: {}", currencyTypeModelId);
-        throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "currencyTypeModelId", String.valueOf(currencyTypeModelId) });
+        throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "currencyTypeModelId", String.valueOf(currencyTypeModelId) });
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<TaxModelVo> retrieveAllMatchingDetailsByName(String name) throws TaxException {
         log.info("Requesting TaxModelEntity that match with name: {}", name);
-        List<TaxModelEntity> studentEntityList = repository.findByNameContaining(name);
-        if(studentEntityList != null && !studentEntityList.isEmpty()) {
-            List<TaxModelVo> matchedTaxModelList = entity2DetailedVoList(studentEntityList);
+        List<TaxModelEntity> taxModelEntityList = repository.findByNameContaining(name);
+        if(taxModelEntityList != null && !taxModelEntityList.isEmpty()) {
+            List<TaxModelVo> matchedTaxModelList = entity2DetailedVoList(taxModelEntityList);
             log.info("Found {} TaxModelVo matching with name: {}", matchedTaxModelList.size(),name);
             return matchedTaxModelList;
         }
         log.debug("No TaxModelVo found matching with name: {}", name);
-        throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "name", name });
+        throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "name", name });
     }
 
     @Override
@@ -256,7 +256,7 @@ public class TaxModelServiceImpl implements TaxModelService {
 
         if(form == null) {
             log.debug("TaxModelForm provided is null");
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED,
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED,
                     new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
         }
         log.debug("Form details: {}", form);
@@ -268,14 +268,14 @@ public class TaxModelServiceImpl implements TaxModelService {
             log.debug("TaxModelForm has {} errors", err.getErrorCount());
             TaxErrorCode ec = TaxErrorCode.valueOf(err.getFieldError().getCode());
             log.debug("TaxModelForm error detail: {}", ec);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, ec, new Object[] { err.getFieldError().getField() });
+            throw new TaxException(TaxSubDomain.MODEL, ec, new Object[] { err.getFieldError().getField() });
         }
         log.debug("All attributes of TaxModelForm are valid");
 
         log.debug("Checking existence of TaxModelEntity with name: {} and taxTypeModelId: {}", form.getName(), form.getTaxTypeModelId());
         if(repository.existsByNameAndTaxTypeModelId(form.getName(), form.getTaxTypeModelId())) {
             log.debug("TaxModelEntity already exists with name: {} for taxTypeModelId: {}", form.getName(), form.getTaxTypeModelId());
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_EXISTS,
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_EXISTS,
                     new Object[]{ "name " + form.getName(), "taxTypeModelId " + form.getTaxTypeModelId() });
         }
         log.debug("No TaxModelEntity exists with name: {} and taxTypeModelId: {}", form.getName(), form.getTaxTypeModelId());
@@ -290,7 +290,7 @@ public class TaxModelServiceImpl implements TaxModelService {
 
         if(actualEntity == null) {
             log.debug("Unable to create {}", expectedEntity);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ACTION_FAILURE,
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ACTION_FAILURE,
                     new Object[]{ "creation", "unable to persist TaxModelForm details" });
         }
         log.info("Created new TaxModelForm with id: {}", actualEntity.getId());
@@ -302,24 +302,24 @@ public class TaxModelServiceImpl implements TaxModelService {
     public void updateTaxModel(Long id, TaxModelForm form) throws TaxException {
         log.info("Updating TaxModelForm by id: {}", id);
 
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAXMODELENTITY_ID, id);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID, id);
         Optional<TaxModelEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAXMODELENTITY_ID_AVAILABLE, id);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE, id);
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAXMODELENTITY_ID, id);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID, id);
 
         TaxModelEntity actualEntity = optActualEntity.get();
         if(!actualEntity.getActive()) {
             log.debug("TaxModelEntity is inactive with id: {}", id);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_INACTIVE, new Object[] { String.valueOf(id) });
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_INACTIVE, new Object[] { String.valueOf(id) });
         }
         log.debug("TaxModelEntity is active with id: {}", id);
 
         if(form == null) {
             log.debug("TaxModelForm is null");
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED,
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED,
                     new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
         }
         log.debug("Form details : {}", form);
@@ -331,10 +331,10 @@ public class TaxModelServiceImpl implements TaxModelService {
             log.debug("TaxModelForm has {} errors", err.getErrorCount());
             TaxErrorCode ec = TaxErrorCode.valueOf(err.getFieldError().getCode());
             log.debug("TaxModelForm error detail: {}", ec);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, ec, new Object[] { err.getFieldError().getField(), err.getFieldError().getDefaultMessage() });
+            throw new TaxException(TaxSubDomain.MODEL, ec, new Object[] { err.getFieldError().getField(), err.getFieldError().getDefaultMessage() });
         } else if (!allEmpty) {
             log.debug("All attributes of TaxModelForm are empty");
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are empty" });
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are empty" });
         }
         log.debug("All attributes of TaxModelForm are valid");
 
@@ -344,7 +344,7 @@ public class TaxModelServiceImpl implements TaxModelService {
             Optional<TaxModelEntity> optExpectedEntity = form2EntityMapper.compareAndMap(actualEntity, form);
             if(optExpectedEntity.isEmpty()) {
                 log.debug("No new value for attributes of TaxModelForm");
-                throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED,
+                throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED,
                         new Object[]{ "form", "fields are expected with new values" });
             }
             log.debug("Successfully compared and copied attributes from TaxModelForm to TaxModelEntity");
@@ -358,7 +358,7 @@ public class TaxModelServiceImpl implements TaxModelService {
                 actualEntity.getName().compareTo(expectedEntity.getName()) != 0 &&
                 repository.existsByNameAndTaxTypeModelId(expectedEntity.getName(), expectedEntity.getTaxTypeModelId())) {
             log.debug("TaxModelEntity already exists with name: {} for taxTypeModelId: {}", form.getName(), form.getTaxTypeModelId());
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_EXISTS,
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_EXISTS,
                     new Object[]{ "name " + form.getName(), "taxTypeModelId " + form.getTaxTypeModelId() });
         }
         log.debug("No TaxModelEntity exists with name: {} and taxTypeModelId: {}", form.getName(), form.getTaxTypeModelId());
@@ -372,7 +372,7 @@ public class TaxModelServiceImpl implements TaxModelService {
         log.debug("Updated: {}", actualEntity);
         if(actualEntity == null) {
             log.debug("Unable to update {}", actualEntity);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ACTION_FAILURE,
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ACTION_FAILURE,
                     new Object[]{ "update", "unable to persist currency type LOV details" });
         }
         log.info("Updated existing TaxModelEntity with id: {} to version: {}", actualEntity.getId(), actualEntity.getVersion());
@@ -383,18 +383,18 @@ public class TaxModelServiceImpl implements TaxModelService {
     public void deleteTaxModel(Long id) throws TaxException {
         log.info("Soft deleting TaxModelEntity by id: {}", id);
 
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAXMODELENTITY_ID, id);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID, id);
         Optional<TaxModelEntity> optEntity = repository.findById(id);
         if(optEntity.isEmpty()) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAXMODELENTITY_ID_AVAILABLE, id);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE, id);
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAXMODELENTITY_ID, id);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID, id);
 
         TaxModelEntity actualEntity = optEntity.get();
         if(!actualEntity.getActive()) {
             log.debug("TaxModelEntity is inactive with id: {}", id);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_INACTIVE, new Object[] { String.valueOf(id) });
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_INACTIVE, new Object[] { String.valueOf(id) });
         }
         log.debug("TaxModelEntity is active with id: {}", id);
 
@@ -405,7 +405,7 @@ public class TaxModelServiceImpl implements TaxModelService {
         log.debug("Soft deleted: {}", expectedEntity);
         if(expectedEntity == null) {
             log.debug("Unable to soft delete {}", actualEntity);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ACTION_FAILURE,
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ACTION_FAILURE,
                     new Object[]{ "deletion", "unable to soft delete current type LOV details with id:" + id });
         }
 
@@ -417,29 +417,29 @@ public class TaxModelServiceImpl implements TaxModelService {
     public void applyPatchOnTaxModel(Long id, List<PatchOperationForm> patches) throws TaxException {
         log.info("Patching TaxModelEntity by id: {}", id);
 
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAXMODELENTITY_ID, id);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID, id);
         Optional<TaxModelEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAXMODELENTITY_ID_AVAILABLE, id);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE, id);
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAXMODELENTITY_ID, id);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID, id);
 
         TaxModelEntity actualEntity = optActualEntity.get();
         if(patches == null || (patches != null && patches.isEmpty())) {
             log.debug("TaxModel patch list not provided");
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
         }
         log.debug("TaxModel patch list has {} items", patches.size());
 
 
         log.debug("Validating patch list items for TaxModel");
         try {
-            toabBaseService.validatePatches(patches, TaxErrorCode.TAX_EXISTS.getDomain() + ":" + TaxSubDomain.TAX_MODEL.getName());
+            toabBaseService.validatePatches(patches, TaxErrorCode.TAX_EXISTS.getDomain() + ":" + TaxSubDomain.MODEL.getName());
             log.debug("All TaxModel patch list items are valid");
         } catch (TOABBaseException e) {
             log.debug("Some of the TaxModel patch item are invalid");
-            throw new TaxException(TaxSubDomain.TAX_MODEL, e.getError(), e.getParameters());
+            throw new TaxException(TaxSubDomain.MODEL, e.getError(), e.getParameters());
         }
         log.debug("Validated patch list items for TaxModel");
 
@@ -448,17 +448,17 @@ public class TaxModelServiceImpl implements TaxModelService {
         TaxModelDto patchedTaxModelForm = new TaxModelDto();
         try {
             log.debug("Preparing patch list items for TaxModel");
-            JsonNode studentDtoTree = om.convertValue(patches, JsonNode.class);
-            JsonPatch studentPatch = JsonPatch.fromJson(studentDtoTree);
+            JsonNode taxModelDtoTree = om.convertValue(patches, JsonNode.class);
+            JsonPatch taxModelPatch = JsonPatch.fromJson(taxModelDtoTree);
             log.debug("Prepared patch list items for TaxModel");
             JsonNode blankTaxModelDtoTree = om.convertValue(new TaxModelDto(), JsonNode.class);
-            JsonNode patchedTaxModelFormTree = studentPatch.apply(blankTaxModelDtoTree);
+            JsonNode patchedTaxModelFormTree = taxModelPatch.apply(blankTaxModelDtoTree);
             log.debug("Applying patch list items to TaxModelDto");
             patchedTaxModelForm = om.treeToValue(patchedTaxModelFormTree, TaxModelDto.class);
             log.debug("Applied patch list items to TaxModelDto");
         } catch (IOException | JsonPatchException e) {
             log.debug("Failed to patch list items to TaxModelDto: {}", e);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ACTION_FAILURE, new Object[]{ "patching", "internal error: " + e.getMessage() });
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ACTION_FAILURE, new Object[]{ "patching", "internal error: " + e.getMessage() });
         }
         log.debug("Successfully to patch list items to TaxModelDto");
 
@@ -469,7 +469,7 @@ public class TaxModelServiceImpl implements TaxModelService {
             log.debug("Patched TaxModelForm has {} errors", err.getErrorCount());
             TaxErrorCode ec = TaxErrorCode.valueOf(err.getFieldError().getCode());
             log.debug("Patched TaxModelForm error detail: {}", ec);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, ec, new Object[] { err.getFieldError().getField(), err.getFieldError().getDefaultMessage() });
+            throw new TaxException(TaxSubDomain.MODEL, ec, new Object[] { err.getFieldError().getField(), err.getFieldError().getDefaultMessage() });
         }
         log.debug("All attributes of patched TaxModelForm are valid");
 
@@ -486,7 +486,7 @@ public class TaxModelServiceImpl implements TaxModelService {
         log.debug("Saved patched TaxModelEntity: {}", actualEntity);
         if(actualEntity == null) {
             log.debug("Unable to patch delete TaxModelEntity with id: {}", id);
-            throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_ACTION_FAILURE,
+            throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_ACTION_FAILURE,
                     new Object[]{ "patching", "unable to patch currency tax model details with id:" + id });
         }
         log.info("Patched TaxModelEntity with id:{}", id);

@@ -1,6 +1,6 @@
 package com.teenthofabud.laundromat.manager.tax.model.converter;
 
-import com.teenthofabud.core.common.data.error.TOABSystemException;
+import com.teenthofabud.core.common.error.TOABSystemException;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelVo;
 import com.teenthofabud.laundromat.manager.type.error.TypeException;
@@ -36,11 +36,11 @@ public class TaxModelEntity2VoConverter implements Converter<TaxModelEntity, Tax
             log.debug("Retrieved: {}", taxTypeModelVo);
             internalTaxTypeModelVo.setId(taxTypeModelVo.getId());
             internalTaxTypeModelVo.setName(taxTypeModelVo.getName());
-            vo.setTaxTypeModelVo(internalTaxTypeModelVo);
+            vo.setTaxTypeModel(internalTaxTypeModelVo);
             TaxModelVo.TypeModelVo internalCurrencyTypeModelVo = new TaxModelVo.TypeModelVo();
             internalCurrencyTypeModelVo.setId(entity.getCurrencyTypeModelId());
             internalCurrencyTypeModelVo.setName(entity.getCurrencyName());
-            vo.setCurrencyTypeModelVo(internalCurrencyTypeModelVo);
+            vo.setCurrencyTypeModel(internalCurrencyTypeModelVo);
             log.debug("Converted {} to {} ", entity, vo);
             return vo;
         } catch (TypeException e) {

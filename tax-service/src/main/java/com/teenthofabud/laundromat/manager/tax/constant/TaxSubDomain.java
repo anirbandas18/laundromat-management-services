@@ -1,10 +1,10 @@
 package com.teenthofabud.laundromat.manager.tax.constant;
 
-import com.teenthofabud.core.common.data.constant.SubDomain;
+import com.teenthofabud.core.common.constant.SubDomain;
 
 public enum TaxSubDomain implements SubDomain {
 
-    TAX_MODEL("tax model");
+    MODEL("model");
 
     private String name;
 

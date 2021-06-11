@@ -1,20 +1,15 @@
-package com.teenthofabud.laundromat.manager.type.error;
+package com.teenthofabud.core.common.error;
 
-import com.teenthofabud.core.common.data.error.TOABError;
+public enum TOABErrorCode implements TOABError {
 
-public enum TypeErrorCode implements TOABError {
-
-    TYPE_ATTRIBUTE_INVALID("LMS-TYPE-001", 400), // syntactic
-    TYPE_NOT_FOUND("LMS-TYPE-002", 404),
-    TYPE_ATTRIBUTE_UNEXPECTED("LMS-TYPE-003", 422), // semantic
-    TYPE_EXISTS("LMS-TYPE-004", 409),
-    TYPE_INACTIVE("LMS-TYPE-005", 400),
-    TYPE_ACTION_FAILURE("LMS-TYPE-006", 500);
+        PATCH_ATTRIBUTE_INVALID("TOAB-COMMON-001", 400),
+        UNEXPECTED_CLIENT_RESPONSE_STATUS("TOAB-COMMON-002", 422),
+        SYSTEM_IO_FAILURE("TOAB-COMMON-003", 422);
 
     private String errorCode;
     private int httpStatusCode;
 
-    private TypeErrorCode(String errorCode, int httpStatusCode) {
+    private TOABErrorCode(String errorCode, int httpStatusCode) {
         this.errorCode = errorCode;
         this.httpStatusCode = httpStatusCode;
     }
@@ -40,6 +35,6 @@ public enum TypeErrorCode implements TOABError {
 
     @Override
     public String getDomain() {
-        return "Type";
+        return "Common";
     }
 }

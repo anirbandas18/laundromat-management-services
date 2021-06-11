@@ -1,7 +1,7 @@
 package com.teenthofabud.laundromat.manager.type.lov.converter;
 
 import com.teenthofabud.core.common.converter.ComparativePatchConverter;
-import com.teenthofabud.core.common.data.error.TOABBaseException;
+import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVDto;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVEntity;
 import lombok.extern.slf4j.Slf4j;

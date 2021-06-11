@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @Slf4j
-public abstract class TOABBaseEntityConversionHandler {
+public abstract class TOABBaseEntityAuditHandler {
 
     private static final Long DEFAULT_USER_ID = 1L;
 

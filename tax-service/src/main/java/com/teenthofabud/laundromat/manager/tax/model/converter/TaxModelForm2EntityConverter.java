@@ -1,6 +1,6 @@
 package com.teenthofabud.laundromat.manager.tax.model.converter;
 
-import com.teenthofabud.core.common.handler.TOABBaseEntityConversionHandler;
+import com.teenthofabud.core.common.handler.TOABBaseEntityAuditHandler;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class TaxModelForm2EntityConverter extends TOABBaseEntityConversionHandler implements Converter<TaxModelForm, TaxModelEntity> {
+public class TaxModelForm2EntityConverter extends TOABBaseEntityAuditHandler implements Converter<TaxModelForm, TaxModelEntity> {
 
     @Override
     public TaxModelEntity convert(TaxModelForm form) {

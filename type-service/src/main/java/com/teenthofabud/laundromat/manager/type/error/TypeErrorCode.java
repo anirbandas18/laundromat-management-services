@@ -1,6 +1,6 @@
 package com.teenthofabud.laundromat.manager.type.error;
 
-import com.teenthofabud.core.common.data.error.TOABError;
+import com.teenthofabud.core.common.error.TOABError;
 
 public enum TypeErrorCode implements TOABError {
 
@@ -21,7 +21,7 @@ public enum TypeErrorCode implements TOABError {
 
     @Override
     public String toString() {
-        return "ErrorCode{" +
+        return "TypeErrorCode{" +
                 this.name() + " -> " +
                 "errorCode='" + errorCode + '\'' +
                 ", httpStatusCode=" + httpStatusCode +
@@ -42,4 +42,5 @@ public enum TypeErrorCode implements TOABError {
     public String getDomain() {
         return "Type";
     }
+
 }

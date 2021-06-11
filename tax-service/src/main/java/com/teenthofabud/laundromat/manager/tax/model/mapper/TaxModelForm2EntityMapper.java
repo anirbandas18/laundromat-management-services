@@ -1,20 +1,21 @@
 package com.teenthofabud.laundromat.manager.tax.model.mapper;
 
 import com.teenthofabud.core.common.mapper.DualChannelMapper;
-import com.teenthofabud.core.common.data.error.TOABBaseException;
+import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.laundromat.manager.tax.constant.TaxSubDomain;
 import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
 import com.teenthofabud.laundromat.manager.tax.error.TaxException;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;
-import com.teenthofabud.laundromat.manager.type.error.TypeException;
-import com.teenthofabud.laundromat.manager.type.data.TypeModelVo;
-import com.teenthofabud.laundromat.manager.type.proxy.TypeServiceClient;
+import com.teenthofabud.laundromat.manager.type.validator.CurrencyTypeModelValidator;
+import com.teenthofabud.laundromat.manager.type.validator.TaxTypeModelValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.DirectFieldBindingResult;
+import org.springframework.validation.Errors;
 
 import java.util.Optional;
 
@@ -22,12 +23,20 @@ import java.util.Optional;
 @Slf4j
 public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEntity, TaxModelForm> {
 
+
     @Autowired
-    public void setTypeServiceClient(TypeServiceClient typeServiceClient) {
-        this.typeServiceClient = typeServiceClient;
+    public void setTaxTypeModelValidator(TaxTypeModelValidator taxTypeModelValidator) {
+        this.taxTypeModelValidator = taxTypeModelValidator;
     }
 
-    private TypeServiceClient typeServiceClient;
+    private TaxTypeModelValidator taxTypeModelValidator;
+
+    @Autowired
+    public void setCurrencyTypeModelValidator(CurrencyTypeModelValidator currencyTypeModelValidator) {
+        this.currencyTypeModelValidator = currencyTypeModelValidator;
+    }
+
+    private CurrencyTypeModelValidator currencyTypeModelValidator;
 
     @Value("${lms.tax.taxtypelov.id}")
     public void setTaxTypeLovId(Long taxTypeLovId) {
@@ -61,7 +70,6 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
             log.debug("TaxModelForm.name: {} is different as TaxModelEntity.name: {}", form.getName(), actualEntity.getName());
         } else {
             expectedEntity.setName(actualEntity.getName());
-            //changeSW = true;
             log.debug("TaxModelForm.name: is unchanged");
         }
         if(StringUtils.hasText(form.getDescription()) &&
@@ -71,7 +79,6 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
             log.debug("TaxModelForm.description: {} is different as TaxModelEntity.description: {}", form.getDescription(), actualEntity.getDescription());
         } else {
             expectedEntity.setDescription(actualEntity.getDescription());
-            //changeSW = true;
             log.debug("TaxModelForm.description: is unchanged");
         }
         if(form.getRate() != null && !form.getRate().equals(actualEntity.getRate())) {
@@ -80,61 +87,53 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
             log.debug("TaxModelForm.rate: {} is different as TaxModelEntity.rate: {}", form.getRate(), actualEntity.getRate());
         } else {
             expectedEntity.setDescription(actualEntity.getDescription());
-            //changeSW = true;
             log.debug("TaxModelForm.rate: is unchanged");
         }
         if(form.getTaxTypeModelId() != null &&
                 !form.getTaxTypeModelId().equals(actualEntity.getTaxTypeModelId())) {
-            try {
-                TypeModelVo taxTypeModelVo = typeServiceClient.getTypeModelDetailsById(form.getTaxTypeModelId());
-                if(taxTypeModelVo == null || taxTypeModelVo.getId() == null || !taxTypeModelVo.getId().equals(form.getTaxTypeModelId())
-                    || taxTypeModelVo.getTypeLovVo() == null || taxTypeModelVo.getTypeLovVo().getId() == null
-                        || !taxTypeModelVo.getTypeLovVo().getId().equals(taxTypeLovId)) {
-                    throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_NOT_FOUND,
-                            new Object [] { "taxTypeModelId", String.valueOf(form.getTaxTypeModelId()) });
-                } else {
-                    expectedEntity.setTaxTypeModelId(form.getTaxTypeModelId());
-                    changeSW = true;
-                    log.debug("TaxModelForm.taxTypeModelId: {} is different as TaxModelEntity.taxTypeModelId: {}",
-                            form.getTaxTypeModelId(), actualEntity.getTaxTypeModelId());
-                }
-            } catch (TypeException e) {
+            Errors internalErrors = new DirectFieldBindingResult(form.getTaxTypeModelId(), "TaxModelForm.taxTypeModelId");
+            taxTypeModelValidator.validate(form.getTaxTypeModelId(), internalErrors);
+            if(internalErrors.hasErrors()) {
                 log.debug("TaxModelForm.taxTypeModelId is invalid");
-                log.error("TaxModelForm.taxTypeModelId is invalid", e);
-                throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_NOT_FOUND,
+                throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND,
                         new Object [] { "taxTypeModelId", String.valueOf(form.getTaxTypeModelId()) });
+            } else {
+                expectedEntity.setTaxTypeModelId(form.getTaxTypeModelId());
+                changeSW = true;
+                log.debug("TaxModelForm.taxTypeModelId: {} is different as TaxModelEntity.taxTypeModelId: {}",
+                        form.getTaxTypeModelId(), actualEntity.getTaxTypeModelId());
             }
         } else {
             expectedEntity.setTaxTypeModelId(actualEntity.getTaxTypeModelId());
-            //changeSW = true;
             log.debug("TaxModelForm.taxTypeModelId: is unchanged");
+        }
+        if(form.getCurrencyTypeModelForm() != null && StringUtils.hasText(form.getCurrencyTypeModelForm().getName())
+                && !form.getCurrencyTypeModelForm().getName().equalsIgnoreCase(actualEntity.getCurrencyName())) {
+            expectedEntity.setCurrencyName(form.getCurrencyTypeModelForm().getName());
+            changeSW = true;
+            log.debug("TaxModelForm.currencyTypeModel.name: {} is different as TaxModelEntity.currencyTypeModel.name: {}",
+                    form.getCurrencyTypeModelForm().getName(), actualEntity.getCurrencyName());
+        } else {
+            expectedEntity.setCurrencyName(actualEntity.getCurrencyName());
+            log.debug("TaxModelForm.currencyTypeModel.name: is unchanged");
         }
         if(form.getCurrencyTypeModelForm() != null &&
                 !form.getCurrencyTypeModelForm().getId().equals(actualEntity.getCurrencyTypeModelId())) {
-            try {
-                TypeModelVo currencyTypeModelVo = typeServiceClient.getTypeModelDetailsById(form.getCurrencyTypeModelForm().getId());
-                if(currencyTypeModelVo == null || currencyTypeModelVo.getId() == null
-                        || !currencyTypeModelVo.getId().equals(form.getCurrencyTypeModelForm().getId())
-                        || currencyTypeModelVo.getTypeLovVo() == null || currencyTypeModelVo.getTypeLovVo().getId() == null
-                        || !currencyTypeModelVo.getTypeLovVo().getId().equals(currencyTypeLovId)) {
-                    throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_NOT_FOUND,
-                            new Object [] { "currencyTypeLov.id", String.valueOf(form.getCurrencyTypeModelForm().getId()) });
-                } else {
-                    expectedEntity.setCurrencyTypeModelId(form.getCurrencyTypeModelForm().getId());
-                    changeSW = true;
-                    log.debug("TaxModelForm.currencyTypeLov.id: {} is different as TaxModelEntity.currencyTypeModelId: {}",
-                            form.getCurrencyTypeModelForm().getId(), actualEntity.getCurrencyName());
-                }
-            } catch (TypeException e) {
-                log.debug("TaxModelForm.currencyTypeLov.id is invalid");
-                log.error("TaxModelForm.currencyTypeLov.id is invalid", e);
-                throw new TaxException(TaxSubDomain.TAX_MODEL, TaxErrorCode.TAX_NOT_FOUND,
-                        new Object [] { "currencyTypeLov.id", String.valueOf(form.getCurrencyTypeModelForm().getId()) });
+            Errors internalErrors = new DirectFieldBindingResult(form.getCurrencyTypeModelForm().getId(), "TaxModelForm.currencyTypeModel.id");
+            currencyTypeModelValidator.validate(form.getCurrencyTypeModelForm().getId(), internalErrors);
+            if(internalErrors.hasErrors()) {
+                log.debug("TaxModelForm.currencyTypeModel.id is invalid");
+                throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND,
+                        new Object [] { "currencyTypeModel.id", String.valueOf(form.getCurrencyTypeModelForm().getId()) });
+            } else {
+                expectedEntity.setCurrencyTypeModelId(form.getCurrencyTypeModelForm().getId());
+                changeSW = true;
+                log.debug("TaxModelForm.currencyTypeModel.id: {} is different as TaxModelEntity.currencyTypeModel.id: {}",
+                        form.getCurrencyTypeModelForm().getId(), actualEntity.getCurrencyTypeModelId());
             }
         } else {
             expectedEntity.setCurrencyTypeModelId(actualEntity.getCurrencyTypeModelId());
-            //changeSW = true;
-            log.debug("TaxModelForm.currencyTypeLov.id: is unchanged");
+            log.debug("TaxModelForm.currencyTypeModel.id: is unchanged");
         }
         return changeSW ? Optional.of(expectedEntity) : Optional.empty();
     }

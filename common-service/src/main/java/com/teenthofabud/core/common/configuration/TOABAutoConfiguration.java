@@ -4,12 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.teenthofabud.core.common.handler.TOABMessageSource;
 import com.teenthofabud.core.common.service.TOABBaseService;
 import com.teenthofabud.core.common.service.impl.TOABBaseServiceImpl;
 import com.teenthofabud.core.common.validator.PatchOperationFormValidator;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
@@ -29,9 +29,9 @@ public class TOABAutoConfiguration {
     }
 
     @Bean
-    public ResourceBundleMessageSource bundleMessageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("messages");
+    public TOABMessageSource messageSource() {
+        TOABMessageSource messageSource = new TOABMessageSource();
+        messageSource.setBasenames("classpath*:common_messages*", "classpath*:messages*");
         return messageSource;
     }
 
@@ -53,4 +53,5 @@ public class TOABAutoConfiguration {
     public TOABBaseService toabBaseService() {
         return new TOABBaseServiceImpl();
     }
+
 }

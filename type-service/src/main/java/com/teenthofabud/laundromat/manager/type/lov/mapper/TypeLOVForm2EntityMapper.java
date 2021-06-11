@@ -30,7 +30,6 @@ public class TypeLOVForm2EntityMapper implements DualChannelMapper<TypeLOVEntity
             log.debug("TypeLOVForm.name: {} is different as TypeLOVEntity.name: {}", form.getName(), actualEntity.getName());
         } else {
             expectedEntity.setName(actualEntity.getName());
-            //changeSW = true;
             log.debug("TypeLOVForm.name: is unchanged");
         }
         if(StringUtils.hasText(form.getDescription()) &&
@@ -40,7 +39,6 @@ public class TypeLOVForm2EntityMapper implements DualChannelMapper<TypeLOVEntity
             log.debug("TypeLOVForm.description: {} is different as TypeLOVEntity.description: {}", form.getDescription(), actualEntity.getDescription());
         } else {
             expectedEntity.setDescription(actualEntity.getDescription());
-            //changeSW = true;
             log.debug("TypeLOVForm.description: is unchanged");
         }
         return changeSW ? Optional.of(expectedEntity) : Optional.empty();

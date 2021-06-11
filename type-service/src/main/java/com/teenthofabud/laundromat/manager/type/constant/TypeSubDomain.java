@@ -1,11 +1,11 @@
 package com.teenthofabud.laundromat.manager.type.constant;
 
-import com.teenthofabud.core.common.data.constant.SubDomain;
+import com.teenthofabud.core.common.constant.SubDomain;
 
 public enum TypeSubDomain implements SubDomain {
 
-    TYPE_LOV("type lov"),
-    TYPE_MODEL("type model");
+    LOV("lov"),
+    MODEL("model");
 
     private String name;
 

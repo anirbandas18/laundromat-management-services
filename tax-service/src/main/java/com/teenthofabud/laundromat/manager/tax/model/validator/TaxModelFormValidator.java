@@ -38,7 +38,7 @@ public class TaxModelFormValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         TaxModelForm form = (TaxModelForm) target;
-        if(form.getTaxTypeModelId() == null || form.getTaxTypeModelId() <= 0L) {
+        if(form.getTaxTypeModelId() == null) {
             log.debug("TaxModelForm.taxTypeModelId is invalid");
             errors.rejectValue("taxTypeModelId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             return;
@@ -62,12 +62,12 @@ public class TaxModelFormValidator implements Validator {
             return;
         } else {
             TaxModelForm.TypeModelForm currencyTypeModelForm = form.getCurrencyTypeModelForm();
-            if(currencyTypeModelForm.getId() == null || currencyTypeModelForm.getId() <= 0L) {
+            if(currencyTypeModelForm.getId() == null) {
                 log.debug("TaxModelForm.currencyTypeModel.id is invalid");
                 errors.rejectValue("currencyTypeModel.id", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
             } else {
-                Errors internalErrors = new DirectFieldBindingResult(form.getTaxTypeModelId(), "TaxModelForm.currencyTypeModelForm.id");
+                Errors internalErrors = new DirectFieldBindingResult(form.getCurrencyTypeModelForm().getId(), "TaxModelForm.currencyTypeModelForm.id");
                 currencyTypeModelValidator.validate(form.getCurrencyTypeModelForm().getId(), internalErrors);
                 if(internalErrors.hasErrors()) {
                     log.debug("TaxModelForm.currencyTypeModelForm.id is invalid");

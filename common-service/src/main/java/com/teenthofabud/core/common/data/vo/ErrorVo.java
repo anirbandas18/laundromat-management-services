@@ -15,5 +15,7 @@ public class ErrorVo {
     private String message;
     @ToString.Include
     private String domain;
+    @ToString.Include
+    private String trace;
 
 }

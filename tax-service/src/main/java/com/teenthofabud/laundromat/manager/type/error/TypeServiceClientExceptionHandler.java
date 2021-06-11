@@ -1,10 +1,10 @@
 package com.teenthofabud.laundromat.manager.type.error;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.teenthofabud.core.common.data.error.TOABErrorCode;
-import com.teenthofabud.core.common.data.error.TOABSystemException;
+import com.teenthofabud.core.common.error.TOABErrorCode;
+import com.teenthofabud.core.common.error.TOABSystemException;
 import com.teenthofabud.core.common.data.vo.ErrorVo;
-import com.teenthofabud.core.common.proxy.TOABBaseFeignExceptionHandler;
+import com.teenthofabud.core.common.proxy.TOABFeignBaseExceptionHandler;
 import feign.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-public class TypeServiceClientExceptionHandler implements TOABBaseFeignExceptionHandler/*<TypeException>*/ {
+public class TypeServiceClientExceptionHandler implements TOABFeignBaseExceptionHandler {
 
     @Autowired
     public void setOm(ObjectMapper om) {

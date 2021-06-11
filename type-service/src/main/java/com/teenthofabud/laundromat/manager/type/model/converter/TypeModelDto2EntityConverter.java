@@ -1,7 +1,7 @@
 package com.teenthofabud.laundromat.manager.type.model.converter;
 
 import com.teenthofabud.core.common.converter.ComparativePatchConverter;
-import com.teenthofabud.core.common.data.error.TOABBaseException;
+import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.laundromat.manager.type.constant.TypeSubDomain;
 import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
 import com.teenthofabud.laundromat.manager.type.error.TypeException;
@@ -67,11 +67,11 @@ public class TypeModelDto2EntityConverter implements ComparativePatchConverter<T
                     log.debug("TypeModelDto.typeLovId is valid");
                 }
                 if(!changeSW[i == 0 ? i : i - 1]) {
-                    throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "typeLovId" });
+                    throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "typeLovId" });
                 }
             }
             if(!changeSW[i == 0 ? i : i - 1]) {
-                throw new TypeException(TypeSubDomain.TYPE_MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "typeLovId" });
+                throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "typeLovId" });
             }
         }
         if(Collections.frequency(Arrays.asList(changeSW), Boolean.TRUE) >= 1) {

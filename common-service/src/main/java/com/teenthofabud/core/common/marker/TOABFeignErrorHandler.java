@@ -1,4 +1,6 @@
-package com.teenthofabud.core.common.proxy;
+package com.teenthofabud.core.common.marker;
+
+import com.teenthofabud.core.common.proxy.TOABFeignBaseExceptionHandler;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,6 +11,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TOABFeignErrorHandler {
 
-    Class<? extends TOABBaseFeignExceptionHandler> value();
+    Class<? extends TOABFeignBaseExceptionHandler> value();
 
 }

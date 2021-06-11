@@ -1,6 +1,6 @@
 package com.teenthofabud.core.common.validator;
 
-import com.teenthofabud.core.common.data.error.TOABErrorCode;
+import com.teenthofabud.core.common.error.TOABErrorCode;
 import com.teenthofabud.core.common.data.form.PatchOperationForm;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;

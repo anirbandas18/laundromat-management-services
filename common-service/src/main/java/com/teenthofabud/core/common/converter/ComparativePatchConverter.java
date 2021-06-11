@@ -1,6 +1,6 @@
 package com.teenthofabud.core.common.converter;
 
-import com.teenthofabud.core.common.data.error.TOABBaseException;
+import com.teenthofabud.core.common.error.TOABBaseException;
 
 @FunctionalInterface
 public interface ComparativePatchConverter<T, S>{

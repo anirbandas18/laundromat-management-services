@@ -42,15 +42,19 @@ public class CurrencyTypeModelValidator implements Validator {
                 log.debug("currencyTypeModel.id is null");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
+            } else if(currencyTypeModelVo.getId() <= 0L) {
+                log.debug("currencyTypeModel.id is negative or zero");
+                errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
+                return;
             } else if (!currencyTypeModelVo.getId().equals(currencyTypeModelId)) {
                 log.debug("currencyTypeModel.id doesn't match with registered value");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
-            } else if (currencyTypeModelVo.getTypeLovVo() == null || currencyTypeModelVo.getTypeLovVo().getId() == null) {
+            } else if (currencyTypeModelVo.getTypeLov() == null || currencyTypeModelVo.getTypeLov().getId() == null) {
                 log.debug("currencyTypeModel.typeLovId is invalid");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
-            } else if (!currencyTypeModelVo.getTypeLovVo().getId().equals(currencyTypeLovId)) {
+            } else if (!currencyTypeModelVo.getTypeLov().getId().equals(currencyTypeLovId)) {
                 log.debug("currencyTypeModel.typeLovId is not for any registered currency type models");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
@@ -58,7 +62,7 @@ public class CurrencyTypeModelValidator implements Validator {
         } catch (TypeException e) {
             log.debug("currencyTypeModelId is invalid");
             log.error("currencyTypeModelId is invalid", e);
-            errors.rejectValue("currencyTypeModelId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
+            errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             return;
         }
     }

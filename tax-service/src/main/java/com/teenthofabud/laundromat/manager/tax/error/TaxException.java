@@ -1,7 +1,7 @@
 package com.teenthofabud.laundromat.manager.tax.error;
 
-import com.teenthofabud.core.common.data.error.TOABBaseException;
-import com.teenthofabud.core.common.data.error.TOABError;
+import com.teenthofabud.core.common.error.TOABBaseException;
+import com.teenthofabud.core.common.error.TOABError;
 import com.teenthofabud.laundromat.manager.tax.constant.TaxSubDomain;
 import lombok.Getter;
 import lombok.Setter;

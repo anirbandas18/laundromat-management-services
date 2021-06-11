@@ -1,14 +1,25 @@
 
 
-(_______|_______|_)   (_)
-    _    _______   ___
-   | |  |  ___  | |   |
-   | |  | |   | |/ / \ \
-   |_|  |_|   |_|_|   |_|
+TTTTTTTTTTTTTTTTTTTTTTT         AAA               XXXXXXX       XXXXXXX
+T:::::::::::::::::::::T        A:::A              X:::::X       X:::::X
+T:::::::::::::::::::::T       A:::::A             X:::::X       X:::::X
+T:::::TT:::::::TT:::::T      A:::::::A            X::::::X     X::::::X
+TTTTTT  T:::::T  TTTTTT     A:::::::::A           XXX:::::X   X:::::XXX
+        T:::::T            A:::::A:::::A             X:::::X X:::::X
+        T:::::T           A:::::A A:::::A             X:::::X:::::X
+        T:::::T          A:::::A   A:::::A             X:::::::::X
+        T:::::T         A:::::A     A:::::A            X:::::::::X
+        T:::::T        A:::::AAAAAAAAA:::::A          X:::::X:::::X
+        T:::::T       A:::::::::::::::::::::A        X:::::X X:::::X
+        T:::::T      A:::::AAAAAAAAAAAAA:::::A    XXX:::::X   X:::::XXX
+      TT:::::::TT   A:::::A             A:::::A   X::::::X     X::::::X
+      T:::::::::T  A:::::A               A:::::A  X:::::X       X:::::X
+      T:::::::::T A:::::A                 A:::::A X:::::X       X:::::X
+      TTTTTTTTTTTAAAAAAA                   AAAAAAAXXXXXXX       XXXXXXX
+
 
    : : ${application.title} : :             (v${application.version})
 
-https://patorjk.com/software/taag/#p=display&f=Rounded&t=TYPE
 
+https://patorjk.com/software/taag/#p=display&f=Doh&t=TAX
 
-   

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
-import com.teenthofabud.core.common.data.constant.TOABBaseMessageTemplate;
-import com.teenthofabud.core.common.data.error.TOABBaseException;
+import com.teenthofabud.core.common.constant.TOABBaseMessageTemplate;
+import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.core.common.data.form.PatchOperationForm;
 import com.teenthofabud.core.common.service.TOABBaseService;
 import com.teenthofabud.laundromat.manager.type.constant.TypeSubDomain;
@@ -109,23 +109,23 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         this.formValidator = formValidator;
     }
 
-    private List<TypeLOVVo> entity2DetailedVoList(List<TypeLOVEntity> studentEntityList) {
-        List<TypeLOVVo> studentDetailsList = new ArrayList<>(studentEntityList.size());
-        for(TypeLOVEntity entity : studentEntityList) {
+    private List<TypeLOVVo> entity2DetailedVoList(List<TypeLOVEntity> typeLovEntityList) {
+        List<TypeLOVVo> typeLovDetailsList = new ArrayList<>(typeLovEntityList.size());
+        for(TypeLOVEntity entity : typeLovEntityList) {
             TypeLOVVo vo = entity2VoConverter.convert(entity);
             log.debug("Converting {} to {}", entity, vo);
-            studentDetailsList.add(vo);
+            typeLovDetailsList.add(vo);
         }
-        return studentDetailsList;
+        return typeLovDetailsList;
     }
 
     @Override
     @Transactional(readOnly = true)
     public Set<TypeLOVVo> retrieveAllByNaturalOrdering() {
         log.info("Requesting all TypeLOVEntity by their natural ordering");
-        List<TypeLOVEntity> studentEntityList = repository.findAll();
+        List<TypeLOVEntity> typeLovEntityList = repository.findAll();
         Set<TypeLOVVo> naturallyOrderedSet = new TreeSet<TypeLOVVo>(CMP_BY_NAME);
-        for(TypeLOVEntity entity : studentEntityList) {
+        for(TypeLOVEntity entity : typeLovEntityList) {
             TypeLOVVo dto = entity2VoConverter.convert(entity);
             log.debug("Converting {} to {}", entity, dto);
             naturallyOrderedSet.add(dto);
@@ -141,12 +141,12 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         Optional<TypeLOVEntity> optEntity = repository.findById(id);
         if(optEntity.isEmpty()) {
             log.debug("No TypeLOVEntity found by id: {}", id);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
         TypeLOVEntity entity = optEntity.get();
         if(!entity.getActive()) {
             log.debug("TypeLOVEntity is inactive by id: {}", id);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_INACTIVE, new Object[] { String.valueOf(id) });
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_INACTIVE, new Object[] { String.valueOf(id) });
         }
         TypeLOVVo vo = entity2VoConverter.convert(entity);
         log.info("Found TypeLOVVo by id: {}", id);
@@ -158,14 +158,14 @@ public class TypeLOVServiceImpl implements TypeLOVService {
     @Transactional(readOnly = true)
     public List<TypeLOVVo> retrieveAllMatchingDetailsByName(String name) throws TypeException {
         log.info("Requesting TypeLOVEntity that match with name: {}", name);
-        List<TypeLOVEntity> studentEntityList = repository.findByNameContaining(name);
-        if(studentEntityList != null && !studentEntityList.isEmpty()) {
-            List<TypeLOVVo> matchedTypeLOVList = entity2DetailedVoList(studentEntityList);
+        List<TypeLOVEntity> typeLovEntityList = repository.findByNameContaining(name);
+        if(typeLovEntityList != null && !typeLovEntityList.isEmpty()) {
+            List<TypeLOVVo> matchedTypeLOVList = entity2DetailedVoList(typeLovEntityList);
             log.info("Found {} TypeLOVVo matching with name: {}", matchedTypeLOVList.size(),name);
             return matchedTypeLOVList;
         }
         log.debug("No TypeLOVVo found matching with name: {}", name);
-        throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "name", name });
+        throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "name", name });
     }
 
     @Override
@@ -175,7 +175,7 @@ public class TypeLOVServiceImpl implements TypeLOVService {
 
         if(form == null) {
             log.debug("TypeLOVForm provided is null");
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
         }
         log.debug("Form details: {}", form);
 
@@ -186,7 +186,7 @@ public class TypeLOVServiceImpl implements TypeLOVService {
             log.debug("TypeLOVForm has {} errors", err.getErrorCount());
             TypeErrorCode ec = TypeErrorCode.valueOf(err.getFieldError().getCode());
             log.debug("TypeLOVForm error detail: {}", ec);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, ec, new Object[] { err.getFieldError().getField(), err.getFieldError().getDefaultMessage() });
+            throw new TypeException(TypeSubDomain.LOV, ec, new Object[] { err.getFieldError().getField() });
         }
         log.debug("All attributes of TypeLOVForm are valid");
 
@@ -194,7 +194,7 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         TypeLOVEntity expectedEntity = form2EntityConverter.convert(form);
         if(repository.existsByName(expectedEntity.getName())) {
             log.debug("TypeLOVEntity already exists with name: {}", expectedEntity.getName());
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_EXISTS,
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_EXISTS,
                     new Object[]{ "name", form.getName() });
         }
         log.debug("No TypeLOVEntity exists with name: {}", expectedEntity.getName());
@@ -205,7 +205,7 @@ public class TypeLOVServiceImpl implements TypeLOVService {
 
         if(actualEntity == null) {
             log.debug("Unable to create {}", expectedEntity);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ACTION_FAILURE,
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ACTION_FAILURE,
                     new Object[]{ "creation", "unable to persist TypeLOVForm details" });
         }
         log.info("Created new TypeLOVForm with id: {}", actualEntity.getId());
@@ -221,20 +221,20 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         Optional<TypeLOVEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
             log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_NO_TYPELOVENTITY_ID_AVAILABLE, id);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
         log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_FOUND_TYPELOVENTITY_ID, id);
 
         TypeLOVEntity actualEntity = optActualEntity.get();
         if(!actualEntity.getActive()) {
             log.debug("TypeLOVEntity is inactive with id: {}", id);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_INACTIVE, new Object[] { String.valueOf(id) });
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_INACTIVE, new Object[] { String.valueOf(id) });
         }
         log.debug("TypeLOVEntity is active with id: {}", id);
 
         if(form == null) {
             log.debug("TypeLOVForm is null");
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
         }
         log.debug("Form details : {}", form);
 
@@ -245,17 +245,17 @@ public class TypeLOVServiceImpl implements TypeLOVService {
             log.debug("TypeLOVForm has {} errors", err.getErrorCount());
             TypeErrorCode ec = TypeErrorCode.valueOf(err.getFieldError().getCode());
             log.debug("TypeLOVForm error detail: {}", ec);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, ec, new Object[] { err.getFieldError().getField(), err.getFieldError().getDefaultMessage() });
+            throw new TypeException(TypeSubDomain.LOV, ec, new Object[] { err.getFieldError().getField(), err.getFieldError().getCode() });
         } else if (!allEmpty) {
             log.debug("All attributes of TypeLOVForm are empty");
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are empty" });
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are empty" });
         }
         log.debug("All attributes of TypeLOVForm are valid");
 
         Optional<TypeLOVEntity> optExpectedEntity = form2EntityMapper.compareAndMap(actualEntity, form);
         if(optExpectedEntity.isEmpty()) {
             log.debug("No new value for attributes of TypeLOVForm");
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are expected with new values" });
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are expected with new values" });
         }
         log.debug("Successfully compared and copied attributes from TypeLOVForm to TypeLOVEntity");
 
@@ -263,7 +263,7 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         TypeLOVEntity expectedEntity = optExpectedEntity.get();
         if(actualEntity.getName().compareTo(expectedEntity.getName()) != 0 && repository.existsByName(expectedEntity.getName())) {
             log.debug("TypeLOVEntity already exists with name: {}", expectedEntity.getName());
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_EXISTS,
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_EXISTS,
                     new Object[]{ "name", actualEntity.getName() });
         }
         log.debug("No TypeLOVEntity exists with name: {}", expectedEntity.getName());
@@ -277,7 +277,7 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         log.debug("Updated: {}", actualEntity);
         if(actualEntity == null) {
             log.debug("Unable to update {}", actualEntity);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ACTION_FAILURE,
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ACTION_FAILURE,
                     new Object[]{ "update", "unable to persist currency type LOV details" });
         }
         log.info("Updated existing TypeLOVEntity with id: {} to version: {}", actualEntity.getId(), actualEntity.getVersion());
@@ -292,14 +292,14 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         Optional<TypeLOVEntity> optEntity = repository.findById(id);
         if(optEntity.isEmpty()) {
             log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_NO_TYPELOVENTITY_ID_AVAILABLE, id);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
         log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_FOUND_TYPELOVENTITY_ID, id);
 
         TypeLOVEntity actualEntity = optEntity.get();
         if(!actualEntity.getActive()) {
             log.debug("TypeLOVEntity is inactive with id: {}", id);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_INACTIVE, new Object[] { String.valueOf(id) });
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_INACTIVE, new Object[] { String.valueOf(id) });
         }
         log.debug("TypeLOVEntity is active with id: {}", id);
 
@@ -310,7 +310,7 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         log.debug("Soft deleted: {}", expectedEntity);
         if(expectedEntity == null) {
             log.debug("Unable to soft delete {}", actualEntity);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ACTION_FAILURE,
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ACTION_FAILURE,
                     new Object[]{ "deletion", "unable to soft delete current type LOV details with id:" + id });
         }
 
@@ -326,25 +326,25 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         Optional<TypeLOVEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
             log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_NO_TYPELOVENTITY_ID_AVAILABLE, id);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
         log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_FOUND_TYPELOVENTITY_ID, id);
 
         TypeLOVEntity actualEntity = optActualEntity.get();
         if(patches == null || (patches != null && patches.isEmpty())) {
             log.debug("TypeLOV patch list not provided");
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
         }
         log.debug("TypeLOV patch list has {} items", patches.size());
 
 
         log.debug("Validating patch list items for TypeLOV");
         try {
-            toabBaseService.validatePatches(patches, TypeErrorCode.TYPE_EXISTS.getDomain() + ":" + TypeSubDomain.TYPE_LOV.name());
+            toabBaseService.validatePatches(patches, TypeErrorCode.TYPE_EXISTS.getDomain() + ":" + TypeSubDomain.LOV.name());
             log.debug("All TypeLOV patch list items are valid");
         } catch (TOABBaseException e) {
             log.debug("Some of the TypeLOV patch item are invalid");
-            throw new TypeException(TypeSubDomain.TYPE_LOV, e.getError(), e.getParameters());
+            throw new TypeException(TypeSubDomain.LOV, e.getError(), e.getParameters());
         }
         log.debug("Validated patch list items for TypeLOV");
 
@@ -353,17 +353,17 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         TypeLOVDto patchedTypeLOVForm = new TypeLOVDto();
         try {
             log.debug("Preparing patch list items for TypeLOV");
-            JsonNode studentDtoTree = om.convertValue(patches, JsonNode.class);
-            JsonPatch studentPatch = JsonPatch.fromJson(studentDtoTree);
+            JsonNode typeLovDtoTree = om.convertValue(patches, JsonNode.class);
+            JsonPatch typeLovPatch = JsonPatch.fromJson(typeLovDtoTree);
             log.debug("Prepared patch list items for TypeLOV");
             JsonNode blankTypeLOVDtoTree = om.convertValue(new TypeLOVDto(), JsonNode.class);
-            JsonNode patchedTypeLOVFormTree = studentPatch.apply(blankTypeLOVDtoTree);
+            JsonNode patchedTypeLOVFormTree = typeLovPatch.apply(blankTypeLOVDtoTree);
             log.debug("Applying patch list items to TypeLOVDto");
             patchedTypeLOVForm = om.treeToValue(patchedTypeLOVFormTree, TypeLOVDto.class);
             log.debug("Applied patch list items to TypeLOVDto");
         } catch (IOException | JsonPatchException e) {
             log.debug("Failed to patch list items to TypeLOVDto: {}", e);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ACTION_FAILURE, new Object[]{ "patching", "internal error: " + e.getMessage() });
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ACTION_FAILURE, new Object[]{ "patching", "internal error: " + e.getMessage() });
         }
         log.debug("Successfully to patch list items to TypeLOVDto");
 
@@ -374,7 +374,7 @@ public class TypeLOVServiceImpl implements TypeLOVService {
             log.debug("Patched TypeLOVDto has {} errors", err.getErrorCount());
             TypeErrorCode ec = TypeErrorCode.valueOf(err.getFieldError().getCode());
             log.debug("Patched TypeLOVDto error detail: {}", ec);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, ec, new Object[] { err.getFieldError().getField(), err.getFieldError().getDefaultMessage() });
+            throw new TypeException(TypeSubDomain.LOV, ec, new Object[] { err.getFieldError().getField() });
         }
         log.debug("All attributes of patched TypeLOVDto are valid");
 
@@ -391,7 +391,7 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         log.debug("Saved patched TypeLOVEntity: {}", actualEntity);
         if(actualEntity == null) {
             log.debug("Unable to patch delete TypeLOVEntity with id:{}", id);
-            throw new TypeException(TypeSubDomain.TYPE_LOV, TypeErrorCode.TYPE_ACTION_FAILURE,
+            throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ACTION_FAILURE,
                     new Object[]{ "patching", "unable to patch currency type LOV details with id:" + id });
         }
         log.info("Patched TypeLOVEntity with id:{}", id);

@@ -1,4 +1,4 @@
-package com.teenthofabud.core.common.data.error;
+package com.teenthofabud.core.common.error;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

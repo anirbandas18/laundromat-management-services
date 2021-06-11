@@ -1,4 +1,4 @@
-package com.teenthofabud.core.common.data.constant;
+package com.teenthofabud.core.common.constant;
 
 public final class TOABBaseMessageTemplate {
 

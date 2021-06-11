@@ -1,6 +1,6 @@
-package com.teenthofabud.core.common.data.error;
+package com.teenthofabud.core.common.error;
 
-import com.teenthofabud.core.common.data.constant.SubDomain;
+import com.teenthofabud.core.common.constant.SubDomain;
 import lombok.Getter;
 import lombok.Setter;
 

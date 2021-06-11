@@ -1,6 +1,6 @@
 package com.teenthofabud.laundromat.manager.type.model.converter;
 
-import com.teenthofabud.core.common.handler.TOABBaseEntityConversionHandler;
+import com.teenthofabud.core.common.handler.TOABBaseEntityAuditHandler;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVEntity;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelEntity;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelForm;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-public class TypeModelForm2EntityConverter extends TOABBaseEntityConversionHandler implements Converter<TypeModelForm, TypeModelEntity> {
+public class TypeModelForm2EntityConverter extends TOABBaseEntityAuditHandler implements Converter<TypeModelForm, TypeModelEntity> {
 
     @Autowired
     public void setTypeLOVRepository(TypeLOVRepository typeLOVRepository) {
