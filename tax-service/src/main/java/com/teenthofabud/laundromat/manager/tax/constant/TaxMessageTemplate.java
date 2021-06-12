@@ -13,4 +13,6 @@ public final class TaxMessageTemplate {
     public static final String MSG_TEMPLATE_TAX_MODEL_ID_VALID = "tax model id: {} is semantically valid";
     public static final String MSG_TEMPLATE_TAX_MODEL_ID_INVALID = "tax model id: {} is invalid";
     public static final String MSG_TEMPLATE_TAX_MODEL_ID_EMPTY = "tax model id is empty";
+
+    public static final String MSG_TEMPLATE_TAX_MODEL_DTO_ID_INVALID = "TaxModelDto.currencyTypeModel.id is invalid";
 }

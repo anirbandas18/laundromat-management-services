@@ -1,5 +1,6 @@
 package com.teenthofabud.laundromat.manager.tax.model.validator;
 
+import com.teenthofabud.core.common.data.form.TypeModelForm;
 import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;
 import com.teenthofabud.laundromat.manager.type.validator.CurrencyTypeModelValidator;
@@ -61,7 +62,7 @@ public class TaxModelFormValidator implements Validator {
             errors.rejectValue("currencyTypeModel", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             return;
         } else {
-            TaxModelForm.TypeModelForm currencyTypeModelForm = form.getCurrencyTypeModel();
+            TypeModelForm currencyTypeModelForm = form.getCurrencyTypeModel();
             if(currencyTypeModelForm.getId() == null) {
                 log.debug("TaxModelForm.currencyTypeModel.id is invalid");
                 errors.rejectValue("currencyTypeModel.id", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());

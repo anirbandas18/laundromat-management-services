@@ -1,10 +1,12 @@
 package com.teenthofabud.laundromat.manager.tax.model.data;
 
+import com.teenthofabud.core.common.data.vo.TypeModelVo;
 import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class TaxModelVo implements Comparable<TaxModelVo> {
 
@@ -26,28 +28,6 @@ public class TaxModelVo implements Comparable<TaxModelVo> {
     @Override
     public int compareTo(TaxModelVo o) {
         return Long.compare(this.id, o.getId());
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static final class TypeModelVo {
-        private Long id;
-        private String name;
-        public TypeModelVo() {
-            this.id = 0L;
-            this.name = "";
-        }
-    }
-
-    public TaxModelVo() {
-        this.id = 0L;
-        this.active = null;
-        this.name = "";
-        this.description = "";
-        this.rate = 0.0F;
-        this.taxTypeModel = new TypeModelVo();
-        this.currencyTypeModel = new TypeModelVo();
     }
 
 }

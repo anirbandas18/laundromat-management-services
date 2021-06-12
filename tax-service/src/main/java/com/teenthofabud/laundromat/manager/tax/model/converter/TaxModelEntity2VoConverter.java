@@ -1,10 +1,10 @@
 package com.teenthofabud.laundromat.manager.tax.model.converter;
 
+import com.teenthofabud.core.common.data.vo.TypeModelVo;
 import com.teenthofabud.core.common.error.TOABSystemException;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelVo;
 import com.teenthofabud.laundromat.manager.type.error.TypeException;
-import com.teenthofabud.laundromat.manager.type.data.TypeModelVo;
 import com.teenthofabud.laundromat.manager.type.proxy.TypeServiceClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +31,13 @@ public class TaxModelEntity2VoConverter implements Converter<TaxModelEntity, Tax
             vo.setId(entity.getId());
             vo.setActive(entity.getActive());
             vo.setRate(entity.getRate());
-            TaxModelVo.TypeModelVo internalTaxTypeModelVo = new TaxModelVo.TypeModelVo();
-            TypeModelVo taxTypeModelVo = typeServiceClient.getTypeModelDetailsById(entity.getTaxTypeModelId());
+            TypeModelVo internalTaxTypeModelVo = new TypeModelVo();
+            com.teenthofabud.laundromat.manager.type.data.TypeModelVo taxTypeModelVo = typeServiceClient.getTypeModelDetailsById(entity.getTaxTypeModelId());
             log.debug("Retrieved: {}", taxTypeModelVo);
             internalTaxTypeModelVo.setId(taxTypeModelVo.getId());
             internalTaxTypeModelVo.setName(taxTypeModelVo.getName());
             vo.setTaxTypeModel(internalTaxTypeModelVo);
-            TaxModelVo.TypeModelVo internalCurrencyTypeModelVo = new TaxModelVo.TypeModelVo();
+            TypeModelVo internalCurrencyTypeModelVo = new TypeModelVo();
             internalCurrencyTypeModelVo.setId(entity.getCurrencyTypeModel().getId());
             internalCurrencyTypeModelVo.setName(entity.getCurrencyTypeModel().getName());
             vo.setCurrencyTypeModel(internalCurrencyTypeModelVo);

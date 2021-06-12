@@ -1,5 +1,6 @@
 package com.teenthofabud.laundromat.manager.tax.model.mapper;
 
+import com.teenthofabud.core.common.data.entity.TypeModelEntity;
 import com.teenthofabud.core.common.mapper.DualChannelMapper;
 import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.laundromat.manager.tax.constant.TaxSubDomain;
@@ -86,7 +87,7 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
             changeSW = true;
             log.debug("TaxModelForm.rate: {} is different as TaxModelEntity.rate: {}", form.getRate(), actualEntity.getRate());
         } else {
-            expectedEntity.setDescription(actualEntity.getDescription());
+            expectedEntity.setRate(actualEntity.getRate());
             log.debug("TaxModelForm.rate: is unchanged");
         }
         if(form.getTaxTypeModelId() != null &&
@@ -106,6 +107,9 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
         } else {
             expectedEntity.setTaxTypeModelId(actualEntity.getTaxTypeModelId());
             log.debug("TaxModelForm.taxTypeModelId: is unchanged");
+        }
+        if(expectedEntity.getCurrencyTypeModel() == null) {
+            expectedEntity.setCurrencyTypeModel(new TypeModelEntity());
         }
         if(form.getCurrencyTypeModel() != null && StringUtils.hasText(form.getCurrencyTypeModel().getName())
                 && !form.getCurrencyTypeModel().getName().equalsIgnoreCase(actualEntity.getCurrencyTypeModel().getName())) {

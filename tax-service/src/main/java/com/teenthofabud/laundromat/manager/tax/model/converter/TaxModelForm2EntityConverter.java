@@ -1,5 +1,6 @@
 package com.teenthofabud.laundromat.manager.tax.model.converter;
 
+import com.teenthofabud.core.common.data.entity.TypeModelEntity;
 import com.teenthofabud.core.common.handler.TOABBaseEntityAuditHandler;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;
@@ -18,7 +19,7 @@ public class TaxModelForm2EntityConverter extends TOABBaseEntityAuditHandler imp
         entity.setDescription(form.getDescription());
         entity.setRate(form.getRate());
         entity.setTaxTypeModelId(form.getTaxTypeModelId());
-        TaxModelEntity.TypeModelEntity currencyTypeModel = new TaxModelEntity.TypeModelEntity();
+        TypeModelEntity currencyTypeModel = new TypeModelEntity();
         currencyTypeModel.setId(form.getCurrencyTypeModel().getId());
         currencyTypeModel.setName(form.getCurrencyTypeModel().getName());
         entity.setCurrencyTypeModel(currencyTypeModel);

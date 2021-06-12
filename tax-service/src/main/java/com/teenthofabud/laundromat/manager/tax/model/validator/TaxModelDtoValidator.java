@@ -1,5 +1,7 @@
 package com.teenthofabud.laundromat.manager.tax.model.validator;
 
+import com.teenthofabud.core.common.data.dto.TypeModelDto;
+import com.teenthofabud.laundromat.manager.tax.constant.TaxMessageTemplate;
 import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelDto;
 import com.teenthofabud.laundromat.manager.type.validator.CurrencyTypeModelValidator;
@@ -54,13 +56,13 @@ public class TaxModelDtoValidator implements Validator {
                     taxTypeModelValidator.validate(taxTypeModelId, internalErrors);
                     if(internalErrors.hasErrors()) {
                         isValid = false;
-                        log.debug("TaxModelDto.taxTypeModelId is invalid");
+                        log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_ID_INVALID);
                     }
                 }
             } catch (NumberFormatException e) {
                 isValid = false;
-                log.debug("TaxModelDto.taxTypeModelId is invalid");
-                log.error("TaxModelDto.taxTypeModelId is invalid", e);
+                log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_ID_INVALID);
+                log.error(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_ID_INVALID, e);
             }
             if(!isValid) {
                 errors.rejectValue("taxTypeModelId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
@@ -68,10 +70,10 @@ public class TaxModelDtoValidator implements Validator {
             }
         }
 
-        Optional<TaxModelDto.TypeModelDto> optCurrencyTypeModel = dto.getCurrencyTypeModel();
+        Optional<TypeModelDto> optCurrencyTypeModel = dto.getCurrencyTypeModel();
         if((optCurrencyTypeModel.isPresent())) {
             boolean isValid = true;
-            TaxModelDto.TypeModelDto currencyTypeModel = optCurrencyTypeModel.get();
+            TypeModelDto currencyTypeModel = optCurrencyTypeModel.get();
             Optional<String> optCurrencyTypeModelId = currencyTypeModel.getId();
             if(optCurrencyTypeModelId.isPresent()) {
                 String currencyTypeModelIdExpected = optCurrencyTypeModelId.get();

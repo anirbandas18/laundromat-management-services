@@ -1,10 +1,11 @@
 package com.teenthofabud.laundromat.manager.tax.model.converter;
 
 import com.teenthofabud.core.common.converter.ComparativePatchConverter;
+import com.teenthofabud.core.common.data.dto.TypeModelDto;
+import com.teenthofabud.core.common.data.entity.TypeModelEntity;
 import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelDto;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
-import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -56,10 +57,10 @@ public class TaxModelDto2EntityConverter implements ComparativePatchConverter<Ta
             changeSW[i++] = true;
             log.debug("TaxModelDto.taxTypeModelId is valid");
         }
-        Optional<TaxModelDto.TypeModelDto> optCurrencyTypeModel = dto.getCurrencyTypeModel();
+        Optional<TypeModelDto> optCurrencyTypeModel = dto.getCurrencyTypeModel();
         if(optCurrencyTypeModel.isPresent()) {
-            TaxModelDto.TypeModelDto currencyTypeModelDto = optCurrencyTypeModel.get();
-            TaxModelEntity.TypeModelEntity currencyTypeModelEntity = new TaxModelEntity.TypeModelEntity();
+            TypeModelDto currencyTypeModelDto = optCurrencyTypeModel.get();
+            TypeModelEntity currencyTypeModelEntity = new TypeModelEntity();
             Optional<String> optCurrencyTypeModelId = currencyTypeModelDto.getId();
             boolean isPresent = false;
             if(optCurrencyTypeModelId.isPresent()) {
@@ -68,7 +69,7 @@ public class TaxModelDto2EntityConverter implements ComparativePatchConverter<Ta
                 log.debug("TaxModelDto.currencyTypeModel.id is valid");
             }
             Optional<String> optCurrencyTypeModelName = currencyTypeModelDto.getName();
-            if(optCurrencyTypeModelName.isPresent() && StringUtils.isEmpty(optCurrencyTypeModelName.get())) {
+            if(optCurrencyTypeModelName.isPresent() && !StringUtils.isEmpty(optCurrencyTypeModelName.get())) {
                 currencyTypeModelEntity.setName(optCurrencyTypeModelName.get());
                 changeSW[i++] = isPresent = true;
                 log.debug("TaxModelDto.currencyTypeModel.name is valid");

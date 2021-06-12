@@ -1,5 +1,6 @@
 package com.teenthofabud.laundromat.manager.tax.model.mapper;
 
+import com.teenthofabud.core.common.data.entity.TypeModelEntity;
 import com.teenthofabud.core.common.mapper.SingleChannelMapper;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,7 @@ public class TaxModelEntitySelfMapper implements SingleChannelMapper<TaxModelEnt
     @Override
     public Optional<TaxModelEntity> compareAndMap(TaxModelEntity source, TaxModelEntity target) {
         boolean changeSW = false;
-        if(source.getId() != null && source.getId() > 0 && !source.getId().equals(target.getId())) {
+         if(source.getId() != null && source.getId() > 0 && !source.getId().equals(target.getId())) {
             target.setId(source.getId());
             changeSW = true;
             log.debug("Source TaxModelEntity.id is valid");
@@ -42,12 +43,18 @@ public class TaxModelEntitySelfMapper implements SingleChannelMapper<TaxModelEnt
         }
         if(source.getCurrencyTypeModel() != null && source.getCurrencyTypeModel().getId() != null && source.getCurrencyTypeModel().getId() > 0
                 && !source.getCurrencyTypeModel().getId().equals(target.getCurrencyTypeModel().getId())) {
+            if(target.getCurrencyTypeModel() == null) {
+                target.setCurrencyTypeModel(new TypeModelEntity());
+            }
             target.getCurrencyTypeModel().setId(source.getCurrencyTypeModel().getId());
             changeSW = true;
             log.debug("Source TaxModelEntity.currencyTypeModelId is valid");
         }
         if(source.getCurrencyTypeModel() != null && StringUtils.hasText(source.getCurrencyTypeModel().getName())
                 && source.getCurrencyTypeModel().getName().compareTo(target.getCurrencyTypeModel().getName()) != 0) {
+            if(target.getCurrencyTypeModel() == null) {
+                target.setCurrencyTypeModel(new TypeModelEntity());
+            }
             target.getCurrencyTypeModel().setName(source.getCurrencyTypeModel().getName());
             changeSW = true;
             log.debug("Source TaxModelEntity.currencyName is valid");
