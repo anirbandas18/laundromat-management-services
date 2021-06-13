@@ -1,9 +1,9 @@
-package com.teenthofabud.laundromat.manager.type.validator;
+package com.teenthofabud.laundromat.manager.tax.integration.type.validator;
 
 import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
-import com.teenthofabud.laundromat.manager.type.error.TypeException;
-import com.teenthofabud.laundromat.manager.type.data.TypeModelVo;
-import com.teenthofabud.laundromat.manager.type.proxy.TypeServiceClient;
+import com.teenthofabud.laundromat.manager.tax.integration.type.error.TypeException;
+import com.teenthofabud.laundromat.manager.tax.integration.type.proxy.TypeServiceClient;
+import com.teenthofabud.laundromat.manager.tax.integration.type.data.TypeModelVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

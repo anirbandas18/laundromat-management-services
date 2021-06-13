@@ -1,4 +1,4 @@
-package com.teenthofabud.laundromat.manager;
+package com.teenthofabud.laundromat.manager.tax;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

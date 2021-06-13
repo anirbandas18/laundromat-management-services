@@ -4,8 +4,8 @@ import com.teenthofabud.core.common.data.dto.TypeModelDto;
 import com.teenthofabud.laundromat.manager.tax.constant.TaxMessageTemplate;
 import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelDto;
-import com.teenthofabud.laundromat.manager.type.validator.CurrencyTypeModelValidator;
-import com.teenthofabud.laundromat.manager.type.validator.TaxTypeModelValidator;
+import com.teenthofabud.laundromat.manager.tax.integration.type.validator.CurrencyTypeModelValidator;
+import com.teenthofabud.laundromat.manager.tax.integration.type.validator.TaxTypeModelValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -56,13 +56,13 @@ public class TaxModelDtoValidator implements Validator {
                     taxTypeModelValidator.validate(taxTypeModelId, internalErrors);
                     if(internalErrors.hasErrors()) {
                         isValid = false;
-                        log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_ID_INVALID);
+                        log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID);
                     }
                 }
             } catch (NumberFormatException e) {
                 isValid = false;
-                log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_ID_INVALID);
-                log.error(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_ID_INVALID, e);
+                log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID);
+                log.error(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID, e);
             }
             if(!isValid) {
                 errors.rejectValue("taxTypeModelId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
@@ -87,13 +87,13 @@ public class TaxModelDtoValidator implements Validator {
                         currencyTypeModelValidator.validate(currencyTypeModelIdActual, internalErrors);
                         if(internalErrors.hasErrors()) {
                             isValid = false;
-                            log.debug("TaxModelDto.currencyTypeModel.id is invalid");
+                            log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID);
                         }
                     }
                 } catch (NumberFormatException e) {
                     isValid = false;
-                    log.debug("TaxModelDto.currencyTypeModel.id is invalid");
-                    log.error("TaxModelDto.currencyTypeModel.id is invalid", e);
+                    log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID);
+                    log.error(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID, e);
                 }
 
             }

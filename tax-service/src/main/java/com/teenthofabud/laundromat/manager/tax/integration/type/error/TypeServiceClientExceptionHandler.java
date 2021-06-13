@@ -1,4 +1,4 @@
-package com.teenthofabud.laundromat.manager.type.error;
+package com.teenthofabud.laundromat.manager.tax.integration.type.error;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teenthofabud.core.common.error.TOABErrorCode;

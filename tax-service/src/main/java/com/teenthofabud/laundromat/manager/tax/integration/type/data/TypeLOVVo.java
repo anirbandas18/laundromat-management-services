@@ -1,4 +1,4 @@
-package com.teenthofabud.laundromat.manager.type.data;
+package com.teenthofabud.laundromat.manager.tax.integration.type.data;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class TypeModelVo implements Comparable<TypeModelVo> {
+public class TypeLOVVo implements Comparable<TypeLOVVo> {
 
     @ToString.Include
     private Long id;
@@ -17,11 +17,9 @@ public class TypeModelVo implements Comparable<TypeModelVo> {
     private String name;
     @ToString.Include
     private String description;
-    @ToString.Include
-    private TypeLOVVo typeLov;
 
     @Override
-    public int compareTo(TypeModelVo o) {
+    public int compareTo(TypeLOVVo o) {
         return Long.compare(this.id, o.getId());
     }
 }

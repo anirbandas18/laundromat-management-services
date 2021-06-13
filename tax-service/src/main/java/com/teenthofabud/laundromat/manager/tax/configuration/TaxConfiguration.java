@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableFeignClients(basePackages = "com.teenthofabud.laundromat.manager.type.proxy")
+@EnableFeignClients(basePackages = "com.teenthofabud.laundromat.manager.tax.integration.type.proxy")
 @EnableEurekaClient
 public class TaxConfiguration {
 
@@ -24,7 +24,7 @@ public class TaxConfiguration {
 
     @Bean
     public ErrorDecoder errorDecoder() {
-        return new TOABFeignErrorDecoderFactory(applicationContext, "com.teenthofabud.laundromat.manager.type.proxy");
+        return new TOABFeignErrorDecoderFactory(applicationContext, "com.teenthofabud.laundromat.manager.tax.integration.type.proxy");
     }
 
 }

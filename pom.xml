@@ -11,14 +11,14 @@
 
     <groupId>com.teenthofabud.laundromat.manager</groupId>
     <artifactId>laundromat-management-services</artifactId>
-    <version>0.5.1-SNAPSHOT</version>
+    <version>0.5.2-SNAPSHOT</version>
     <name>laundromat-management-services</name>
     <packaging>pom</packaging>
 
     <modules>
         <module>type-service</module>
         <module>tax-service</module>
-        <module>discount-service</module>
+        <!--<module>discount-service</module>-->
         <module>common-service</module>
     </modules>
 
@@ -34,6 +34,7 @@
         <jackson-datatype-jdk8.version>2.12.3</jackson-datatype-jdk8.version>
         <javax.json-api.version>1.1.4</javax.json-api.version>
         <springdoc.version>1.5.2</springdoc.version>
+        <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
     </properties>
 
     <dependencies>
@@ -139,6 +140,11 @@
             <groupId>com.teenthofabud.core.common</groupId>
             <artifactId>teenthofabud-common-api</artifactId>
             <version>${teenthofabud-common-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-logback-encoder.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

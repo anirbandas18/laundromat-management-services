@@ -1,4 +1,4 @@
-package com.teenthofabud.laundromat.manager.type.error;
+package com.teenthofabud.laundromat.manager.tax.integration.type.error;
 
 import com.teenthofabud.core.common.error.TOABFeignException;
 import lombok.Getter;

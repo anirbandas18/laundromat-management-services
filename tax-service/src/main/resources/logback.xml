@@ -6,6 +6,7 @@
     <property resource="bootstrap.properties" />
     <property name="LOGS_DIR" value="logs" />
     <property name="LOG_FILE_NAME" value="${spring.application.name}" />
+    <property name="LOGSTASH_HOST" value="${logstash.host}" />
 
     <appender name="Console"
               class="ch.qos.logback.core.ConsoleAppender">
@@ -34,21 +35,28 @@
         </rollingPolicy>
     </appender>
 
+    <appender name="Stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>${LOGSTASH_HOST}</destination>
+
+        <keepAliveDuration>1 minute</keepAliveDuration>
+        <reconnectionDelay>1 second</reconnectionDelay>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeCallerData>true</includeCallerData>
+        </encoder>
+    </appender>
+
     <!-- LOG everything at INFO level -->
     <root level="info">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
+        <appender-ref ref="Stash" />
     </root>
 
     <!-- LOG "com.baeldung*" at TRACE level -->
     <logger name="com.teenthofabud.laundromat.manager.tax" level="info" additivity="false">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
-    </logger>
-
-    <logger name="com.teenthofabud.laundromat.manager.type" level="info" additivity="false">
-        <appender-ref ref="RollingFile" />
-        <appender-ref ref="Console" />
+        <appender-ref ref="Stash" />
     </logger>
 
     <logger name="logging.level.org.hibernate.SQL" level="debug">
