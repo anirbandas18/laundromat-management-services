@@ -2,13 +2,20 @@ package com.teenthofabud.laundromat.manager.type.lov.controller;
 
 import com.teenthofabud.core.common.constant.TOABBaseMessageTemplate;
 import com.teenthofabud.core.common.data.form.PatchOperationForm;
+import com.teenthofabud.core.common.data.vo.ErrorVo;
 import com.teenthofabud.laundromat.manager.type.constant.TypeMessageTemplate;
-import com.teenthofabud.laundromat.manager.type.constant.TypeSubDomain;
 import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
-import com.teenthofabud.laundromat.manager.type.error.TypeException;
+import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVException;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVForm;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVVo;
 import com.teenthofabud.laundromat.manager.type.lov.service.TypeLOVService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +31,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("lov")
 @Slf4j
+@Tag(name = "Type LOV API", description = "Manage Type LOVs and their details")
 public class TypeLOVController {
 
     @Autowired
@@ -33,8 +41,22 @@ public class TypeLOVController {
 
     private TypeLOVService service;
 
+    @Operation(summary = "Create new Type LOV details by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Id of newly created Type LOV",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Void.class)) }),
+            @ApiResponse(responseCode = "400", description = "Type LOV attribute's value is invalid",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+            @ApiResponse(responseCode = "409", description = "Type LOV already exists with the given attribute values",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+            @ApiResponse(responseCode = "422", description = "No Type LOV attributes provided",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+            @ApiResponse(responseCode = "500", description = "Internal system error while trying to create new Type LOV",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) })
+    })
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Long> postNewTypeLOV(@RequestBody(required = false) TypeLOVForm form) throws TypeException {
+    public ResponseEntity<Long> postNewTypeLOV(@RequestBody(required = false) TypeLOVForm form) throws TypeLOVException {
         log.debug("Requesting to create new type LOV");
         if(form != null) {
             Long id = service.createTypeLOV(form);
@@ -42,12 +64,26 @@ public class TypeLOVController {
             return ResponseEntity.status(HttpStatus.CREATED).body(id);
         }
         log.debug("TypeLOVForm is null");
-        throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
+        throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
                 new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
     }
 
+    @Operation(summary = "Update Type LOV details by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Updated details of Type LOV",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Void.class)) }),
+            @ApiResponse(responseCode = "400", description = "Type LOV attribute's value is invalid/Type LOV is inactive",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+            @ApiResponse(responseCode = "404", description = "No Type LOV found with the given id",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+            @ApiResponse(responseCode = "409", description = "Type LOV already exists with the given attribute values",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+            @ApiResponse(responseCode = "500", description = "Internal system error while trying to update Type LOV details",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) })
+    })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(path = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> putExistingTypeLOV(@PathVariable String id, @RequestBody(required = false) TypeLOVForm form) throws TypeException {
+    public ResponseEntity<Void> putExistingTypeLOV(@PathVariable String id, @RequestBody(required = false) TypeLOVForm form) throws TypeLOVException {
         log.debug("Requesting to update all attributes of existing type LOV");
         if(StringUtils.hasText(id)) {
             try {
@@ -59,19 +95,33 @@ public class TypeLOVController {
                     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
                 }
                 log.debug("TypeLOVForm is null");
-                throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
+                throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
                         new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
                 log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
-                throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
+                throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
-        throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
+        throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
+    @Operation(summary = "Soft delete Type LOV by id and all associated Type Models")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Soft deleted Type LOV",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Void.class)) }),
+            @ApiResponse(responseCode = "400", description = "Type LOV id is invalid/Type LOV is inactive",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+            @ApiResponse(responseCode = "404", description = "No Type LOV found with the given id",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+            @ApiResponse(responseCode = "422", description = "No Type LOV attribute patches provided",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+            @ApiResponse(responseCode = "500", description = "Internal system error while trying to soft delete Type LOV",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) })
+    })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteExistingTypeLOV(@PathVariable String id) throws TypeException {
+    public ResponseEntity<Void> deleteExistingTypeLOV(@PathVariable String id) throws TypeLOVException {
         log.debug("Requesting to soft delete type LOV");
         if(StringUtils.hasText(id)) {
             try {
@@ -82,16 +132,30 @@ public class TypeLOVController {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } catch (NumberFormatException e) {
                 log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
-                throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
+                throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
-        throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
+        throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
+    @Operation(summary = "Patch Type LOV attributes by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Patched each provided attribute of Type LOV with the given value",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Void.class)) }),
+            @ApiResponse(responseCode = "400", description = "Type LOV attribute/value is invalid",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+            @ApiResponse(responseCode = "404", description = "No Type LOV found with the given id",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+            @ApiResponse(responseCode = "422", description = "No Type LOV attribute patches provided",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+            @ApiResponse(responseCode = "500", description = "Internal system error while trying to patch provided attributes of Type LOV with the given values",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) })
+    })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(path = "{id}", consumes = "application/json-patch+json")
     public ResponseEntity<Void> patchExistingTypeLOV(@PathVariable String id, @RequestBody(required = false) List<PatchOperationForm> dtoList)
-            throws TypeException {
+            throws TypeLOVException {
         log.debug("Requesting to patch of type LOV attributes");
         if(StringUtils.hasText(id)) {
             try {
@@ -103,17 +167,23 @@ public class TypeLOVController {
                     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
                 }
                 log.debug("type LOV patch document is null");
-                throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
+                throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
                         new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
                 log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
-                throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
+                throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
-        throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
+        throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
+    @Operation(summary = "Get all Type LOV details")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retrieve all available Type LOVs and their details",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, array = @ArraySchema(schema = @Schema(implementation = TypeLOVVo.class))) })
+    })
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public Set<TypeLOVVo> getAllTypeLOVNaturallyOrdered() {
         log.debug("Requesting all available type LOVs by their natural orders");
@@ -122,8 +192,18 @@ public class TypeLOVController {
         return naturallyOrderedStudents;
     }
 
+    @Operation(summary = "Get all Type LOV details by name")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Retrieve all available Type LOVs and their details that match the given name",
+            content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, array = @ArraySchema(schema = @Schema(implementation = TypeLOVVo.class))) }),
+        @ApiResponse(responseCode = "400", description = "Type LOV name is invalid",
+            content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+        @ApiResponse(responseCode = "404", description = "No Type LOVs available with the given name",
+            content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) })
+    })
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("name/{name}")
-    public List<TypeLOVVo> getAllStudentsByName(@PathVariable String name) throws TypeException {
+    public List<TypeLOVVo> getAllStudentsByName(@PathVariable String name) throws TypeLOVException {
         log.debug("Requesting all available type LOVs with given name");
         if(StringUtils.hasText(name)) {
             List<TypeLOVVo> matchedByNames = service.retrieveAllMatchingDetailsByName(name);
@@ -131,11 +211,21 @@ public class TypeLOVController {
             return matchedByNames;
         }
         log.debug("type LOV name is empty");
-        throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "name", name });
+        throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "name", name });
     }
 
+    @Operation(summary = "Get Type LOV details by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retrieve the details of Type LOV that matches the given id",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TypeLOVVo.class)) }),
+            @ApiResponse(responseCode = "400", description = "Type LOV id is invalid",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
+            @ApiResponse(responseCode = "404", description = "No Type LOV found with the given id",
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) })
+    })
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("{id}")
-    public TypeLOVVo getTypeLOVDetailsById(@PathVariable String id) throws TypeException {
+    public TypeLOVVo getTypeLOVDetailsById(@PathVariable String id) throws TypeLOVException {
         log.debug("Requesting all available type LOVs by its id");
         if(StringUtils.hasText(id)) {
             try {
@@ -146,11 +236,11 @@ public class TypeLOVController {
                 return studentDetails;
             } catch (NumberFormatException e) {
                 log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
-                throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
+                throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
         log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
-        throw new TypeException(TypeSubDomain.LOV, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
+        throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
 }

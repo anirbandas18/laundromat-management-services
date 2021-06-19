@@ -11,13 +11,13 @@
 
     <groupId>com.teenthofabud.laundromat.manager</groupId>
     <artifactId>laundromat-management-services</artifactId>
-    <version>0.5.2-SNAPSHOT</version>
+    <version>0.2.4-SNAPSHOT</version>
     <name>laundromat-management-services</name>
     <packaging>pom</packaging>
 
     <modules>
         <module>type-service</module>
-        <module>tax-service</module>
+        <!--<module>tax-service</module>-->
         <!--<module>discount-service</module>-->
         <module>common-service</module>
     </modules>
@@ -29,12 +29,14 @@
         <sonar.organization>teenthofabud</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
-        <teenthofabud-common-api.version>0.6.0-SNAPSHOT</teenthofabud-common-api.version>
+        <teenthofabud-common-api.version>0.6.1-SNAPSHOT</teenthofabud-common-api.version>
         <json-patch.version>1.13</json-patch.version>
         <jackson-datatype-jdk8.version>2.12.3</jackson-datatype-jdk8.version>
         <javax.json-api.version>1.1.4</javax.json-api.version>
         <springdoc.version>1.5.2</springdoc.version>
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
+        <maven-surefire.version>3.0.0-M5</maven-surefire.version>
+        <janino.version>3.1.4</janino.version>
     </properties>
 
     <dependencies>
@@ -123,6 +125,11 @@
             <version>${javax.json-api.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+            <version>${janino.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
@@ -131,6 +138,11 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -191,5 +203,15 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire.version}</version>
+            </plugin>
+        </plugins>
+    </reporting>
 
 </project>

@@ -16,7 +16,7 @@ public interface TOABBaseWebExceptionHandler {
         String msg = messageSource.getMessage(e.getError().getErrorCode(), null, Locale.US);
         if(e.getParameters() != null) {
             Deque<Object> parameters = new ArrayDeque<>(Arrays.asList(e.getParameters()));
-            parameters.addFirst(e.getSubDomain().getName());
+            parameters.addFirst(e.getSubDomain());
             msg = String.format(msg, parameters.toArray(new Object[parameters.size()]));
         }
         vo.setCode(e.getError().getErrorCode());
@@ -30,13 +30,12 @@ public interface TOABBaseWebExceptionHandler {
         String msg = messageSource.getMessage(e.getError().getErrorCode(), null, Locale.getDefault());
         if(e.getParameters() != null) {
             Deque<Object> parameters = new ArrayDeque<>(Arrays.asList(e.getParameters()));
-            parameters.addFirst(e.getSubDomain().getName());
             msg = String.format(msg, parameters.toArray(new Object[parameters.size()]));
         }
-        String domain = String.join(" - ", Arrays.asList(e.getError().getDomain(), e.getSubDomain().getName()));
+        String domainAndSubDomain = String.join(" - ", Arrays.asList(e.getError().getDomain(), e.getSubDomain()));
         vo.setCode(e.getError().getErrorCode());
         vo.setMessage(msg);
-        vo.setDomain(domain);
+        vo.setDomain(domainAndSubDomain);
         vo.setTrace(tracer.currentSpan().context().traceIdString());
         return ResponseEntity.status(e.getError().getHttpStatusCode()).body(vo);
     }

@@ -64,17 +64,13 @@ public class TypeModelDtoValidator implements Validator {
             return;
         }
         Optional<String> optName = dto.getName();
-        if((optName.isPresent()) && StringUtils.isEmpty(optName.get())) {
+        if(optName.isPresent() && StringUtils.isEmpty(optName.get())) {
             errors.rejectValue("name", TypeErrorCode.TYPE_ATTRIBUTE_INVALID.name());
             log.debug("TypeModelDto.name is invalid");
             return;
         }
         Optional<String> optActive = dto.getActive();
-        if(!optActive.isPresent() || (optActive.isPresent() && StringUtils.isEmpty(optActive.get()))) {
-            errors.rejectValue("active", TypeErrorCode.TYPE_ATTRIBUTE_INVALID.name());
-            log.debug("TypeModelDto.active is invalid");
-            return;
-        } else {
+        if(optActive.isPresent() && StringUtils.hasText(optActive.get())) {
             Boolean trueSW = optActive.get().equalsIgnoreCase(Boolean.TRUE.toString());
             Boolean falseSW = optActive.get().equalsIgnoreCase(Boolean.FALSE.toString());
             if(!trueSW && !falseSW) {

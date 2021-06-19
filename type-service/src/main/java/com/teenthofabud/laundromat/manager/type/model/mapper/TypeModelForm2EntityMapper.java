@@ -2,12 +2,11 @@ package com.teenthofabud.laundromat.manager.type.model.mapper;
 
 import com.teenthofabud.core.common.mapper.DualChannelMapper;
 import com.teenthofabud.core.common.error.TOABBaseException;
-import com.teenthofabud.laundromat.manager.type.constant.TypeSubDomain;
 import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
-import com.teenthofabud.laundromat.manager.type.error.TypeException;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVEntity;
 import com.teenthofabud.laundromat.manager.type.lov.repository.TypeLOVRepository;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelEntity;
+import com.teenthofabud.laundromat.manager.type.model.data.TypeModelException;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelForm;
 import com.teenthofabud.laundromat.manager.type.model.validator.TypeLOVValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +59,7 @@ public class TypeModelForm2EntityMapper implements DualChannelMapper<TypeModelEn
         if(StringUtils.hasText(form.getDescription()) &&
                 form.getDescription().toLowerCase().compareTo(actualEntity.getDescription().toLowerCase()) != 0) {
             expectedEntity.setDescription(form.getDescription());
+            changeSW = true;
             log.debug("TypeModelForm.description: {} is different as TypeModelEntity.description: {}", form.getDescription(), actualEntity.getDescription());
         } else {
             expectedEntity.setDescription(actualEntity.getDescription());
@@ -71,7 +71,7 @@ public class TypeModelForm2EntityMapper implements DualChannelMapper<TypeModelEn
             typeLOVValidator.validate(form.getTypeLovId(), internalError);
             if(internalError.hasGlobalErrors()) {
                 log.debug("TypeModelForm.typeLovId: corresponding {} is invalid", internalError.getGlobalError().getCode());
-                throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object [] { "typeLovId", String.valueOf(form.getTypeLovId()) });
+                throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object [] { "typeLovId", String.valueOf(form.getTypeLovId()) });
             } else {
                 Optional<TypeLOVEntity> optTypeLOVEntity = typeLOVRepository.findById(form.getTypeLovId());
                 expectedEntity.setTypeLov(optTypeLOVEntity.get());

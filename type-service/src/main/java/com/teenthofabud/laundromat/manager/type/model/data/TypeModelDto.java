@@ -20,10 +20,10 @@ public class TypeModelDto {
     private Optional<String> active;
 
     public TypeModelDto() {
-        this.name = Optional.empty();
-        this.typeLovId = Optional.empty();
-        this.description = Optional.empty();
-        this.active = Optional.empty();
+        this.name = Optional.ofNullable(null);
+        this.typeLovId = Optional.ofNullable(null);
+        this.description = Optional.ofNullable(null);
+        this.active = Optional.ofNullable(null);
     }
 
 }

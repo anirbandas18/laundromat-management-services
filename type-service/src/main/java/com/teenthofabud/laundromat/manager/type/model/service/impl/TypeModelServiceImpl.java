@@ -7,22 +7,19 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import com.teenthofabud.core.common.constant.TOABBaseMessageTemplate;
 import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.core.common.data.form.PatchOperationForm;
+import com.teenthofabud.core.common.error.TOABSystemException;
 import com.teenthofabud.core.common.service.TOABBaseService;
 import com.teenthofabud.laundromat.manager.type.constant.TypeMessageTemplate;
-import com.teenthofabud.laundromat.manager.type.constant.TypeSubDomain;
+import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVException;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVVo;
 import com.teenthofabud.laundromat.manager.type.lov.service.TypeLOVService;
 import com.teenthofabud.laundromat.manager.type.model.converter.TypeModelDto2EntityConverter;
 import com.teenthofabud.laundromat.manager.type.model.converter.TypeModelEntity2VoConverter;
 import com.teenthofabud.laundromat.manager.type.model.converter.TypeModelForm2EntityConverter;
-import com.teenthofabud.laundromat.manager.type.model.data.TypeModelDto;
-import com.teenthofabud.laundromat.manager.type.model.data.TypeModelEntity;
-import com.teenthofabud.laundromat.manager.type.model.data.TypeModelForm;
-import com.teenthofabud.laundromat.manager.type.model.data.TypeModelVo;
+import com.teenthofabud.laundromat.manager.type.model.data.*;
 import com.teenthofabud.laundromat.manager.type.model.mapper.TypeModelEntitySelfMapper;
 import com.teenthofabud.laundromat.manager.type.model.mapper.TypeModelForm2EntityMapper;
 import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
-import com.teenthofabud.laundromat.manager.type.error.TypeException;
 import com.teenthofabud.laundromat.manager.type.model.repository.TypeModelRepository;
 import com.teenthofabud.laundromat.manager.type.model.service.TypeModelService;
 import com.teenthofabud.laundromat.manager.type.model.validator.TypeModelDtoValidator;
@@ -32,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.DirectFieldBindingResult;
 import org.springframework.validation.Errors;
 
@@ -154,18 +152,14 @@ public class TypeModelServiceImpl implements TypeModelService {
 
     @Override
     @Transactional(readOnly = true)
-    public TypeModelVo retrieveDetailsById(long id) throws TypeException {
+    public TypeModelVo retrieveDetailsById(long id) throws TypeModelException {
         log.info("Requesting TypeModelEntity by id: {}", id);
         Optional<TypeModelEntity> optEntity = repository.findById(id);
         if(optEntity.isEmpty()) {
             log.debug("No TypeModelEntity found by id: {}", id);
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
+            throw new TypeModelException(TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
         TypeModelEntity entity = optEntity.get();
-        if(!entity.getActive()) {
-            log.debug("TypeModelEntity is inactive by id: {}", id);
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_INACTIVE, new Object[] { String.valueOf(id) });
-        }
         TypeModelVo vo = entity2VoConverter.convert(entity);
         log.info("Found TypeModelVo by id: {}", id);
         return vo;
@@ -173,15 +167,24 @@ public class TypeModelServiceImpl implements TypeModelService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<TypeModelVo> retrieveDetailsByTypeLOVId(long typeLovId) throws TypeException {
+    public List<TypeModelVo> retrieveDetailsByTypeLOVId(long typeLovId) throws TypeModelException {
         log.info("Requesting TypeModelEntity that belong to typeLovId: {}", typeLovId);
 
         log.info("Requesting TypeLOVEntity by typeLovId: {}", typeLovId);
-        TypeLOVVo typeLOvVo = typeLovService.retrieveDetailsById(typeLovId);
-        if(!typeLOvVo.getActive()) {
-            log.debug("No TypeLOVEntity is inactive with typeLovId: {}", typeLovId);
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "typeLovId", String.valueOf(typeLovId) });
+        TypeLOVVo typeLovVo = null;
+        try {
+            typeLovVo = typeLovService.retrieveDetailsById(typeLovId);
+        } catch (TypeLOVException e) {
+            log.debug("Unable to retrieve TypeLOVEntity with typeLovId: {}", typeLovId);
+            throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "typeLovId", String.valueOf(typeLovId) });
         }
+        log.debug("Retrieved TypeLOVEntity with typeLovId: {}", typeLovId);
+
+        if(typeLovVo != null && !typeLovVo.getActive()) {
+            log.debug("TypeLOVEntity is inactive with typeLovId: {}", typeLovId);
+            throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "typeLovId", String.valueOf(typeLovId) });
+        }
+        log.debug("TypeLOVEntity is active with typeLovId: {}", typeLovId);
 
         List<TypeModelEntity> typeModelEntityList = repository.findByTypeLovId(typeLovId);
         if(typeModelEntityList != null && !typeModelEntityList.isEmpty()) {
@@ -190,14 +193,14 @@ public class TypeModelServiceImpl implements TypeModelService {
             return matchedTypeModelList;
         }
         log.debug("No TypeModelVo found belonging to typeLovId: {}", typeLovId);
-        throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "typeLovId", String.valueOf(typeLovId) });
+        throw new TypeModelException(TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "typeLovId", String.valueOf(typeLovId) });
 
     }
 
 
     @Override
     @Transactional(readOnly = true)
-    public List<TypeModelVo> retrieveAllMatchingDetailsByName(String name) throws TypeException {
+    public List<TypeModelVo> retrieveAllMatchingDetailsByName(String name) throws TypeModelException {
         log.info("Requesting TypeModelEntity that match with name: {}", name);
         List<TypeModelEntity> typeModelEntityList = repository.findByNameContaining(name);
         if(typeModelEntityList != null && !typeModelEntityList.isEmpty()) {
@@ -206,17 +209,17 @@ public class TypeModelServiceImpl implements TypeModelService {
             return matchedTypeModelList;
         }
         log.debug("No TypeModelVo found matching with name: {}", name);
-        throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "name", name });
+        throw new TypeModelException(TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "name", name });
     }
 
     @Override
     @Transactional
-    public Long createTypeModel(TypeModelForm form) throws TypeException {
+    public Long createTypeModel(TypeModelForm form) throws TypeModelException {
         log.info("Creating new TypeModelEntity");
 
         if(form == null) {
             log.debug("TypeModelForm provided is null");
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
+            throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
         }
         log.debug("Form details: {}", form);
 
@@ -227,14 +230,14 @@ public class TypeModelServiceImpl implements TypeModelService {
             log.debug("TypeModelForm has {} errors", err.getErrorCount());
             TypeErrorCode ec = TypeErrorCode.valueOf(err.getFieldError().getCode());
             log.debug("TypeModelForm error detail: {}", ec);
-            throw new TypeException(TypeSubDomain.MODEL, ec, new Object[] { err.getFieldError().getField() });
+            throw new TypeModelException(ec, new Object[] { err.getFieldError().getField() });
         }
         log.debug("All attributes of TypeModelForm are valid");
 
         log.debug("Checking existence of TypeModelEntity with name: {} and typeLovId: {}", form.getName(), form.getTypeLovId());
         if(repository.existsByNameAndTypeLovId(form.getName(), form.getTypeLovId())) {
             log.debug("TypeModelEntity already exists with name: {} for typeLovId: {}", form.getName(), form.getTypeLovId());
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_EXISTS,
+            throw new TypeModelException(TypeErrorCode.TYPE_EXISTS,
                     new Object[]{ "name " + form.getName(), "typeLovId " + form.getTypeLovId() });
         }
         log.debug("No TypeModelEntity exists with name: {} and typeLovId: {}", form.getName(), form.getTypeLovId());
@@ -249,7 +252,7 @@ public class TypeModelServiceImpl implements TypeModelService {
 
         if(actualEntity == null) {
             log.debug("Unable to create {}", expectedEntity);
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ACTION_FAILURE,
+            throw new TypeModelException(TypeErrorCode.TYPE_ACTION_FAILURE,
                     new Object[]{ "creation", "unable to persist TypeModelForm details" });
         }
         log.info("Created new TypeModelForm with id: {}", actualEntity.getId());
@@ -258,27 +261,27 @@ public class TypeModelServiceImpl implements TypeModelService {
 
     @Override
     @Transactional
-    public void updateTypeModel(Long id, TypeModelForm form) throws TypeException {
+    public void updateTypeModel(Long id, TypeModelForm form) throws TypeModelException {
         log.info("Updating TypeModelForm by id: {}", id);
 
         log.debug(TypeMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TYPE_MODEL_ENTITY_ID, id);
         Optional<TypeModelEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
             log.debug(TypeMessageTemplate.MSG_TEMPLATE_NO_TYPE_MODEL_ENTITY_ID_AVAILABLE, id);
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
+            throw new TypeModelException(TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
         log.debug(TypeMessageTemplate.MSG_TEMPLATE_FOUND_TYPE_MODEL_ENTITY_ID, id);
 
         TypeModelEntity actualEntity = optActualEntity.get();
         if(!actualEntity.getActive()) {
             log.debug("TypeModelEntity is inactive with id: {}", id);
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_INACTIVE, new Object[] { String.valueOf(id) });
+            throw new TypeModelException(TypeErrorCode.TYPE_INACTIVE, new Object[] { String.valueOf(id) });
         }
         log.debug("TypeModelEntity is active with id: {}", id);
 
         if(form == null) {
             log.debug("TypeModelForm is null");
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
+            throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
         }
         log.debug("Form details : {}", form);
 
@@ -289,10 +292,10 @@ public class TypeModelServiceImpl implements TypeModelService {
             log.debug("TypeModelForm has {} errors", err.getErrorCount());
             TypeErrorCode ec = TypeErrorCode.valueOf(err.getFieldError().getCode());
             log.debug("TypeModelForm error detail: {}", ec);
-            throw new TypeException(TypeSubDomain.MODEL, ec, new Object[] { err.getFieldError().getField() });
+            throw new TypeModelException(ec, new Object[] { err.getFieldError().getField() });
         } else if (!allEmpty) {
             log.debug("All attributes of TypeModelForm are empty");
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are empty" });
+            throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are empty" });
         }
         log.debug("All attributes of TypeModelForm are valid");
 
@@ -302,23 +305,23 @@ public class TypeModelServiceImpl implements TypeModelService {
             Optional<TypeModelEntity> optExpectedEntity = form2EntityMapper.compareAndMap(actualEntity, form);
             if(optExpectedEntity.isEmpty()) {
                 log.debug("No new value for attributes of TypeLOVForm");
-                throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are expected with new values" });
+                throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", "fields are expected with new values" });
             }
             log.debug("Successfully compared and copied attributes from TypeModelForm to TypeModelEntity");
             expectedEntity = optExpectedEntity.get();
         } catch (TOABBaseException e) {
-            throw (TypeException) e;
+            throw (TypeModelException) e;
         }
 
-        log.debug("Checking existence of TypeModelEntity with name: {}", expectedEntity.getName());
-        if(actualEntity.getTypeLov().getId().equals(expectedEntity.getTypeLov().getId()) &&
-                actualEntity.getName().compareTo(expectedEntity.getName()) != 0 &&
+        log.debug("Checking existence of TypeModelEntity with name: {} and typeLovId: {}", expectedEntity.getName(), expectedEntity.getTypeLov().getId());
+        if((actualEntity.getTypeLov().getId().equals(expectedEntity.getTypeLov().getId()) &&
+                actualEntity.getName().compareTo(expectedEntity.getName()) == 0) ||
                 repository.existsByNameAndTypeLovId(expectedEntity.getName(), expectedEntity.getTypeLov().getId())) {
-            log.debug("TypeModelEntity already exists with name: {}", expectedEntity.getName());
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_EXISTS,
+            log.debug("TypeModelEntity already exists with name: {} and typeLovId: {}", expectedEntity.getName(), expectedEntity.getTypeLov().getId());
+            throw new TypeModelException(TypeErrorCode.TYPE_EXISTS,
                     new Object[]{ "name", actualEntity.getName() });
         }
-        log.debug("No TypeModelEntity exists with name: {}", expectedEntity.getName());
+        log.debug("No TypeModelEntity exists with name: {} and typeLovId: {}", expectedEntity.getName(), expectedEntity.getTypeLov().getId());
 
         entitySelfMapper.compareAndMap(expectedEntity, actualEntity);
         log.debug("Compared and copied attributes from TypeModelEntity to TypeModelForm");
@@ -329,7 +332,7 @@ public class TypeModelServiceImpl implements TypeModelService {
         log.debug("Updated: {}", actualEntity);
         if(actualEntity == null) {
             log.debug("Unable to update {}", actualEntity);
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ACTION_FAILURE,
+            throw new TypeModelException(TypeErrorCode.TYPE_ACTION_FAILURE,
                     new Object[]{ "update", "unable to persist currency type LOV details" });
         }
         log.info("Updated existing TypeModelEntity with id: {} to version: {}", actualEntity.getId(), actualEntity.getVersion());
@@ -337,21 +340,21 @@ public class TypeModelServiceImpl implements TypeModelService {
 
     @Override
     @Transactional
-    public void deleteTypeModel(Long id) throws TypeException {
+    public void deleteTypeModel(Long id) throws TypeModelException {
         log.info("Soft deleting TypeModelEntity by id: {}", id);
 
         log.debug(TypeMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TYPE_MODEL_ENTITY_ID, id);
         Optional<TypeModelEntity> optEntity = repository.findById(id);
         if(optEntity.isEmpty()) {
             log.debug(TypeMessageTemplate.MSG_TEMPLATE_NO_TYPE_MODEL_ENTITY_ID_AVAILABLE, id);
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
+            throw new TypeModelException(TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
         log.debug(TypeMessageTemplate.MSG_TEMPLATE_FOUND_TYPE_MODEL_ENTITY_ID, id);
 
         TypeModelEntity actualEntity = optEntity.get();
         if(!actualEntity.getActive()) {
             log.debug("TypeModelEntity is inactive with id: {}", id);
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_INACTIVE, new Object[] { String.valueOf(id) });
+            throw new TypeModelException(TypeErrorCode.TYPE_INACTIVE, new Object[] { String.valueOf(id) });
         }
         log.debug("TypeModelEntity is active with id: {}", id);
 
@@ -362,7 +365,7 @@ public class TypeModelServiceImpl implements TypeModelService {
         log.debug("Soft deleted: {}", expectedEntity);
         if(expectedEntity == null) {
             log.debug("Unable to soft delete {}", actualEntity);
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ACTION_FAILURE,
+            throw new TypeModelException(TypeErrorCode.TYPE_ACTION_FAILURE,
                     new Object[]{ "deletion", "unable to soft delete current type LOV details with id:" + id });
         }
 
@@ -371,32 +374,32 @@ public class TypeModelServiceImpl implements TypeModelService {
 
     @Override
     @Transactional
-    public void applyPatchOnTypeModel(Long id, List<PatchOperationForm> patches) throws TypeException {
+    public void applyPatchOnTypeModel(Long id, List<PatchOperationForm> patches) throws TypeModelException {
         log.info("Patching TypeModelEntity by id: {}", id);
 
         log.debug(TypeMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TYPE_MODEL_ENTITY_ID, id);
         Optional<TypeModelEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
             log.debug(TypeMessageTemplate.MSG_TEMPLATE_NO_TYPE_MODEL_ENTITY_ID_AVAILABLE, id);
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
+            throw new TypeModelException(TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
         log.debug(TypeMessageTemplate.MSG_TEMPLATE_FOUND_TYPE_MODEL_ENTITY_ID, id);
 
         TypeModelEntity actualEntity = optActualEntity.get();
         if(patches == null || (patches != null && patches.isEmpty())) {
             log.debug("TypeModel patch list not provided");
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
+            throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
         }
         log.debug("TypeModel patch list has {} items", patches.size());
 
 
         log.debug("Validating patch list items for TypeModel");
         try {
-            toabBaseService.validatePatches(patches, TypeErrorCode.TYPE_EXISTS.getDomain() + ":" + TypeSubDomain.MODEL.getName());
+            toabBaseService.validatePatches(patches, TypeErrorCode.TYPE_EXISTS.getDomain() + ":MODEL");
             log.debug("All TypeModel patch list items are valid");
-        } catch (TOABBaseException e) {
+        } catch (TOABSystemException e) {
             log.debug("Some of the TypeModel patch item are invalid");
-            throw new TypeException(TypeSubDomain.MODEL, e.getError(), e.getParameters());
+            throw new TypeModelException(e.getError(), e.getParameters());
         }
         log.debug("Validated patch list items for TypeModel");
 
@@ -413,9 +416,19 @@ public class TypeModelServiceImpl implements TypeModelService {
             log.debug("Applying patch list items to TypeModelDto");
             patchedTypeModelForm = om.treeToValue(patchedTypeModelFormTree, TypeModelDto.class);
             log.debug("Applied patch list items to TypeModelDto");
-        } catch (IOException | JsonPatchException e) {
+        } catch (JsonPatchException e) {
+            log.debug("Failed to patch list items to TypeLOVDto: {}", e);
+            TypeModelException ex = null;
+            if(e.getMessage().contains("no such path in target")) {
+                log.debug("Invalid patch attribute in TypeModelDto");
+                ex = new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[]{ "path" });
+            } else {
+                ex = new TypeModelException(TypeErrorCode.TYPE_ACTION_FAILURE, new Object[]{ "patching", "internal error: " + e.getMessage() });
+            }
+            throw ex;
+        } catch (IOException e) {
             log.debug("Failed to patch list items to TypeModelDto: {}", e);
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ACTION_FAILURE, new Object[]{ "patching", "internal error: " + e.getMessage() });
+            throw new TypeModelException(TypeErrorCode.TYPE_ACTION_FAILURE, new Object[]{ "patching", "internal error: " + e.getMessage() });
         }
         log.debug("Successfully to patch list items to TypeModelDto");
 
@@ -426,15 +439,17 @@ public class TypeModelServiceImpl implements TypeModelService {
             log.debug("Patched TypeModelForm has {} errors", err.getErrorCount());
             TypeErrorCode ec = TypeErrorCode.valueOf(err.getFieldError().getCode());
             log.debug("Patched TypeModelForm error detail: {}", ec);
-            throw new TypeException(TypeSubDomain.MODEL, ec, new Object[] { err.getFieldError().getField() });
+            throw new TypeModelException(ec, new Object[] { err.getFieldError().getField() });
         }
         log.debug("All attributes of patched TypeModelForm are valid");
+
+        checkUniquenessOfTypeModelPatch(patchedTypeModelForm, actualEntity);
 
         log.debug("Comparatively copying patched attributes from TypeModelDto to TypeModelEntity");
         try {
             dto2EntityConverter.compareAndMap(patchedTypeModelForm, actualEntity);
         } catch (TOABBaseException e) {
-            throw (TypeException) e;
+            throw (TypeModelException) e;
         }
         log.debug("Comparatively copied patched attributes from TypeModelDto to TypeModelEntity");
 
@@ -443,9 +458,56 @@ public class TypeModelServiceImpl implements TypeModelService {
         log.debug("Saved patched TypeModelEntity: {}", actualEntity);
         if(actualEntity == null) {
             log.debug("Unable to patch delete TypeModelEntity with id:{}", id);
-            throw new TypeException(TypeSubDomain.MODEL, TypeErrorCode.TYPE_ACTION_FAILURE,
+            throw new TypeModelException(TypeErrorCode.TYPE_ACTION_FAILURE,
                     new Object[]{ "patching", "unable to patch currency type LOV details with id:" + id });
         }
         log.info("Patched TypeModelEntity with id:{}", id);
+    }
+
+    private void checkUniquenessOfTypeModelPatch(TypeModelDto patchedTypeModelForm, TypeModelEntity actualEntity) throws TypeModelException {
+        if(patchedTypeModelForm.getTypeLovId().isPresent() && patchedTypeModelForm.getName().isPresent()) {
+            log.debug("Checking existence of TypeModelEntity with name: {} and typeLovId: {}",
+                    patchedTypeModelForm.getName().get(), patchedTypeModelForm.getTypeLovId().get());
+            boolean sameEntitySw = patchedTypeModelForm.getTypeLovId().get().equals(actualEntity.getTypeLov().getId().toString())
+                    && patchedTypeModelForm.getName().get().equals(actualEntity.getName());
+            boolean duplicateEntitySw =  repository.existsByNameAndTypeLovId(
+                    patchedTypeModelForm.getName().get(), Long.parseLong(patchedTypeModelForm.getTypeLovId().get()));
+            if(sameEntitySw || duplicateEntitySw) {
+                log.debug("TypeModelEntity already exists with name: {} and typeLovId: {}",
+                        patchedTypeModelForm.getName().get(), patchedTypeModelForm.getTypeLovId().get());
+                throw new TypeModelException(TypeErrorCode.TYPE_EXISTS,
+                        new Object[]{ "name", actualEntity.getName(), "typeLovId", actualEntity.getTypeLov().getId()});
+            }
+            log.debug("No TypeModelEntity exists with name: {} and typeLovId: {}",
+                    patchedTypeModelForm.getName().get(), patchedTypeModelForm.getTypeLovId().get());
+        }
+
+        if(patchedTypeModelForm.getTypeLovId().isPresent() && patchedTypeModelForm.getName().isEmpty()) {
+            log.debug("Checking existence of TypeModelEntity with name: {} and typeLovId: {}",
+                    patchedTypeModelForm.getTypeLovId().get(), actualEntity.getName());
+            boolean sameEntitySw = patchedTypeModelForm.getTypeLovId().get().equals(actualEntity.getTypeLov().getId().toString());
+            boolean duplicateEntitySw =  repository.existsByNameAndTypeLovId(actualEntity.getName(), Long.parseLong(patchedTypeModelForm.getTypeLovId().get()));
+            if(sameEntitySw || duplicateEntitySw) {
+                log.debug("TypeModelEntity already exists with name: {} and typeLovId: {}",
+                        actualEntity.getName(), patchedTypeModelForm.getTypeLovId().get());
+                throw new TypeModelException(TypeErrorCode.TYPE_EXISTS,
+                        new Object[]{ "name", actualEntity.getName(), "typeLovId", patchedTypeModelForm.getTypeLovId().get() });
+            }
+            log.debug("No TypeModelEntity exists with name: {} and typeLovId: {}", actualEntity.getName(), patchedTypeModelForm.getTypeLovId().get());
+        }
+
+        if(patchedTypeModelForm.getTypeLovId().isEmpty() && patchedTypeModelForm.getName().isPresent()) {
+            log.debug("Checking existence of TypeModelEntity with name: {} and typeLovId: {}",
+                    patchedTypeModelForm.getName().get(), actualEntity.getTypeLov().getId());
+            boolean sameEntitySw = patchedTypeModelForm.getName().get().equals(actualEntity.getName());
+            boolean duplicateEntitySw =  repository.existsByNameAndTypeLovId(patchedTypeModelForm.getName().get(), actualEntity.getTypeLov().getId());
+            if(sameEntitySw || duplicateEntitySw) {
+                log.debug("TypeModelEntity already exists with name: {} and typeLovId: {}",
+                        patchedTypeModelForm.getName().get(), actualEntity.getTypeLov().getId());
+                throw new TypeModelException(TypeErrorCode.TYPE_EXISTS,
+                        new Object[]{ "name", actualEntity.getName(), "typeLovId", actualEntity.getTypeLov().getId() });
+            }
+            log.debug("No TypeModelEntity exists with name: {} and typeLovId: {}", patchedTypeModelForm.getName().get(), actualEntity.getTypeLov().getId());
+        }
     }
 }

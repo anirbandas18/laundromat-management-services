@@ -1,9 +1,9 @@
 package com.teenthofabud.core.common.service.impl;
 
-import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.core.common.error.TOABError;
 import com.teenthofabud.core.common.error.TOABErrorCode;
 import com.teenthofabud.core.common.data.form.PatchOperationForm;
+import com.teenthofabud.core.common.error.TOABSystemException;
 import com.teenthofabud.core.common.service.TOABBaseService;
 import com.teenthofabud.core.common.validator.PatchOperationFormValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +24,13 @@ public class TOABBaseServiceImpl implements TOABBaseService {
     }
 
     @Override
-    public void validatePatches(List<PatchOperationForm> patches, String domain) throws TOABBaseException {
+    public void validatePatches(List<PatchOperationForm> patches, String domain) throws TOABSystemException {
         for(PatchOperationForm pof : patches) {
             Errors err = new DirectFieldBindingResult(pof, pof.getClass().getSimpleName());
             patchOperationValidator.validate(pof, err);
             if(err.hasErrors()) {
                 TOABError ec = TOABErrorCode.valueOf(err.getFieldError().getCode());
-                throw new TOABBaseException(ec, new Object[] { err.getFieldError().getField(), domain == null ? "" : domain });
+                throw new TOABSystemException(ec, new Object[] { err.getFieldError().getField() });
             }
         }
     }

@@ -35,28 +35,40 @@
         </rollingPolicy>
     </appender>
 
-    <appender name="Stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>${LOGSTASH_HOST}</destination>
+    <if condition='${logstash.enabled} == true'>
+        <then>
+            <appender name="Stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+                <destination>${LOGSTASH_HOST}</destination>
 
-        <keepAliveDuration>1 minute</keepAliveDuration>
-        <reconnectionDelay>1 second</reconnectionDelay>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <includeCallerData>true</includeCallerData>
-        </encoder>
-    </appender>
+                <keepAliveDuration>1 minute</keepAliveDuration>
+                <reconnectionDelay>1 second</reconnectionDelay>
+                <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                    <includeCallerData>true</includeCallerData>
+                </encoder>
+            </appender>
+        </then>
+    </if>
 
     <!-- LOG everything at INFO level -->
     <root level="info">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
-        <appender-ref ref="Stash" />
+        <if condition='${logstash.enabled} == true'>
+            <then>
+                <appender-ref ref="Stash" />
+            </then>
+        </if>
     </root>
 
-    <!-- LOG "com.baeldung*" at TRACE level -->
+    <!-- LOG integration at TRACE level -->
     <logger name="com.teenthofabud.laundromat.manager.type" level="info" additivity="false">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
-        <appender-ref ref="Stash" />
+        <if condition='${logstash.enabled} == true'>
+            <then>
+                <appender-ref ref="Stash" />
+            </then>
+        </if>
     </logger>
 
     <logger name="logging.level.org.hibernate.SQL" level="debug">

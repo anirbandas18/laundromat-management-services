@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class TOABBaseException extends Exception {
+public abstract class TOABBaseException extends Exception {
 
     private transient String message;
     private transient TOABError error;
@@ -35,6 +35,7 @@ public class TOABBaseException extends Exception {
         this.message = message;
     }
 
+    @Deprecated
     public TOABBaseException(TOABError error, SubDomain subDomain, String message, Object[] parameters) {
         this.error = error;
         this.message = message;
@@ -42,6 +43,7 @@ public class TOABBaseException extends Exception {
         this.subDomain = subDomain;
     }
 
+    @Deprecated
     public TOABBaseException(TOABError error, SubDomain subDomain, Object[] parameters) {
         this.error = error;
         this.message = "";
@@ -54,5 +56,7 @@ public class TOABBaseException extends Exception {
         this.message = "";
         this.parameters = parameters;
     }
+
+    public abstract String getSubDomain();
 
 }

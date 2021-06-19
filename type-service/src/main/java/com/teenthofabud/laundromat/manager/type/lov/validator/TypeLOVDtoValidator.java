@@ -23,17 +23,13 @@ public class TypeLOVDtoValidator implements Validator {
     public void validate(Object target, Errors errors) {
         TypeLOVDto dto = (TypeLOVDto) target;
         Optional<String> optName = dto.getName();
-        if(!optName.isPresent() || (optName.isPresent() && StringUtils.isEmpty(optName.get()))) {
+        if(optName.isPresent() && StringUtils.isEmpty(optName.get())) {
             errors.rejectValue("name", TypeErrorCode.TYPE_ATTRIBUTE_INVALID.name());
             log.debug("TypeLOVDto.name is invalid");
             return;
         }
         Optional<String> optActive = dto.getActive();
-        if(!optActive.isPresent() || (optActive.isPresent() && StringUtils.isEmpty(optActive.get()))) {
-            errors.rejectValue("active", TypeErrorCode.TYPE_ATTRIBUTE_INVALID.name());
-            log.debug("TypeLOVDto.active is invalid");
-            return;
-        } else {
+        if(optActive.isPresent() && StringUtils.hasText(optActive.get())) {
             Boolean trueSW = optActive.get().equalsIgnoreCase(Boolean.TRUE.toString());
             Boolean falseSW = optActive.get().equalsIgnoreCase(Boolean.FALSE.toString());
             if(!trueSW && !falseSW) {

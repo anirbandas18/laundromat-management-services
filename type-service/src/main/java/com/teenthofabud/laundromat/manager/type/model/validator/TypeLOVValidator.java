@@ -1,7 +1,7 @@
 package com.teenthofabud.laundromat.manager.type.model.validator;
 
 import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
-import com.teenthofabud.laundromat.manager.type.error.TypeException;
+import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVException;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVVo;
 import com.teenthofabud.laundromat.manager.type.lov.service.TypeLOVService;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +47,7 @@ public class TypeLOVValidator implements Validator {
                 log.debug("TypeLOV is inactive");
                 return;
             }
-        } catch (TypeException e) {
+        } catch (TypeLOVException e) {
             log.error("typeLovId: {} not found", typeLOVId, e);
             errors.reject("typeLovId", TypeErrorCode.TYPE_NOT_FOUND.name());
             return;

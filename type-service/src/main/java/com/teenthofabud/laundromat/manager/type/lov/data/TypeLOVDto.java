@@ -18,9 +18,9 @@ public class TypeLOVDto {
     private Optional<String> active;
 
     public TypeLOVDto() {
-        this.name = Optional.empty();
-        this.description = Optional.empty();
-        this.active = Optional.empty();
+        this.name = Optional.ofNullable(null);
+        this.description = Optional.ofNullable(null);
+        this.active = Optional.ofNullable(null);
     }
 
 }
