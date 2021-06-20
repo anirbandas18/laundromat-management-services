@@ -25,7 +25,7 @@ public class TypeLOVEntitySelfMapper implements SingleChannelMapper<TypeLOVEntit
             changeSW = true;
             log.debug("Source TypeLOVEntity.description is valid");
         }
-        if(source.getName() != null && StringUtils.hasText(source.getName()) && source.getName().compareTo(target.getName()) != 0) {
+        if(source.getName() != null && StringUtils.hasText(StringUtils.trimWhitespace(source.getName())) && source.getName().compareTo(target.getName()) != 0) {
             target.setName(source.getName());
             changeSW = true;
             log.debug("Source TypeLOVEntity.name is valid");

@@ -5,6 +5,7 @@ import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
 import com.teenthofabud.laundromat.manager.type.model.data.TypeModelForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 
 @Component
@@ -12,7 +13,7 @@ import org.springframework.validation.Errors;
 public class TypeModelFormRelaxedValidator implements RelaxedValidator<TypeModelForm>  {
     @Override
     public Boolean validateLoosely(TypeModelForm form, Errors errors) {
-        if(form.getName() != null && form.getName().length() == 0) {
+        if(form.getName() != null && StringUtils.isEmpty(StringUtils.trimWhitespace(form.getName()))) {
             errors.rejectValue("name", TypeErrorCode.TYPE_ATTRIBUTE_INVALID.name());
             log.debug("TypeModelForm.name is empty");
             return false;

@@ -24,7 +24,7 @@ public class TypeLOVForm2EntityMapper implements DualChannelMapper<TypeLOVEntity
         expectedEntity.setActive(actualEntity.getActive());
         log.debug("Directly copying TypeLOVEntity.active: {} from actualEntity to expectedEntity", actualEntity.getActive());
         // comparative copy
-        if(StringUtils.hasText(form.getName()) && form.getName().compareTo(actualEntity.getName()) != 0) {
+        if(StringUtils.hasText(StringUtils.trimWhitespace(form.getName())) && form.getName().compareTo(actualEntity.getName()) != 0) {
             expectedEntity.setName(form.getName());
             changeSW = true;
             log.debug("TypeLOVForm.name: {} is different as TypeLOVEntity.name: {}", form.getName(), actualEntity.getName());
@@ -32,7 +32,7 @@ public class TypeLOVForm2EntityMapper implements DualChannelMapper<TypeLOVEntity
             expectedEntity.setName(actualEntity.getName());
             log.debug("TypeLOVForm.name: is unchanged");
         }
-        if(StringUtils.hasText(form.getDescription()) &&
+        if(StringUtils.hasText(StringUtils.trimWhitespace(form.getDescription())) &&
                 form.getDescription().toLowerCase().compareTo(actualEntity.getDescription().toLowerCase()) != 0) {
             expectedEntity.setDescription(form.getDescription());
             changeSW = true;

@@ -18,7 +18,7 @@ public class PatchOperationFormValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         PatchOperationForm form = (PatchOperationForm) target;
-        if(StringUtils.isEmpty(form)) {
+        if(StringUtils.isEmpty(StringUtils.trimWhitespace(form.getOp()))) {
             errors.rejectValue("op", TOABErrorCode.PATCH_ATTRIBUTE_INVALID.name());
             return;
         } else {
@@ -29,14 +29,14 @@ public class PatchOperationFormValidator implements Validator {
                 return;
             }
         }
-        if(StringUtils.isEmpty(form.getPath())) {
+        if(StringUtils.isEmpty(StringUtils.trimWhitespace(form.getPath()))) {
             errors.rejectValue("path", TOABErrorCode.PATCH_ATTRIBUTE_INVALID.name());
             return;
         } else if (!form.getPath().matches("\\/(\\S+)*(\\/\\S*)*")) {
             errors.rejectValue("path", TOABErrorCode.PATCH_ATTRIBUTE_INVALID.name());
             return;
         }
-        if(StringUtils.isEmpty(form.getValue())) {
+        if(StringUtils.isEmpty(StringUtils.trimWhitespace(form.getValue()))) {
             errors.rejectValue("value", TOABErrorCode.PATCH_ATTRIBUTE_INVALID.name());
             return;
         }

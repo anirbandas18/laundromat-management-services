@@ -37,7 +37,7 @@ public class TypeLOVValidator implements Validator {
                 log.debug("TypeLOV.id: {} is invalid", typeLOVVo.getId());
                 return;
             }
-            if(StringUtils.isEmpty(typeLOVVo.getName())) {
+            if(StringUtils.isEmpty(StringUtils.trimWhitespace(typeLOVVo.getName()))) {
                 errors.reject("name", TypeErrorCode.TYPE_ATTRIBUTE_INVALID.name());
                 log.debug("TypeLOV.name: {} is invalid", typeLOVVo.getName());
                 return;

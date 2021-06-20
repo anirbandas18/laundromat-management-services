@@ -48,7 +48,7 @@ public class TypeModelForm2EntityMapper implements DualChannelMapper<TypeModelEn
         expectedEntity.setActive(actualEntity.getActive());
         log.debug("Directly copying TypeModelEntity.active: {} from actualEntity to expectedEntity", actualEntity.getActive());
         // comparative copy
-        if(StringUtils.hasText(form.getName()) && form.getName().compareTo(actualEntity.getName()) != 0) {
+        if(StringUtils.hasText(StringUtils.trimWhitespace(form.getName())) && form.getName().compareTo(actualEntity.getName()) != 0) {
             expectedEntity.setName(form.getName());
             changeSW = true;
             log.debug("TypeModelForm.name: {} is different as TypeModelEntity.name: {}", form.getName(), actualEntity.getName());
@@ -56,7 +56,7 @@ public class TypeModelForm2EntityMapper implements DualChannelMapper<TypeModelEn
             expectedEntity.setName(actualEntity.getName());
             log.debug("TypeModelForm.name: is unchanged");
         }
-        if(StringUtils.hasText(form.getDescription()) &&
+        if(StringUtils.hasText(StringUtils.trimWhitespace(form.getDescription())) &&
                 form.getDescription().toLowerCase().compareTo(actualEntity.getDescription().toLowerCase()) != 0) {
             expectedEntity.setDescription(form.getDescription());
             changeSW = true;

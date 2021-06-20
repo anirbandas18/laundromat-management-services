@@ -13,24 +13,24 @@ public abstract class TOABBaseException extends Exception {
     private transient Object[] parameters;
     private transient SubDomain subDomain;
 
-    public TOABBaseException(String message) {
+    protected TOABBaseException(String message) {
         this.message = message;
         this.error = null;
     }
 
-    public TOABBaseException(String message, Object[] parameters) {
+    protected TOABBaseException(String message, Object[] parameters) {
         this.message = message;
         this.error = null;
         this.parameters = parameters;
     }
 
-    public TOABBaseException(TOABError error, String message, Object[] parameters) {
+    protected TOABBaseException(TOABError error, String message, Object[] parameters) {
         this.error = error;
         this.message = message;
         this.parameters = parameters;
     }
 
-    public TOABBaseException(TOABError error, String message) {
+    protected TOABBaseException(TOABError error, String message) {
         this.error = error;
         this.message = message;
     }
@@ -51,7 +51,7 @@ public abstract class TOABBaseException extends Exception {
         this.subDomain = subDomain;
     }
 
-    public TOABBaseException(TOABError error, Object[] parameters) {
+    protected TOABBaseException(TOABError error, Object[] parameters) {
         this.error = error;
         this.message = "";
         this.parameters = parameters;

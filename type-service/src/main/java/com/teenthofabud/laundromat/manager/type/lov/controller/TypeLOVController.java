@@ -3,10 +3,10 @@ package com.teenthofabud.laundromat.manager.type.lov.controller;
 import com.teenthofabud.core.common.constant.TOABBaseMessageTemplate;
 import com.teenthofabud.core.common.data.form.PatchOperationForm;
 import com.teenthofabud.core.common.data.vo.ErrorVo;
-import com.teenthofabud.laundromat.manager.type.constant.TypeMessageTemplate;
 import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVException;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVForm;
+import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVMessageTemplate;
 import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVVo;
 import com.teenthofabud.laundromat.manager.type.lov.service.TypeLOVService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +22,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Set;
@@ -85,10 +94,10 @@ public class TypeLOVController {
     @PutMapping(path = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> putExistingTypeLOV(@PathVariable String id, @RequestBody(required = false) TypeLOVForm form) throws TypeLOVException {
         log.debug("Requesting to update all attributes of existing type LOV");
-        if(StringUtils.hasText(id)) {
+        if(StringUtils.hasText(StringUtils.trimWhitespace(id))) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_VALID, id);
+                log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_VALID, id);
                 if(form != null) {
                     service.updateTypeLOV(actualId, form);
                     log.debug("Responding with successful updation of attributes for existing type LOV");
@@ -98,11 +107,11 @@ public class TypeLOVController {
                 throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
                         new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
+                log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
                 throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
         throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -123,19 +132,19 @@ public class TypeLOVController {
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteExistingTypeLOV(@PathVariable String id) throws TypeLOVException {
         log.debug("Requesting to soft delete type LOV");
-        if(StringUtils.hasText(id)) {
+        if(StringUtils.hasText(StringUtils.trimWhitespace(id))) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_VALID, id);
+                log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_VALID, id);
                 service.deleteTypeLOV(actualId);
                 log.debug("Responding with successful deletion of existing type LOV");
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } catch (NumberFormatException e) {
-                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
+                log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
                 throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
         throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -157,10 +166,10 @@ public class TypeLOVController {
     public ResponseEntity<Void> patchExistingTypeLOV(@PathVariable String id, @RequestBody(required = false) List<PatchOperationForm> dtoList)
             throws TypeLOVException {
         log.debug("Requesting to patch of type LOV attributes");
-        if(StringUtils.hasText(id)) {
+        if(StringUtils.hasText(StringUtils.trimWhitespace(id))) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_VALID, id);
+                log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_VALID, id);
                 if(dtoList != null) {
                     service.applyPatchOnTypeLOV(actualId, dtoList);
                     log.debug("Responding with successful patch of attributes for existing type LOV");
@@ -170,11 +179,11 @@ public class TypeLOVController {
                 throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
                         new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
+                log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
                 throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
         throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -205,7 +214,7 @@ public class TypeLOVController {
     @GetMapping("name/{name}")
     public List<TypeLOVVo> getAllStudentsByName(@PathVariable String name) throws TypeLOVException {
         log.debug("Requesting all available type LOVs with given name");
-        if(StringUtils.hasText(name)) {
+        if(StringUtils.hasText(StringUtils.trimWhitespace(name))) {
             List<TypeLOVVo> matchedByNames = service.retrieveAllMatchingDetailsByName(name);
             log.debug("Responding with all available type LOVs with given name");
             return matchedByNames;
@@ -227,19 +236,19 @@ public class TypeLOVController {
     @GetMapping("{id}")
     public TypeLOVVo getTypeLOVDetailsById(@PathVariable String id) throws TypeLOVException {
         log.debug("Requesting all available type LOVs by its id");
-        if(StringUtils.hasText(id)) {
+        if(StringUtils.hasText(StringUtils.trimWhitespace(id))) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_VALID, id);
+                log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_VALID, id);
                 TypeLOVVo studentDetails = service.retrieveDetailsById(actualId);
                 log.debug("Responding with successful retrieval of existing type LOV details by id");
                 return studentDetails;
             } catch (NumberFormatException e) {
-                log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
+                log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_INVALID, id);
                 throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug(TypeMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_ID_EMPTY);
         throw new TypeLOVException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 

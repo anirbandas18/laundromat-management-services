@@ -16,6 +16,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -289,29 +291,14 @@ public class TypeLOVIntegrationTest {
         Assert.assertEquals(typeLOVVo1.getId(), om.readValue(mvcResult.getResponse().getContentAsString(), TypeLOVVo.class).getId());
     }
 
-    @Test
-    public void test_TypeLOV_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequested_ByEmptyId() throws Exception {
+    @ParameterizedTest
+    @ValueSource(strings = { " ", "r" })
+    public void test_TypeLOV_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequestedBy_EmptyInvalidId(String id) throws Exception {
         MvcResult mvcResult = null;
         String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "id";
 
-        mvcResult = this.mockMvc.perform(get(TYPE_LOV_URI_BY_ID, " "))
-                .andDo(print())
-                .andReturn();
-
-        Assert.assertNotNull(mvcResult);
-        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
-    }
-
-    @Test
-    public void test_TypeLOV_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequested_ByInvalidId() throws Exception {
-        MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "id";
-
-        mvcResult = this.mockMvc.perform(get(TYPE_LOV_URI_BY_ID, "r"))
+        mvcResult = this.mockMvc.perform(get(TYPE_LOV_URI_BY_ID, id))
                 .andDo(print())
                 .andReturn();
 
@@ -485,28 +472,9 @@ public class TypeLOVIntegrationTest {
         Assert.assertEquals("", mvcResult.getResponse().getContentAsString());
     }
 
-    @Test
-    public void test_TypeLOV_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenUpdated_ByEmptyId_AndTypeLOVDetails() throws Exception {
-        Long id = 1l;
-        MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "id";
-
-        mvcResult = this.mockMvc.perform(put(TYPE_LOV_URI_BY_ID, " ")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeLOVForm)))
-                .andDo(print())
-                .andReturn();
-
-        Assert.assertNotNull(mvcResult);
-        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
-    }
-
-    @Test
-    public void test_TypeLOV_Put_ShouldReturn_422Response_And_ErrorCode_LMS_TYPE_003_WhenUpdated_ByInvalidId_AndTypeLOVDetails() throws Exception {
-        String id = "r";
+    @ParameterizedTest
+    @ValueSource(strings = { " ", "r" })
+    public void test_TypeLOV_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenUpdatedBy_EmptyInvalidId_AndTypeLOVDetails(String id) throws Exception {
         MvcResult mvcResult = null;
         String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "id";
@@ -521,7 +489,6 @@ public class TypeLOVIntegrationTest {
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
         Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
         Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(id));
     }
 
     @Test
@@ -678,7 +645,7 @@ public class TypeLOVIntegrationTest {
     }
 
     @Test
-    public void test_TypeLOV_Patch_ShouldReturn_422Response_And_ErrorCode_LMS_TYPE_003_WhenUpdated_ByInvalidId_AndTypeLOVDetails() throws Exception {
+    public void test_TypeLOV_Patch_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_003_WhenUpdated_ByInvalidId_AndTypeLOVDetails() throws Exception {
         String id = "r";
         MvcResult mvcResult = null;
         String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
@@ -789,7 +756,7 @@ public class TypeLOVIntegrationTest {
         String errorCode = TOABErrorCode.PATCH_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "value";
         patches = Arrays.asList(
-                new PatchOperationForm("replace", "/name", ""));
+                new PatchOperationForm("replace", "/name", " "));
 
         mvcResult = mockMvc.perform(patch(TYPE_LOV_URI_BY_ID, id)
                 .contentType(MEDIA_TYPE_APPLICATION_JSON_PATCH)

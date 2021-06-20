@@ -30,7 +30,7 @@ public class TypeModelEntitySelfMapper implements SingleChannelMapper<TypeModelE
             changeSW = true;
             log.debug("Source TypeModelEntity.description is valid");
         }
-        if(source.getName() != null && StringUtils.hasText(source.getName()) && source.getName().compareTo(target.getName()) != 0) {
+        if(source.getName() != null && StringUtils.hasText(StringUtils.trimWhitespace(source.getName())) && source.getName().compareTo(target.getName()) != 0) {
             target.setName(source.getName());
             changeSW = true;
             log.debug("Source TypeModelEntity.name is valid");

@@ -18,6 +18,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -408,57 +410,14 @@ public class TypeModelIntegrationTest {
 
     }
 
-    @Test
-    public void test_TypeModel_Post_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenPosted_WithInvalidTypeModelId() throws Exception {
+    @ParameterizedTest
+    @ValueSource(longs = { -3, 33, 3 })
+    public void test_TypeModel_Post_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenPostedWith_InvalidAbsentInactive_TypeModelId(Long typeLovId) throws Exception {
         MvcResult mvcResult = null;
         String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "typeLovId";
         String message = "invalid";
-        typeModelForm1.setTypeLovId(-1L);
-
-        mvcResult = mockMvc.perform(post(TYPE_MODEL_URI)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
-                .andDo(print())
-                .andReturn();
-
-        Assert.assertNotNull(mvcResult);
-        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(message));
-
-    }
-
-    @Test
-    public void test_TypeModel_Post_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenPosted_WithAbsentTypeModelId() throws Exception {
-        MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "typeLovId";
-        String message = "invalid";
-        typeModelForm1.setTypeLovId(11L);
-
-        mvcResult = mockMvc.perform(post(TYPE_MODEL_URI)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
-                .andDo(print())
-                .andReturn();
-
-        Assert.assertNotNull(mvcResult);
-        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(message));
-
-    }
-
-    @Test
-    public void test_TypeModel_Post_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenPosted_WithInactiveTypeModelId() throws Exception {
-        MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "typeLovId";
-        String message = "invalid";
-        typeModelForm1.setTypeLovId(3L);
+        typeModelForm1.setTypeLovId(typeLovId);
 
         mvcResult = mockMvc.perform(post(TYPE_MODEL_URI)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -777,60 +736,15 @@ public class TypeModelIntegrationTest {
         Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(id.toString()));
     }
 
-    @Test
-    public void test_TypeModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenUpdated_WithInvalidTypeModelId() throws Exception {
+    @ParameterizedTest
+    @ValueSource(longs = { -3, 33, 3})
+    public void test_TypeModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenUpdatedWith_InvalidAbsentInactive_TypeModelId(Long typeLovId) throws Exception {
         Long id = 1L;
         MvcResult mvcResult = null;
         String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "typeLovId";
         String message = "invalid";
-        typeModelForm1.setTypeLovId(-1L);
-
-        mvcResult = mockMvc.perform(put(TYPE_MODEL_URI_BY_ID, id)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
-                .andDo(print())
-                .andReturn();
-
-        Assert.assertNotNull(mvcResult);
-        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(message));
-
-    }
-
-    @Test
-    public void test_TypeModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenUpdated_WithAbsentTypeModelId() throws Exception {
-        Long id = 1L;
-        MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "typeLovId";
-        String message = "invalid";
-        typeModelForm1.setTypeLovId(11L);
-
-        mvcResult = mockMvc.perform(put(TYPE_MODEL_URI_BY_ID, id)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
-                .andDo(print())
-                .andReturn();
-
-        Assert.assertNotNull(mvcResult);
-        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(message));
-
-    }
-
-    @Test
-    public void test_TypeModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenUpdated_WithInactiveTypeModelId() throws Exception {
-        Long id = 1L;
-        MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "typeLovId";
-        String message = "invalid";
-        typeModelForm1.setTypeLovId(3L);
+        typeModelForm1.setTypeLovId(typeLovId);
 
         mvcResult = mockMvc.perform(put(TYPE_MODEL_URI_BY_ID, id)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -961,64 +875,13 @@ public class TypeModelIntegrationTest {
         Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
     }
 
-
-    @Test
-    public void test_TypeModel_Patch_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenUpdated_WithInvalidTypeModelId() throws Exception {
+    @ParameterizedTest
+    @ValueSource(strings = { "-3", "33", "3" })
+    public void test_TypeModel_Patch_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenUpdatedWith_InvalidAbsentInactive_TypeModelId(String fieldValue) throws Exception {
         Long id = 1L;
         MvcResult mvcResult = null;
         String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "typeLovId";
-        String fieldValue = "-3";
-        String message = "invalid";
-        patches = Arrays.asList(
-                new PatchOperationForm("replace", "/" + fieldName, fieldValue));
-
-        mvcResult = mockMvc.perform(patch(TYPE_MODEL_URI_BY_ID, id)
-                .contentType(MEDIA_TYPE_APPLICATION_JSON_PATCH)
-                .content(om.writeValueAsString(patches)))
-                .andDo(print())
-                .andReturn();
-
-        Assert.assertNotNull(mvcResult);
-        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(message));
-
-    }
-
-    @Test
-    public void test_TypeModel_Patch_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenUpdated_WithAbsentTypeModelId() throws Exception {
-        Long id = 1L;
-        MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "typeLovId";
-        String fieldValue = "33";
-        String message = "invalid";
-        patches = Arrays.asList(
-                new PatchOperationForm("replace", "/" + fieldName, fieldValue));
-
-        mvcResult = mockMvc.perform(patch(TYPE_MODEL_URI_BY_ID, id)
-                .contentType(MEDIA_TYPE_APPLICATION_JSON_PATCH)
-                .content(om.writeValueAsString(patches)))
-                .andDo(print())
-                .andReturn();
-
-        Assert.assertNotNull(mvcResult);
-        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(message));
-
-    }
-
-    @Test
-    public void test_TypeModel_Patch_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenUpdated_WithInactiveTypeModelId() throws Exception {
-        Long id = 1L;
-        MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "typeLovId";
-        String fieldValue = "3";
         String message = "invalid";
         patches = Arrays.asList(
                 new PatchOperationForm("replace", "/" + fieldName, fieldValue));
@@ -1201,63 +1064,14 @@ public class TypeModelIntegrationTest {
         Assert.assertEquals(2, om.readValue(mvcResult.getResponse().getContentAsString(), TypeModelVo[].class).length);
     }
 
-    @Test
-    public void test_TypeModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequested_ByEmptyTypeLOVId() throws Exception {
+    @ParameterizedTest
+    @ValueSource(strings = { " ", "r", "-3", "33", "3" })
+    public void test_TypeModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequestedBy_EmptyInvalidAbsentInactive_TypeLOVId(String typeLovId) throws Exception {
         MvcResult mvcResult = null;
         String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "typeLovId";
 
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_TYPE_LOV_ID, " "))
-                .andDo(print())
-                .andReturn();
-
-        Assert.assertNotNull(mvcResult);
-        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
-    }
-
-    @Test
-    public void test_TypeModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequested_ByInvalidTypeLOVId() throws Exception {
-        MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "typeLovId";
-
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_TYPE_LOV_ID, "r"))
-                .andDo(print())
-                .andReturn();
-
-        Assert.assertNotNull(mvcResult);
-        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
-    }
-
-    @Test
-    public void test_TypeModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_002_WhenRequested_ByAbsentTypeLOVId() throws Exception {
-        Long id = 111l;
-        MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "typeLovId";
-
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_TYPE_LOV_ID, id))
-                .andDo(print())
-                .andReturn();
-
-        Assert.assertNotNull(mvcResult);
-        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
-        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
-    }
-
-    @Test
-    public void test_TypeModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_005_WhenRequested_ByInactiveTypeLOVId() throws Exception {
-        Long id = 4L;
-        MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "typeLovId";
-
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_TYPE_LOV_ID, id))
+        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_TYPE_LOV_ID, typeLovId))
                 .andDo(print())
                 .andReturn();
 

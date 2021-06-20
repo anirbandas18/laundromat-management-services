@@ -43,7 +43,7 @@ public class TypeModelFormValidator implements Validator {
                 return;
             }
         }
-        if(StringUtils.isEmpty(form.getName())) {
+        if(StringUtils.isEmpty(StringUtils.trimWhitespace(form.getName()))) {
             log.debug("TypeModelForm.name is empty");
             errors.rejectValue("name", TypeErrorCode.TYPE_ATTRIBUTE_INVALID.name());
             return;

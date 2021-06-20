@@ -20,7 +20,7 @@ public class TypeLOVFormValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         TypeLOVForm form = (TypeLOVForm) target;
-        if(StringUtils.isEmpty(form.getName())) {
+        if(StringUtils.isEmpty(StringUtils.trimWhitespace(form.getName()))) {
             log.debug("TypeLOVForm.name is empty");
             errors.rejectValue("name", TypeErrorCode.TYPE_ATTRIBUTE_INVALID.name());
             return;
