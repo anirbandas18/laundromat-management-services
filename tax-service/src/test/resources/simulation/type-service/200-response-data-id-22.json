@@ -1,0 +1,12 @@
+{
+  "id":22,
+  "active":true,
+  "name":"Tax Type Model 2",
+  "description":"This is for e2e testing of feign clients",
+  "typeLov":{
+    "id":2,
+    "active":true,
+    "name":"Tax Type LOV 1",
+    "description":"This is for e2e testing of feign clients"
+  }
+}

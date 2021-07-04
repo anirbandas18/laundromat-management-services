@@ -35,6 +35,8 @@ import java.util.Set;
 @Tag(name = "Type Model API", description = "Manage Type Models and their details")
 public class TypeModelController {
 
+    private static final String MEDIA_TYPE_APPLICATION_JSON_PATCH = "application/json-patch+json";
+
     @Autowired
     public void setService(TypeModelService service) {
         this.service = service;
@@ -44,7 +46,7 @@ public class TypeModelController {
 
     @Operation(summary = "Create new Type Model details by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Id of newly created Type LOV",
+            @ApiResponse(responseCode = "201", description = "Id of newly created Type Model",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Void.class)) }),
             @ApiResponse(responseCode = "400", description = "Type Model attribute's value is invalid",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
@@ -52,7 +54,7 @@ public class TypeModelController {
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
             @ApiResponse(responseCode = "422", description = "No Type Model attributes provided",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
-            @ApiResponse(responseCode = "500", description = "Internal system error while trying to create new Type LOV",
+            @ApiResponse(responseCode = "500", description = "Internal system error while trying to create new Type Model",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) })
     })
     @ResponseStatus(HttpStatus.CREATED)
@@ -71,7 +73,7 @@ public class TypeModelController {
 
     @Operation(summary = "Update Type Model details by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Updated details of Type LOV",
+            @ApiResponse(responseCode = "204", description = "Updated details of Type Model",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Void.class)) }),
             @ApiResponse(responseCode = "400", description = "Type Model attribute's value is invalid/Type Model is inactive",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
@@ -110,7 +112,7 @@ public class TypeModelController {
 
     @Operation(summary = "Soft delete Type Model by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Soft deleted Type LOV",
+            @ApiResponse(responseCode = "204", description = "Soft deleted Type Model",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Void.class)) }),
             @ApiResponse(responseCode = "400", description = "Type Model id is invalid/Type Model is inactive",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
@@ -118,7 +120,7 @@ public class TypeModelController {
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
             @ApiResponse(responseCode = "422", description = "No Type Model attribute patches provided",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
-            @ApiResponse(responseCode = "500", description = "Internal system error while trying to soft delete Type LOV",
+            @ApiResponse(responseCode = "500", description = "Internal system error while trying to soft delete Type Model",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) })
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -155,7 +157,7 @@ public class TypeModelController {
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) })
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping(path = "{id}", consumes = "application/json-patch+json")
+    @PatchMapping(path = "{id}", consumes = MEDIA_TYPE_APPLICATION_JSON_PATCH)
     public ResponseEntity<Void> patchExistingTypeModel(@PathVariable String id, @RequestBody(required = false) List<PatchOperationForm> dtoList)
             throws TOABBaseException {
         log.debug("Requesting to patch of type model attributes");

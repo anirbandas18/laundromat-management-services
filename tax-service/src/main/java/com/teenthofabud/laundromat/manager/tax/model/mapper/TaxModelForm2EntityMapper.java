@@ -3,9 +3,8 @@ package com.teenthofabud.laundromat.manager.tax.model.mapper;
 import com.teenthofabud.core.common.data.entity.TypeModelEntity;
 import com.teenthofabud.core.common.mapper.DualChannelMapper;
 import com.teenthofabud.core.common.error.TOABBaseException;
-import com.teenthofabud.laundromat.manager.tax.constant.TaxSubDomain;
 import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
-import com.teenthofabud.laundromat.manager.tax.error.TaxException;
+import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelException;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;
 import com.teenthofabud.laundromat.manager.tax.integration.type.validator.CurrencyTypeModelValidator;
@@ -65,7 +64,7 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
         expectedEntity.setActive(actualEntity.getActive());
         log.debug("Directly copying TaxModelEntity.active: {} from actualEntity to expectedEntity", actualEntity.getActive());
         // comparative copy
-        if(StringUtils.hasText(form.getName()) && form.getName().compareTo(actualEntity.getName()) != 0) {
+        if(StringUtils.hasText(StringUtils.trimWhitespace(form.getName())) && form.getName().compareTo(actualEntity.getName()) != 0) {
             expectedEntity.setName(form.getName());
             changeSW = true;
             log.debug("TaxModelForm.name: {} is different as TaxModelEntity.name: {}", form.getName(), actualEntity.getName());
@@ -73,7 +72,7 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
             expectedEntity.setName(actualEntity.getName());
             log.debug("TaxModelForm.name: is unchanged");
         }
-        if(StringUtils.hasText(form.getDescription()) &&
+        if(StringUtils.hasText(StringUtils.trimWhitespace(form.getDescription())) &&
                 form.getDescription().toLowerCase().compareTo(actualEntity.getDescription().toLowerCase()) != 0) {
             expectedEntity.setDescription(form.getDescription());
             changeSW = true;
@@ -96,8 +95,7 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
             taxTypeModelValidator.validate(form.getTaxTypeModelId(), internalErrors);
             if(internalErrors.hasErrors()) {
                 log.debug("TaxModelForm.taxTypeModelId is invalid");
-                throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND,
-                        new Object [] { "taxTypeModelId", String.valueOf(form.getTaxTypeModelId()) });
+                throw new TaxModelException(TaxErrorCode.TAX_NOT_FOUND, new Object [] { "taxTypeModelId", String.valueOf(form.getTaxTypeModelId()) });
             } else {
                 expectedEntity.setTaxTypeModelId(form.getTaxTypeModelId());
                 changeSW = true;
@@ -111,7 +109,7 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
         if(expectedEntity.getCurrencyTypeModel() == null) {
             expectedEntity.setCurrencyTypeModel(new TypeModelEntity());
         }
-        if(form.getCurrencyTypeModel() != null && StringUtils.hasText(form.getCurrencyTypeModel().getName())
+        if(form.getCurrencyTypeModel() != null && StringUtils.hasText(StringUtils.trimWhitespace(form.getCurrencyTypeModel().getName()))
                 && !form.getCurrencyTypeModel().getName().equalsIgnoreCase(actualEntity.getCurrencyTypeModel().getName())) {
             expectedEntity.getCurrencyTypeModel().setName(form.getCurrencyTypeModel().getName());
             changeSW = true;
@@ -127,8 +125,7 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
             currencyTypeModelValidator.validate(form.getCurrencyTypeModel().getId(), internalErrors);
             if(internalErrors.hasErrors()) {
                 log.debug("TaxModelForm.currencyTypeModel.id is invalid");
-                throw new TaxException(TaxSubDomain.MODEL, TaxErrorCode.TAX_NOT_FOUND,
-                        new Object [] { "currencyTypeModel.id", String.valueOf(form.getCurrencyTypeModel().getId()) });
+                throw new TaxModelException(TaxErrorCode.TAX_NOT_FOUND, new Object [] { "currencyTypeModel.id", String.valueOf(form.getCurrencyTypeModel().getId()) });
             } else {
                 expectedEntity.getCurrencyTypeModel().setId(form.getCurrencyTypeModel().getId());
                 changeSW = true;

@@ -17,7 +17,7 @@
 
     <modules>
         <module>type-service</module>
-        <!--<module>tax-service</module>-->
+        <module>tax-service</module>
         <!--<module>discount-service</module>-->
         <module>common-service</module>
     </modules>
@@ -37,6 +37,7 @@
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
         <maven-surefire.version>3.0.0-M5</maven-surefire.version>
         <janino.version>3.1.4</janino.version>
+        <hoverfly.version>0.14.0</hoverfly.version>
     </properties>
 
     <dependencies>
@@ -157,6 +158,12 @@
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
             <version>${logstash-logback-encoder.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.specto</groupId>
+            <artifactId>hoverfly-java</artifactId>
+            <version>${hoverfly.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

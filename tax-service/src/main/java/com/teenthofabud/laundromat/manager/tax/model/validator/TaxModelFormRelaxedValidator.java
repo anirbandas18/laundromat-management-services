@@ -13,7 +13,7 @@ import org.springframework.validation.Errors;
 public class TaxModelFormRelaxedValidator implements RelaxedValidator<TaxModelForm>  {
     @Override
     public Boolean validateLoosely(TaxModelForm form, Errors errors) {
-        if(form.getName() != null && form.getName().length() == 0) {
+        if(form.getName() != null && StringUtils.isEmpty(StringUtils.trimWhitespace(form.getName()))) {
             errors.rejectValue("name", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             log.debug("TaxModelForm.name is empty");
             return false;
@@ -32,7 +32,8 @@ public class TaxModelFormRelaxedValidator implements RelaxedValidator<TaxModelFo
         }
         log.debug("TaxModelForm.taxTypeModelId is valid");
         if(form.getCurrencyTypeModel() != null &&
-                (form.getCurrencyTypeModel().getId() <= 0L || StringUtils.isEmpty(form.getCurrencyTypeModel().getName()))) {
+                (form.getCurrencyTypeModel().getId() <= 0L
+                        || StringUtils.isEmpty(StringUtils.trimWhitespace(form.getCurrencyTypeModel().getName())))) {
             errors.rejectValue("currencyTypeModel", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             log.debug("TaxModelForm.currencyTypeModel is empty");
             return false;

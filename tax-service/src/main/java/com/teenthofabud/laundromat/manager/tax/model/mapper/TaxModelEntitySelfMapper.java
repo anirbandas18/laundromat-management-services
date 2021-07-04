@@ -25,7 +25,8 @@ public class TaxModelEntitySelfMapper implements SingleChannelMapper<TaxModelEnt
             changeSW = true;
             log.debug("Source TaxModelEntity.description is valid");
         }
-        if(source.getName() != null && StringUtils.hasText(source.getName()) && source.getName().compareTo(target.getName()) != 0) {
+        if(source.getName() != null && StringUtils.hasText(StringUtils.trimWhitespace(source.getName()))
+                && source.getName().compareTo(target.getName()) != 0) {
             target.setName(source.getName());
             changeSW = true;
             log.debug("Source TaxModelEntity.name is valid");
@@ -50,7 +51,7 @@ public class TaxModelEntitySelfMapper implements SingleChannelMapper<TaxModelEnt
             changeSW = true;
             log.debug("Source TaxModelEntity.currencyTypeModelId is valid");
         }
-        if(source.getCurrencyTypeModel() != null && StringUtils.hasText(source.getCurrencyTypeModel().getName())
+        if(source.getCurrencyTypeModel() != null && StringUtils.hasText(StringUtils.trimWhitespace(source.getCurrencyTypeModel().getName()))
                 && source.getCurrencyTypeModel().getName().compareTo(target.getCurrencyTypeModel().getName()) != 0) {
             if(target.getCurrencyTypeModel() == null) {
                 target.setCurrencyTypeModel(new TypeModelEntity());

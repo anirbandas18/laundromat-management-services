@@ -60,6 +60,10 @@ public class TaxTypeModelValidator implements Validator {
                 log.debug("taxTypeModel.typeLovId is not for any registered tax type models");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
+            } else if (!taxTypeModelVo.getTypeLov().getActive()) {
+                log.debug("taxTypeModel.typeLovId is inactive");
+                errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
+                return;
             }
         } catch (TypeException e) {
             log.debug("taxTypeModelId is invalid");

@@ -4,11 +4,19 @@ import com.teenthofabud.core.common.converter.ComparativePatchConverter;
 import com.teenthofabud.core.common.data.dto.TypeModelDto;
 import com.teenthofabud.core.common.data.entity.TypeModelEntity;
 import com.teenthofabud.core.common.error.TOABBaseException;
+import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
+import com.teenthofabud.laundromat.manager.tax.integration.type.validator.CurrencyTypeModelValidator;
+import com.teenthofabud.laundromat.manager.tax.integration.type.validator.TaxTypeModelValidator;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelDto;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
+import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelException;
+import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelMessageTemplate;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.DirectFieldBindingResult;
+import org.springframework.validation.Errors;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -21,6 +29,20 @@ import java.util.Optional;
 public class TaxModelDto2EntityConverter implements ComparativePatchConverter<TaxModelDto, TaxModelEntity> {
 
     private static final Integer NO_OF_COMPARABLE_AND_MAPPABLE_FIELDS = 7;
+
+    private CurrencyTypeModelValidator currencyTypeModelValidator;
+
+    private TaxTypeModelValidator taxTypeModelValidator;
+
+    @Autowired
+    public void setCurrencyTypeModelValidator(CurrencyTypeModelValidator currencyTypeModelValidator) {
+        this.currencyTypeModelValidator = currencyTypeModelValidator;
+    }
+
+    @Autowired
+    public void setTaxTypeModelValidator(TaxTypeModelValidator taxTypeModelValidator) {
+        this.taxTypeModelValidator = taxTypeModelValidator;
+    }
 
     @Override
     public void compareAndMap(TaxModelDto dto, TaxModelEntity actualEntity) throws TOABBaseException {
@@ -53,6 +75,13 @@ public class TaxModelDto2EntityConverter implements ComparativePatchConverter<Ta
         }
         Optional<String> optTaxTypeModelId = dto.getTaxTypeModelId();
         if(optTaxTypeModelId.isPresent()) {
+            Long taxTypeModelId = Long.parseLong(optTaxTypeModelId.get());
+            Errors internalErrors = new DirectFieldBindingResult(taxTypeModelId, "TaxModelDto.taxTypeModelId");
+            taxTypeModelValidator.validate(taxTypeModelId, internalErrors);
+            if(internalErrors.hasErrors()) {
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID);
+                throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "taxTypeModelId" });
+            }
             actualEntity.setTaxTypeModelId(Long.parseLong(optTaxTypeModelId.get()));
             changeSW[i++] = true;
             log.debug("TaxModelDto.taxTypeModelId is valid");
@@ -64,6 +93,13 @@ public class TaxModelDto2EntityConverter implements ComparativePatchConverter<Ta
             Optional<String> optCurrencyTypeModelId = currencyTypeModelDto.getId();
             boolean isPresent = false;
             if(optCurrencyTypeModelId.isPresent()) {
+                Long currencyTypeModelIdActual = Long.parseLong(optCurrencyTypeModelId.get());
+                Errors internalErrors = new DirectFieldBindingResult(currencyTypeModelIdActual, "TaxModelDto.currencyTypeModel.id");
+                currencyTypeModelValidator.validate(currencyTypeModelIdActual, internalErrors);
+                if(internalErrors.hasErrors()) {
+                    log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID);
+                    throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "currencyTypeModel.id" });
+                }
                 currencyTypeModelEntity.setId(Long.parseLong(optCurrencyTypeModelId.get()));
                 changeSW[i++] = isPresent = true;
                 log.debug("TaxModelDto.currencyTypeModel.id is valid");

@@ -32,7 +32,8 @@ public class TaxModelEntity2VoConverter implements Converter<TaxModelEntity, Tax
             vo.setActive(entity.getActive());
             vo.setRate(entity.getRate());
             TypeModelVo internalTaxTypeModelVo = new TypeModelVo();
-            com.teenthofabud.laundromat.manager.tax.integration.type.data.TypeModelVo taxTypeModelVo = typeServiceClient.getTypeModelDetailsById(entity.getTaxTypeModelId());
+            com.teenthofabud.laundromat.manager.tax.integration.type.data.TypeModelVo taxTypeModelVo
+                    = typeServiceClient.getTypeModelDetailsById(entity.getTaxTypeModelId());
             log.debug("Retrieved: {}", taxTypeModelVo);
             internalTaxTypeModelVo.setId(taxTypeModelVo.getId());
             internalTaxTypeModelVo.setName(taxTypeModelVo.getName());

@@ -39,7 +39,7 @@ public class TaxModelFormValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         TaxModelForm form = (TaxModelForm) target;
-        if(form.getTaxTypeModelId() == null) {
+        if(form.getTaxTypeModelId() == null || form.getTaxTypeModelId() <= 0L) {
             log.debug("TaxModelForm.taxTypeModelId is invalid");
             errors.rejectValue("taxTypeModelId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             return;
@@ -63,7 +63,7 @@ public class TaxModelFormValidator implements Validator {
             return;
         } else {
             TypeModelForm currencyTypeModelForm = form.getCurrencyTypeModel();
-            if(currencyTypeModelForm.getId() == null) {
+            if(currencyTypeModelForm.getId() == null || currencyTypeModelForm.getId() <= 0L) {
                 log.debug("TaxModelForm.currencyTypeModel.id is invalid");
                 errors.rejectValue("currencyTypeModel.id", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
@@ -76,13 +76,13 @@ public class TaxModelFormValidator implements Validator {
                     return;
                 }
             }
-            if(StringUtils.isEmpty(currencyTypeModelForm.getName())) {
+            if(StringUtils.isEmpty(StringUtils.trimWhitespace(currencyTypeModelForm.getName()))) {
                 log.debug("TaxModelForm.currencyTypeModel.name is empty");
                 errors.rejectValue("currencyTypeModel.name", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
             }
         }
-        if(StringUtils.isEmpty(form.getName())) {
+        if(StringUtils.isEmpty(StringUtils.trimWhitespace(form.getName()))) {
             log.debug("TaxModelForm.name is empty");
             errors.rejectValue("name", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             return;

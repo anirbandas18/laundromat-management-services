@@ -187,7 +187,7 @@ public class TypeLOVIntegrationTest {
     }
 
     @Test
-    public void test_TypeLOV_Post_ShouldReturn_200Response_And_NewTypeLOVId_WhenPosted_WithValidTypeLOVForm() throws Exception {
+    public void test_TypeLOV_Post_ShouldReturn_201Response_And_NewTypeLOVId_WhenPosted_WithValidTypeLOVForm() throws Exception {
         MvcResult mvcResult = null;
 
         mvcResult = this.mockMvc.perform(post(TYPE_LOV_URI)

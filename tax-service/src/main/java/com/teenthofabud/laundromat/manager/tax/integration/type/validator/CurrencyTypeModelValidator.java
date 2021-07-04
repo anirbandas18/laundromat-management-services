@@ -36,6 +36,7 @@ public class CurrencyTypeModelValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Long currencyTypeModelId = (Long) target;
+
         try {
             TypeModelVo currencyTypeModelVo = typeServiceClient.getTypeModelDetailsById(currencyTypeModelId);
             if(currencyTypeModelVo.getId() == null) {
@@ -56,6 +57,10 @@ public class CurrencyTypeModelValidator implements Validator {
                 return;
             } else if (!currencyTypeModelVo.getTypeLov().getId().equals(currencyTypeLovId)) {
                 log.debug("currencyTypeModel.typeLovId is not for any registered currency type models");
+                errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
+                return;
+            } else if (!currencyTypeModelVo.getTypeLov().getActive()) {
+                log.debug("currencyTypeModel.typeLovId is inactive");
                 errors.reject(TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
             }

@@ -43,6 +43,8 @@ import java.util.Set;
 @Tag(name = "Type LOV API", description = "Manage Type LOVs and their details")
 public class TypeLOVController {
 
+    private static final String MEDIA_TYPE_APPLICATION_JSON_PATCH = "application/json-patch+json";
+
     @Autowired
     public void setService(TypeLOVService service) {
         this.service = service;
@@ -162,7 +164,7 @@ public class TypeLOVController {
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) })
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping(path = "{id}", consumes = "application/json-patch+json")
+    @PatchMapping(path = "{id}", consumes = MEDIA_TYPE_APPLICATION_JSON_PATCH)
     public ResponseEntity<Void> patchExistingTypeLOV(@PathVariable String id, @RequestBody(required = false) List<PatchOperationForm> dtoList)
             throws TypeLOVException {
         log.debug("Requesting to patch of type LOV attributes");

@@ -1,0 +1,12 @@
+{
+  "id":2,
+  "active":true,
+  "name":"Currency Type Model 1",
+  "description":"This is for e2e testing of feign clients",
+  "typeLov":{
+    "id":1,
+    "active":true,
+    "name":"Currency Type LOV 1",
+    "description":"This is for e2e testing of feign clients"
+  }
+}

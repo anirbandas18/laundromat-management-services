@@ -1,7 +1,7 @@
 package com.teenthofabud.laundromat.manager.tax.model.validator;
 
 import com.teenthofabud.core.common.data.dto.TypeModelDto;
-import com.teenthofabud.laundromat.manager.tax.constant.TaxMessageTemplate;
+import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelMessageTemplate;
 import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelDto;
 import com.teenthofabud.laundromat.manager.tax.integration.type.validator.CurrencyTypeModelValidator;
@@ -56,13 +56,13 @@ public class TaxModelDtoValidator implements Validator {
                     taxTypeModelValidator.validate(taxTypeModelId, internalErrors);
                     if(internalErrors.hasErrors()) {
                         isValid = false;
-                        log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID);
+                        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID);
                     }
                 }
             } catch (NumberFormatException e) {
                 isValid = false;
-                log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID);
-                log.error(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID, e);
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID);
+                log.error(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID, e);
             }
             if(!isValid) {
                 errors.rejectValue("taxTypeModelId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
@@ -87,13 +87,13 @@ public class TaxModelDtoValidator implements Validator {
                         currencyTypeModelValidator.validate(currencyTypeModelIdActual, internalErrors);
                         if(internalErrors.hasErrors()) {
                             isValid = false;
-                            log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID);
+                            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID);
                         }
                     }
                 } catch (NumberFormatException e) {
                     isValid = false;
-                    log.debug(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID);
-                    log.error(TaxMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID, e);
+                    log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID);
+                    log.error(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID, e);
                 }
 
             }
@@ -135,22 +135,18 @@ public class TaxModelDtoValidator implements Validator {
 
         Optional<String> optName = dto.getName();
         if((optName.isPresent()) && StringUtils.isEmpty(optName.get())) {
-            log.debug("TypeModelDto.name is invalid");
+            log.debug("TaxModelDto.name is invalid");
             errors.rejectValue("name", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             return;
         }
 
         Optional<String> optActive = dto.getActive();
-        if(!optActive.isPresent() || (optActive.isPresent() && StringUtils.isEmpty(optActive.get()))) {
-            errors.rejectValue("active", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
-            log.debug("TypeModelDto.active is invalid");
-            return;
-        } else {
+        if(optActive.isPresent() && StringUtils.hasText(StringUtils.trimWhitespace(optActive.get()))) {
             Boolean trueSW = optActive.get().equalsIgnoreCase(Boolean.TRUE.toString());
             Boolean falseSW = optActive.get().equalsIgnoreCase(Boolean.FALSE.toString());
             if(!trueSW && !falseSW) {
                 errors.rejectValue("active", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
-                log.debug("TypeModelDto.active is invalid");
+                log.debug("TaxModelDto.active is invalid");
                 return;
             }
         }

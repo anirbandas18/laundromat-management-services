@@ -1,0 +1,274 @@
+{
+  "data": {
+    "pairs": [
+      {
+        "request": {
+          "path": [
+            {
+              "matcher": "exact",
+              "value": "/v2/type/model/1"
+            }
+          ],
+          "method": [
+            {
+              "matcher": "exact",
+              "value": "GET"
+            }
+          ],
+          "destination": [
+            {
+              "matcher": "exact",
+              "value": "*"
+            }
+          ],
+          "scheme": [
+            {
+              "matcher": "exact",
+              "value": "http"
+            }
+          ]
+        },
+        "response": {
+          "status": 200,
+          "body" : "{\n  \"id\": 1,\n  \"active\": true,\n  \"name\": \"Tax Type Model 1\",\n  \"description\": \"This is for e2e testing of feign clients\",\n  \"typeLov\": {\n    \"id\": 2,\n    \"active\": true,\n    \"name\": \"Tax Type LOV 1\",\n    \"description\": \"This is for e2e testing of feign clients\"\n  }\n}",
+          "encodedBody": false,
+          "headers": {
+            "Content-Type": ["application/json"]
+          },
+          "templated": false
+        }
+      },
+      {
+        "request": {
+          "path": [
+            {
+              "matcher": "exact",
+              "value": "/v2/type/model/2"
+            }
+          ],
+          "method": [
+            {
+              "matcher": "exact",
+              "value": "GET"
+            }
+          ],
+          "destination": [
+            {
+              "matcher": "exact",
+              "value": "*"
+            }
+          ],
+          "scheme": [
+            {
+              "matcher": "exact",
+              "value": "http"
+            }
+          ]
+        },
+        "response": {
+          "status": 200,
+          "body": "{\n  \"id\": 2,\n  \"active\": true,\n  \"name\": \"Currency Type Model 1\",\n  \"description\": \"This is for e2e testing of feign clients\",\n  \"typeLov\": {\n    \"id\": 1,\n    \"active\": true,\n    \"name\": \"Currency Type LOV 1\",\n    \"description\": \"This is for e2e testing of feign clients\"\n  }\n}",
+          "encodedBody": false,
+          "headers": {
+            "Content-Type": ["application/json"]
+          },
+          "templated": false
+        }
+      },
+      {
+        "request": {
+          "path": [
+            {
+              "matcher": "exact",
+              "value": "/v2/type/model/(\\s)+"
+            }
+          ],
+          "method": [
+            {
+              "matcher": "exact",
+              "value": "GET"
+            }
+          ],
+          "destination": [
+            {
+              "matcher": "exact",
+              "value": "*"
+            }
+          ],
+          "scheme": [
+            {
+              "matcher": "exact",
+              "value": "http"
+            }
+          ]
+        },
+        "response": {
+          "status": 400,
+          "body": "{\n    \"code\": \"LMS-TAX-001\",\n    \"message\": \"resource attribute id is invalid\",\n    \"domain\": \"Tax - Model\",\n    \"trace\": \"a1b2c3\"\n}",
+          "encodedBody": false,
+          "headers": {
+            "Content-Type": ["application/problem+json"]
+          },
+          "templated": false
+        }
+      },
+      {
+        "request": {
+          "path": [
+            {
+              "matcher": "exact",
+              "value": "/v2/type/model/3"
+            }
+          ],
+          "method": [
+            {
+              "matcher": "exact",
+              "value": "GET"
+            }
+          ],
+          "destination": [
+            {
+              "matcher": "exact",
+              "value": "*"
+            }
+          ],
+          "scheme": [
+            {
+              "matcher": "exact",
+              "value": "http"
+            }
+          ]
+        },
+        "response": {
+          "status": 400,
+          "body": "{\n    \"code\": \"LMS-TAX-002\",\n    \"message\": \"resource unavailable with id 3\",\n    \"domain\": \"Tax - Model\",\n    \"trace\": \"b2c3d4\"\n}",
+          "encodedBody": false,
+          "headers": {
+            "Content-Type": ["application/problem+json"]
+          },
+          "templated": false
+        }
+      },
+      {
+        "request": {
+          "path": [
+            {
+              "matcher": "exact",
+              "value": "/v2/type/model/r"
+            }
+          ],
+          "method": [
+            {
+              "matcher": "exact",
+              "value": "GET"
+            }
+          ],
+          "destination": [
+            {
+              "matcher": "exact",
+              "value": "*"
+            }
+          ],
+          "scheme": [
+            {
+              "matcher": "exact",
+              "value": "http"
+            }
+          ]
+        },
+        "response": {
+          "status": 400,
+          "body": "{\n    \"code\": \"LMS-TAX-001\",\n    \"message\": \"resource attribute id is invalid\",\n    \"domain\": \"Tax - Model\",\n    \"trace\": \"c3d4e5\"\n}",
+          "encodedBody": false,
+          "headers": {
+            "Content-Type": ["application/problem+json"]
+          },
+          "templated": false
+        }
+      },
+      {
+        "request": {
+          "path": [
+            {
+              "matcher": "exact",
+              "value": "/v2/type/model/-3"
+            }
+          ],
+          "method": [
+            {
+              "matcher": "exact",
+              "value": "GET"
+            }
+          ],
+          "destination": [
+            {
+              "matcher": "exact",
+              "value": "*"
+            }
+          ],
+          "scheme": [
+            {
+              "matcher": "exact",
+              "value": "http"
+            }
+          ]
+        },
+        "response": {
+          "status": 400,
+          "body": "{\n    \"code\": \"LMS-TAX-001\",\n    \"message\": \"resource attribute id is invalid\",\n    \"domain\": \"Tax - Model\",\n    \"trace\": \"c3d4e5\"\n}",
+          "encodedBody": false,
+          "headers": {
+            "Content-Type": ["application/problem+json"]
+          },
+          "templated": false
+        }
+      },
+      {
+        "request": {
+          "path": [
+            {
+              "matcher": "exact",
+              "value": "/v2/type/model/33"
+            }
+          ],
+          "method": [
+            {
+              "matcher": "exact",
+              "value": "GET"
+            }
+          ],
+          "destination": [
+            {
+              "matcher": "exact",
+              "value": "*"
+            }
+          ],
+          "scheme": [
+            {
+              "matcher": "exact",
+              "value": "http"
+            }
+          ]
+        },
+        "response": {
+          "status": 404,
+          "body": "{\n    \"code\": \"LMS-TAX-002\",\n    \"message\": \"resource unavailable with id 33\",\n    \"domain\": \"Tax - Model\",\n    \"trace\": \"d4e3f6\"\n}",
+          "encodedBody": false,
+          "headers": {
+            "Content-Type": ["application/problem+json"]
+          },
+          "templated": false
+        }
+      }
+    ],
+    "globalActions": {
+      "delays": [],
+      "delaysLogNormal": []
+    }
+  },
+  "meta": {
+    "schemaVersion": "v5",
+    "hoverflyVersion": "v1.3.1",
+    "timeExported": "2019-05-30T22:14:24+01:00"
+  }
+}

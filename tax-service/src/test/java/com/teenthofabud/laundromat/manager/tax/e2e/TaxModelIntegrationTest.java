@@ -1,18 +1,25 @@
-package com.teenthofabud.laundromat.manager.type.e2e;
+package com.teenthofabud.laundromat.manager.tax.e2e;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.teenthofabud.core.common.data.entity.TypeModelEntity;
 import com.teenthofabud.core.common.data.form.PatchOperationForm;
+import com.teenthofabud.core.common.data.form.TypeModelForm;
 import com.teenthofabud.core.common.data.vo.ErrorVo;
+import com.teenthofabud.core.common.data.vo.TypeModelVo;
 import com.teenthofabud.core.common.error.TOABErrorCode;
-import com.teenthofabud.laundromat.manager.type.error.TypeErrorCode;
-import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVEntity;
-import com.teenthofabud.laundromat.manager.type.lov.data.TypeLOVVo;
-import com.teenthofabud.laundromat.manager.type.model.data.TypeModelEntity;
-import com.teenthofabud.laundromat.manager.type.model.data.TypeModelForm;
-import com.teenthofabud.laundromat.manager.type.model.data.TypeModelVo;
+import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
+import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
+import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;
+import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelVo;
+import io.specto.hoverfly.junit.core.Hoverfly;
+import io.specto.hoverfly.junit.core.HoverflyConfig;
+import io.specto.hoverfly.junit.core.HoverflyMode;
+import io.specto.hoverfly.junit.core.SimulationSource;
+import io.specto.hoverfly.junit.core.config.LocalHoverflyConfig;
 import org.junit.Assert;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +28,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,6 +42,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -54,16 +65,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
-public class TypeModelIntegrationTest {
+public class TaxModelIntegrationTest {
 
-    private static final String MEDIA_TYPE_APPLICATION_JSON_PATCH = "application/json-patch+json";
+    private static final String MEDIA_TAX_APPLICATION_JSON_PATCH = "application/json-patch+json";
 
     private static final Long CREATED_BY_USER_ID = 1L;
 
-    private static final String TYPE_MODEL_URI = "/model";
-    private static final String TYPE_MODEL_URI_BY_ID = "/model/{id}";
-    private static final String TYPE_MODEL_URI_BY_NAME = "/model/name/{name}";
-    private static final String TYPE_MODEL_URI_BY_TYPE_LOV_ID = "/model/typelovid/{typeLovId}";
+    private static final String SIMULATION_BASE_LOCATION = "simulation/type-service";
+    private static final String SIMULATION_FILE_PATH = String.join("/", SIMULATION_BASE_LOCATION, "simulation-v3.json");
+
+    private static final String TAX_MODEL_URI = "/model";
+    private static final String TAX_MODEL_URI_BY_ID = "/model/{id}";
+    private static final String TAX_MODEL_URI_BY_NAME = "/model/name/{name}";
+    private static final String TAX_MODEL_URI_BY_TAX_TYPE_MODEL_ID = "/model/taxtypemodelid/{taxTaxModelId}";
+    private static final String TAX_MODEL_URI_BY_CURRENCY_TYPE_MODEL_ID = "/model/currencytypemodelid/{currencyTaxModelId}";
 
     @Autowired
     private MockMvc mockMvc;
@@ -74,275 +89,205 @@ public class TypeModelIntegrationTest {
     @Autowired
     private EntityManager em;
 
-    private TypeLOVVo typeLOVVo1;
-    private TypeLOVVo typeLOVVo2;
-    private TypeLOVVo typeLOVVo3;
-    private TypeLOVEntity typeLOVEntity1;
-    private TypeLOVEntity typeLOVEntity2;
-    private TypeLOVEntity typeLOVEntity3;
+    @Value("${lms.tax.type-service.port}")
+    private int typeServicePort;
 
-    private TypeModelForm typeModelForm1;
-    private TypeModelForm typeModelForm2;
-    private TypeModelVo typeModelVo1;
-    private TypeModelVo typeModelVo2;
-    private TypeModelVo typeModelVo3;
-    private TypeModelVo typeModelVo4;
-    private TypeModelVo typeModelVo5;
-    private TypeModelVo typeModelVo6;
-    private TypeModelEntity typeModelEntity1;
-    private TypeModelEntity typeModelEntity2;
-    private TypeModelEntity typeModelEntity3;
-    private TypeModelEntity typeModelEntity4;
-    private TypeModelEntity typeModelEntity5;
-    private TypeModelEntity typeModelEntity6;
+    private Hoverfly hoverfly;
+
+    private TypeModelForm currencyTypeModelForm;
+    private TypeModelEntity currencyTypeModelEntity;
+    private TypeModelVo taxTypeModelVo1;
+    private TypeModelVo taxTypeModelVo2;
+    private TypeModelVo currencyTypeModelVo;
+
+    private TaxModelForm taxModelForm1;
+    private TaxModelForm taxModelForm2;
+    private TaxModelVo taxModelVo1;
+    private TaxModelVo taxModelVo2;
+    private TaxModelVo taxModelVo3;
+    private TaxModelEntity taxModelEntity1;
+    private TaxModelEntity taxModelEntity2;
+    private TaxModelEntity taxModelEntity3;
     private List<PatchOperationForm> patches;
 
-    private void setUpLOV() {
-        typeLOVVo1 = new TypeLOVVo();
-        typeLOVVo1.setId(1L);
-        typeLOVVo1.setActive(Boolean.TRUE);
-        typeLOVVo1.setName("Test Type LOV 1");
-        typeLOVVo1.setDescription("This belongs to group 1 for e2e testing");
-
-        typeLOVVo2 = new TypeLOVVo();
-        typeLOVVo2.setId(2L);
-        typeLOVVo2.setActive(Boolean.TRUE);
-        typeLOVVo2.setName("Test Type LOV 2");
-        typeLOVVo2.setDescription("This belongs to group 2 for e2e testing");
-
-        typeLOVVo3 = new TypeLOVVo();
-        typeLOVVo3.setId(3L);
-        typeLOVVo3.setActive(Boolean.TRUE);
-        typeLOVVo3.setName("Test Type LOV 3");
-        typeLOVVo3.setDescription("This belongs to group 3 for e2e testing");
-
-        typeLOVEntity1 = new TypeLOVEntity();
-        typeLOVEntity1.setActive(Boolean.TRUE);
-        typeLOVEntity1.setCreatedBy(CREATED_BY_USER_ID);
-        typeLOVEntity1.setCreatedOn(LocalDateTime.now());
-        typeLOVEntity1.setModifiedBy(CREATED_BY_USER_ID);
-        typeLOVEntity1.setModifiedOn(LocalDateTime.now());
-        typeLOVEntity1.setVersion(0);
-        typeLOVEntity1.setName("Test Type LOV 1");
-        typeLOVEntity1.setDescription("This belongs to group 1 for e2e testing");
-
-        typeLOVEntity2 = new TypeLOVEntity();
-        typeLOVEntity2.setActive(Boolean.TRUE);
-        typeLOVEntity2.setCreatedBy(CREATED_BY_USER_ID);
-        typeLOVEntity2.setCreatedOn(LocalDateTime.now());
-        typeLOVEntity2.setModifiedBy(CREATED_BY_USER_ID);
-        typeLOVEntity2.setModifiedOn(LocalDateTime.now());
-        typeLOVEntity2.setVersion(0);
-        typeLOVEntity2.setName("Test Type LOV 2");
-        typeLOVEntity2.setDescription("This belongs to group 2 for e2e testing");
-
-        typeLOVEntity3 = new TypeLOVEntity();
-        typeLOVEntity3.setActive(Boolean.FALSE);
-        typeLOVEntity3.setCreatedBy(CREATED_BY_USER_ID);
-        typeLOVEntity3.setCreatedOn(LocalDateTime.now());
-        typeLOVEntity3.setModifiedBy(CREATED_BY_USER_ID);
-        typeLOVEntity3.setModifiedOn(LocalDateTime.now());
-        typeLOVEntity3.setVersion(0);
-        typeLOVEntity3.setName("Test Type LOV 3");
-        typeLOVEntity3.setDescription("This belongs to group 3 for e2e testing");
-    }
-
     @BeforeAll
-    private void setUp() {
-        setUpLOV();
+    private void setUp() throws URISyntaxException {
+        currencyTypeModelForm = new TypeModelForm();
+        currencyTypeModelForm.setId(2L);
+        currencyTypeModelForm.setName("Currency Type Model 1");
 
-        typeModelForm1 = new TypeModelForm();
-        typeModelForm1.setName("Demo Model");
-        typeModelForm1.setDescription("This is for e2e testing of services");
-        typeModelForm1.setTypeLovId(1L);
+        taxModelForm1 = new TaxModelForm();
+        taxModelForm1.setName("Demo Tax");
+        taxModelForm1.setDescription("This belongs to taxTypeModelId 1 and currencyTypeModelId 2 for e2e testing");
+        taxModelForm1.setTaxTypeModelId(1L);
+        taxModelForm1.setCurrencyTypeModel(currencyTypeModelForm);
+        taxModelForm1.setRate(8F);
 
-        typeModelForm2 = new TypeModelForm();
-        typeModelForm2.setName("Another Model");
-        typeModelForm2.setDescription("This is for e2e testing of services");
-        typeModelForm2.setTypeLovId(2L);
+        taxModelForm2 = new TaxModelForm();
+        taxModelForm2.setName("Another Tax");
+        taxModelForm2.setDescription("This is for e2e testing of services");
+        taxModelForm2.setTaxTypeModelId(2L);
+        taxModelForm2.setCurrencyTypeModel(currencyTypeModelForm);
+        taxModelForm2.setRate(8F);
 
         patches = Arrays.asList(
-                new PatchOperationForm("replace", "/name", "Sample Model"),
+                new PatchOperationForm("replace", "/name", "Sample Tax"),
                 new PatchOperationForm("replace", "/active", "true"),
-                new PatchOperationForm("replace", "/description", "Patching description attribute of this Type Model resource"));
+                new PatchOperationForm("replace", "/description", "Patching description attribute of this Tax Model resource"));
 
-        typeModelVo1 = new TypeModelVo();
-        typeModelVo1.setId(1L);
-        typeModelVo1.setActive(Boolean.TRUE);
-        typeModelVo1.setName("Test Type Model 1");
-        typeModelVo1.setDescription("This belongs to group 1 for e2e testing");
-        typeModelVo1.setTypeLov(typeLOVVo1);
+        taxTypeModelVo1 = new TypeModelVo();
+        taxTypeModelVo1.setId(1L);
+        taxTypeModelVo1.setName("Tax Type Model 1");
 
-        typeModelVo2 = new TypeModelVo();
-        typeModelVo2.setId(2L);
-        typeModelVo2.setActive(Boolean.TRUE);
-        typeModelVo2.setName("Test Type Model 2");
-        typeModelVo2.setDescription("This belongs to group 1 for e2e testing");
-        typeModelVo2.setTypeLov(typeLOVVo1);
+        taxTypeModelVo2 = new TypeModelVo();
+        taxTypeModelVo2.setId(22L);
+        taxTypeModelVo2.setName("Tax Type Model 2");
 
-        typeModelVo3 = new TypeModelVo();
-        typeModelVo3.setId(3L);
-        typeModelVo3.setActive(Boolean.TRUE);
-        typeModelVo3.setName("Sample Type Model 3");
-        typeModelVo3.setDescription("This belongs to group 2 for e2e testing");
-        typeModelVo3.setTypeLov(typeLOVVo2);
+        currencyTypeModelVo = new TypeModelVo();
+        currencyTypeModelVo.setId(2L);
+        currencyTypeModelVo.setName("Currency Type Model 1");
 
-        typeModelVo4 = new TypeModelVo();
-        typeModelVo4.setId(4L);
-        typeModelVo4.setActive(Boolean.FALSE);
-        typeModelVo4.setName("Sample Type Model 4");
-        typeModelVo4.setDescription("This belongs to group 2 for e2e testing");
-        typeModelVo4.setTypeLov(typeLOVVo2);
+        taxModelVo1 = new TaxModelVo();
+        taxModelVo1.setId(1L);
+        taxModelVo1.setActive(Boolean.TRUE);
+        taxModelVo1.setName("Test Tax Model 1");
+        taxModelVo1.setDescription("This belongs to taxTypeModelId 1 and currencyTypeModelId 2 for e2e testing");
+        taxModelVo1.setRate(5F);
+        taxModelVo1.setTaxTypeModel(taxTypeModelVo1);
+        taxModelVo1.setCurrencyTypeModel(currencyTypeModelVo);
 
-        typeModelVo5 = new TypeModelVo();
-        typeModelVo5.setId(5L);
-        typeModelVo5.setActive(Boolean.FALSE);
-        typeModelVo5.setName("Sample Type Model 5");
-        typeModelVo5.setDescription("This belongs to group 3 for e2e testing");
-        typeModelVo5.setTypeLov(typeLOVVo3);
+        taxModelVo2 = new TaxModelVo();
+        taxModelVo2.setId(2L);
+        taxModelVo2.setActive(Boolean.TRUE);
+        taxModelVo2.setName("Test Tax Model 2");
+        taxModelVo2.setDescription("This belongs to taxTypeModelId 1 and currencyTypeModelId 2 for e2e testing");
+        taxModelVo2.setRate(5F);
+        taxModelVo2.setTaxTypeModel(taxTypeModelVo1);
+        taxModelVo2.setCurrencyTypeModel(currencyTypeModelVo);
 
-        typeModelVo6 = new TypeModelVo();
-        typeModelVo6.setId(6L);
-        typeModelVo6.setActive(Boolean.FALSE);
-        typeModelVo6.setName("Sample Type Model 6");
-        typeModelVo6.setDescription("This belongs to group 3 for e2e testing");
-        typeModelVo6.setTypeLov(typeLOVVo3);
+        taxModelVo3 = new TaxModelVo();
+        taxModelVo3.setId(3L);
+        taxModelVo3.setActive(Boolean.FALSE);
+        taxModelVo3.setName("Test Tax Model 3");
+        taxModelVo3.setDescription("This belongs to taxTypeModelId 22 and currencyTypeModelId 2 for e2e testing");
+        taxModelVo3.setRate(53F);
+        taxModelVo3.setTaxTypeModel(taxTypeModelVo2);
+        taxModelVo3.setCurrencyTypeModel(currencyTypeModelVo);
 
-        typeModelEntity1 = new TypeModelEntity();
-        typeModelEntity1.setActive(Boolean.TRUE);
-        typeModelEntity1.setCreatedBy(CREATED_BY_USER_ID);
-        typeModelEntity1.setCreatedOn(LocalDateTime.now());
-        typeModelEntity1.setModifiedBy(CREATED_BY_USER_ID);
-        typeModelEntity1.setModifiedOn(LocalDateTime.now());
-        typeModelEntity1.setVersion(0);
-        typeModelEntity1.setName("Test Type Model 1");
-        typeModelEntity1.setDescription("This belongs to group 1 for e2e testing");
+        currencyTypeModelEntity = new TypeModelEntity();
+        currencyTypeModelEntity.setId(2L);
+        currencyTypeModelEntity.setName("Currency Type Model 1");
 
-        typeModelEntity2 = new TypeModelEntity();
-        typeModelEntity2.setActive(Boolean.TRUE);
-        typeModelEntity2.setCreatedBy(CREATED_BY_USER_ID);
-        typeModelEntity2.setCreatedOn(LocalDateTime.now());
-        typeModelEntity2.setModifiedBy(CREATED_BY_USER_ID);
-        typeModelEntity2.setModifiedOn(LocalDateTime.now());
-        typeModelEntity2.setVersion(0);
-        typeModelEntity2.setName("Test Type Model 2");
-        typeModelEntity2.setDescription("This belongs to group 1 for e2e testing");
+        taxModelEntity1 = new TaxModelEntity();
+        taxModelEntity1.setActive(Boolean.TRUE);
+        taxModelEntity1.setCreatedBy(CREATED_BY_USER_ID);
+        taxModelEntity1.setCreatedOn(LocalDateTime.now());
+        taxModelEntity1.setModifiedBy(CREATED_BY_USER_ID);
+        taxModelEntity1.setModifiedOn(LocalDateTime.now());
+        taxModelEntity1.setVersion(0);
+        taxModelEntity1.setName("Test Tax Model 1");
+        taxModelEntity1.setDescription("This belongs to taxTypeModelId 1 and currencyTypeModelId 2 for e2e testing");
+        taxModelEntity1.setTaxTypeModelId(1L);
+        taxModelEntity1.setRate(5F);
+        taxModelEntity1.setCurrencyTypeModel(currencyTypeModelEntity);
 
-        typeModelEntity3 = new TypeModelEntity();
-        typeModelEntity3.setActive(Boolean.TRUE);
-        typeModelEntity3.setCreatedBy(CREATED_BY_USER_ID);
-        typeModelEntity3.setCreatedOn(LocalDateTime.now());
-        typeModelEntity3.setModifiedBy(CREATED_BY_USER_ID);
-        typeModelEntity3.setModifiedOn(LocalDateTime.now());
-        typeModelEntity3.setVersion(0);
-        typeModelEntity3.setName("Sample Type Model 3");
-        typeModelEntity3.setDescription("This belongs to group 2 for e2e testing");
+        taxModelEntity2 = new TaxModelEntity();
+        taxModelEntity2.setActive(Boolean.TRUE);
+        taxModelEntity2.setCreatedBy(CREATED_BY_USER_ID);
+        taxModelEntity2.setCreatedOn(LocalDateTime.now());
+        taxModelEntity2.setModifiedBy(CREATED_BY_USER_ID);
+        taxModelEntity2.setModifiedOn(LocalDateTime.now());
+        taxModelEntity2.setVersion(0);
+        taxModelEntity2.setName("Test Tax Model 2");
+        taxModelEntity2.setDescription("This belongs to taxTypeModelId 1 and currencyTypeModelId 2 for e2e testing");
+        taxModelEntity2.setTaxTypeModelId(1L);
+        taxModelEntity2.setRate(5F);
+        taxModelEntity2.setCurrencyTypeModel(currencyTypeModelEntity);
 
-        typeModelEntity4 = new TypeModelEntity();
-        typeModelEntity4.setActive(Boolean.FALSE);
-        typeModelEntity4.setCreatedBy(CREATED_BY_USER_ID);
-        typeModelEntity4.setCreatedOn(LocalDateTime.now());
-        typeModelEntity4.setModifiedBy(CREATED_BY_USER_ID);
-        typeModelEntity4.setModifiedOn(LocalDateTime.now());
-        typeModelEntity4.setVersion(0);
-        typeModelEntity4.setName("Sample Type Model 4");
-        typeModelEntity4.setDescription("This belongs to group 2 for e2e testing");
-
-        typeModelEntity5 = new TypeModelEntity();
-        typeModelEntity5.setActive(Boolean.FALSE);
-        typeModelEntity5.setCreatedBy(CREATED_BY_USER_ID);
-        typeModelEntity5.setCreatedOn(LocalDateTime.now());
-        typeModelEntity5.setModifiedBy(CREATED_BY_USER_ID);
-        typeModelEntity5.setModifiedOn(LocalDateTime.now());
-        typeModelEntity5.setVersion(0);
-        typeModelEntity5.setName("Sample Type Model 5");
-        typeModelEntity5.setDescription("This belongs to group 3 for e2e testing");
-
-        typeModelEntity6 = new TypeModelEntity();
-        typeModelEntity6.setActive(Boolean.FALSE);
-        typeModelEntity6.setCreatedBy(CREATED_BY_USER_ID);
-        typeModelEntity6.setCreatedOn(LocalDateTime.now());
-        typeModelEntity6.setModifiedBy(CREATED_BY_USER_ID);
-        typeModelEntity6.setModifiedOn(LocalDateTime.now());
-        typeModelEntity6.setVersion(0);
-        typeModelEntity6.setName("Sample Type Model 6");
-        typeModelEntity6.setDescription("This belongs to group 3 for e2e testing");
+        taxModelEntity3 = new TaxModelEntity();
+        taxModelEntity3.setActive(Boolean.FALSE);
+        taxModelEntity3.setCreatedBy(CREATED_BY_USER_ID);
+        taxModelEntity3.setCreatedOn(LocalDateTime.now());
+        taxModelEntity3.setModifiedBy(CREATED_BY_USER_ID);
+        taxModelEntity3.setModifiedOn(LocalDateTime.now());
+        taxModelEntity3.setVersion(0);
+        taxModelEntity3.setName("Test Tax Model 3");
+        taxModelEntity3.setDescription("This belongs to taxTypeModelId 22 and currencyTypeModelId 2 for e2e testing");
+        taxModelEntity3.setTaxTypeModelId(22L);
+        taxModelEntity3.setRate(53F);
+        taxModelEntity3.setCurrencyTypeModel(currencyTypeModelEntity);
 
         om.registerModule(new Jdk8Module());
         om.registerModule(new JavaTimeModule());
 
+        LocalHoverflyConfig localHoverflyConfig = HoverflyConfig.localConfigs();
+
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Path simulationBaseLocationPath = Paths.get(classLoader.getResource(SIMULATION_BASE_LOCATION).toURI());
+
+        localHoverflyConfig
+                .addCommands("-response-body-files-path", simulationBaseLocationPath.toString())
+                .disableTlsVerification()
+                .asWebServer()
+                .proxyPort(typeServicePort);
+
+        hoverfly = new Hoverfly(localHoverflyConfig, HoverflyMode.SIMULATE);
+        hoverfly.start();
+        hoverfly.simulate(SimulationSource.classpath(SIMULATION_FILE_PATH));
+
+    }
+
+    @AfterAll
+    private void tearDown() {
+        if(hoverfly != null) {
+            hoverfly.close();
+        }
     }
 
     @BeforeEach
     private void init() {
-        typeLOVEntity1 = em.merge(typeLOVEntity1);
-        typeLOVEntity2 = em.merge(typeLOVEntity2);
-        typeLOVEntity3 = em.merge(typeLOVEntity3);
-
-        typeModelEntity1.setTypeLov(typeLOVEntity1);
-        typeModelEntity2.setTypeLov(typeLOVEntity1);
-        typeModelEntity3.setTypeLov(typeLOVEntity2);
-        typeModelEntity4.setTypeLov(typeLOVEntity2);
-        typeModelEntity5.setTypeLov(typeLOVEntity3);
-        typeModelEntity6.setTypeLov(typeLOVEntity3);
-
-        em.merge(typeModelEntity1);
-        em.merge(typeModelEntity2);
-        em.merge(typeModelEntity3);
-        em.merge(typeModelEntity4);
-        em.merge(typeModelEntity5);
-        em.merge(typeModelEntity6);
+        em.merge(taxModelEntity1);
+        em.merge(taxModelEntity2);
+        em.merge(taxModelEntity3);
     }
 
     @AfterEach
     private void destroy() {
-        typeModelEntity1.setTypeLov(null);
-        typeModelEntity2.setTypeLov(null);
-        typeModelEntity3.setTypeLov(null);
-        typeModelEntity4.setTypeLov(null);
-        typeModelEntity5.setTypeLov(null);
-        typeModelEntity6.setTypeLov(null);
+        em.remove(taxModelEntity1);
+        em.remove(taxModelEntity2);
+        em.remove(taxModelEntity3);
 
-        em.remove(typeModelEntity1);
-        em.remove(typeModelEntity2);
-        em.remove(typeModelEntity3);
-        em.remove(typeModelEntity4);
-        em.remove(typeModelEntity5);
-        em.remove(typeModelEntity6);
+        currencyTypeModelForm = new TypeModelForm();
+        currencyTypeModelForm.setId(2L);
+        currencyTypeModelForm.setName("Currency Type Model 1");
 
-        em.remove(typeLOVEntity1);
-        em.remove(typeLOVEntity2);
-        em.remove(typeLOVEntity3);
+        taxModelForm1 = new TaxModelForm();
+        taxModelForm1.setName("Demo Tax");
+        taxModelForm1.setDescription("This belongs to taxTypeModelId 1 and currencyTypeModelId 2 for e2e testing");
+        taxModelForm1.setTaxTypeModelId(1L);
+        taxModelForm1.setCurrencyTypeModel(currencyTypeModelForm);
+        taxModelForm1.setRate(8F);
 
-        typeModelForm1 = new TypeModelForm();
-        typeModelForm1.setName("Demo Model");
-        typeModelForm1.setDescription("This is for e2e testing of services");
-        typeModelForm1.setTypeLovId(1L);
-
-        typeModelForm2 = new TypeModelForm();
-        typeModelForm2.setName("Another Model");
-        typeModelForm2.setDescription("This is for e2e testing of services");
-        typeModelForm2.setTypeLovId(2L);
-
-        typeLOVVo3 = new TypeLOVVo();
-        typeLOVVo3.setId(3L);
-        typeLOVVo3.setActive(Boolean.TRUE);
-        typeLOVVo3.setName("Test Type LOV 3");
-        typeLOVVo3.setDescription("This belongs to group 3 for e2e testing");
+        taxModelForm2 = new TaxModelForm();
+        taxModelForm2.setName("Another Tax");
+        taxModelForm2.setDescription("This is for e2e testing of services");
+        taxModelForm2.setTaxTypeModelId(2L);
+        taxModelForm2.setCurrencyTypeModel(currencyTypeModelForm);
+        taxModelForm2.setRate(8F);
 
         patches = Arrays.asList(
-                new PatchOperationForm("replace", "/name", "Sample Model"),
+                new PatchOperationForm("replace", "/name", "Sample Tax"),
                 new PatchOperationForm("replace", "/active", "true"),
-                new PatchOperationForm("replace", "/description", "Patching description attribute of this Type Model resource"));
+                new PatchOperationForm("replace", "/description", "Patching description attribute of this Tax Model resource"));
     }
 
     @Test
-    public void test_TypeModel_Post_ShouldReturn_201Response_And_NewTypeModelId_WhenPosted_WithValidTypeModelForm() throws Exception {
+    public void test_TaxModel_Post_ShouldReturn_201Response_And_NewTaxModelId_WhenPosted_WithValidTaxModelForm() throws Exception {
         MvcResult mvcResult = null;
 
-        mvcResult = this.mockMvc.perform(post(TYPE_MODEL_URI)
+        mvcResult = this.mockMvc.perform(post(TAX_MODEL_URI)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
+                .content(om.writeValueAsString(taxModelForm1)))
                 .andDo(print())
                 .andReturn();
 
@@ -352,15 +297,15 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Post_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequested_WithEmptyName() throws Exception {
+    public void test_TaxModel_Post_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenRequested_WithEmptyName() throws Exception {
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "name";
-        typeModelForm1.setName("");
+        taxModelForm1.setName("");
 
-        mvcResult = mockMvc.perform(post(TYPE_MODEL_URI)
+        mvcResult = mockMvc.perform(post(TAX_MODEL_URI)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
+                .content(om.writeValueAsString(taxModelForm1)))
                 .andDo(print())
                 .andReturn();
 
@@ -372,15 +317,15 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Post_ShouldReturn_409Response_And_ErrorCode_LMS_TYPE_004_WhenRequested_WithDuplicateTypeModel() throws Exception {
+    public void test_TaxModel_Post_ShouldReturn_409Response_And_ErrorCode_LMS_TAX_004_WhenRequested_WithDuplicateTaxModel() throws Exception {
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_EXISTS.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_EXISTS.getErrorCode();
         String field1Name = "name";
-        typeModelForm1.setName("Test Type Model 1");
+        taxModelForm1.setName("Test Tax Model 1");
 
-        mvcResult = mockMvc.perform(post(TYPE_MODEL_URI)
+        mvcResult = mockMvc.perform(post(TAX_MODEL_URI)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
+                .content(om.writeValueAsString(taxModelForm1)))
                 .andDo(print())
                 .andReturn();
 
@@ -391,13 +336,13 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Post_ShouldReturn_422Response_And_ErrorCode_LMS_TYPE_003_WhenPosted_WithNoTypeModelForm() throws Exception {
+    public void test_TaxModel_Post_ShouldReturn_422Response_And_ErrorCode_LMS_TAX_003_WhenPosted_WithNoTaxModelForm() throws Exception {
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED.getErrorCode();
         String fieldName = "form";
         String message = "not provided";
 
-        mvcResult = mockMvc.perform(post(TYPE_MODEL_URI)
+        mvcResult = mockMvc.perform(post(TAX_MODEL_URI)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andReturn();
@@ -412,16 +357,16 @@ public class TypeModelIntegrationTest {
 
     @ParameterizedTest
     @ValueSource(longs = { -3, 33, 3 })
-    public void test_TypeModel_Post_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenPostedWith_InvalidAbsentInactive_TypeModelId(Long typeLovId) throws Exception {
+    public void test_TaxModel_Post_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenPostedWith_InvalidAbsentInactive_TaxModelId(Long taxTypeModelId) throws Exception {
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "typeLovId";
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
+        String fieldName = "taxTypeModelId";
         String message = "invalid";
-        typeModelForm1.setTypeLovId(typeLovId);
+        taxModelForm1.setTaxTypeModelId(taxTypeModelId);
 
-        mvcResult = mockMvc.perform(post(TYPE_MODEL_URI)
+        mvcResult = mockMvc.perform(post(TAX_MODEL_URI)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
+                .content(om.writeValueAsString(taxModelForm1)))
                 .andDo(print())
                 .andReturn();
 
@@ -434,42 +379,42 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Get_ShouldReturn_200Response_And_TypeModelListNaturallyOrdered_WhenRequested_ForAllTypeModels() throws Exception {
+    public void test_TaxModel_Get_ShouldReturn_200Response_And_TaxModelListNaturallyOrdered_WhenRequested_ForAllTaxModels() throws Exception {
         MvcResult mvcResult = null;
-        Set<TypeModelVo> studentList = new TreeSet<>(Arrays.asList(typeModelVo1, typeModelVo2, typeModelVo3, typeModelVo4));
-        long expectedTypeModelVoCount = 6;
+        Set<TaxModelVo> studentList = new TreeSet<>(Arrays.asList(taxModelVo1, taxModelVo2));
+        long expectedTaxModelVoCount = 3;
 
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI))
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI))
                 .andDo(print())
                 .andReturn();
 
         Assert.assertNotNull(mvcResult);
         Assert.assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(expectedTypeModelVoCount, om.readValue(mvcResult.getResponse().getContentAsString(), TypeModelVo[].class).length);
+        Assert.assertEquals(expectedTaxModelVoCount, om.readValue(mvcResult.getResponse().getContentAsString(), TaxModelVo[].class).length);
     }
 
     @Test
-    public void test_TypeModel_Get_ShouldReturn_200Response_And_TypeModelDetails_WhenRequested_ById() throws Exception {
+    public void test_TaxModel_Get_ShouldReturn_200Response_And_TaxModelDetails_WhenRequested_ById() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
 
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_ID, id))
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_ID, id))
                 .andDo(print())
                 .andReturn();
 
         Assert.assertNotNull(mvcResult);
         Assert.assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(om.writeValueAsString(typeModelVo1), mvcResult.getResponse().getContentAsString());
-        Assert.assertEquals(typeModelVo1.getId(), om.readValue(mvcResult.getResponse().getContentAsString(), TypeModelVo.class).getId());
+        Assert.assertEquals(om.writeValueAsString(taxModelVo1), mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals(taxModelVo1.getId(), om.readValue(mvcResult.getResponse().getContentAsString(), TaxModelVo.class).getId());
     }
 
     @Test
-    public void test_TypeModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequested_ByEmptyId() throws Exception {
+    public void test_TaxModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenRequested_ByEmptyId() throws Exception {
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "id";
 
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_ID, " "))
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_ID, " "))
                 .andDo(print())
                 .andReturn();
 
@@ -480,12 +425,12 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequested_ByInvalidId() throws Exception {
+    public void test_TaxModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenRequested_ByInvalidId() throws Exception {
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "id";
 
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_ID, "r"))
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_ID, "r"))
                 .andDo(print())
                 .andReturn();
 
@@ -496,13 +441,13 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_002_WhenRequested_ByAbsentId() throws Exception {
+    public void test_TaxModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_002_WhenRequested_ByAbsentId() throws Exception {
         Long id = 111l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_NOT_FOUND.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_NOT_FOUND.getErrorCode();
         String fieldName = "id";
 
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_ID, id))
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_ID, id))
                 .andDo(print())
                 .andReturn();
 
@@ -513,27 +458,28 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Get_ShouldReturn_200Response_And_MatchingTypeModelDetails_WhenRequested_ByName() throws Exception {
+    public void test_TaxModel_Get_ShouldReturn_200Response_And_MatchingTaxModelDetails_WhenRequested_ByName() throws Exception {
         String name = "Test";
-        List<TypeModelVo> students = Arrays.asList(typeModelVo1, typeModelVo2);
+        List<TaxModelVo> students = Arrays.asList(taxModelVo1, taxModelVo2);
         MvcResult mvcResult = null;
+        long expectedTaxModelVoCount = 3;
 
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_NAME, name))
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_NAME, name))
                 .andDo(print())
                 .andReturn();
 
         Assert.assertNotNull(mvcResult);
         Assert.assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(2, om.readValue(mvcResult.getResponse().getContentAsString(), TypeModelVo[].class).length);
+        Assert.assertEquals(expectedTaxModelVoCount, om.readValue(mvcResult.getResponse().getContentAsString(), TaxModelVo[].class).length);
     }
 
     @Test
-    public void test_TypeModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequested_ByEmptyName() throws Exception {
+    public void test_TaxModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenRequested_ByEmptyName() throws Exception {
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "name";
 
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_NAME, " "))
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_NAME, " "))
                 .andDo(print())
                 .andReturn();
 
@@ -544,13 +490,13 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Get_ShouldReturn_404Response_And_ErrorCode_LMS_TYPE_002_WhenRequested_ByAbsentName() throws Exception {
+    public void test_TaxModel_Get_ShouldReturn_404Response_And_ErrorCode_LMS_TAX_002_WhenRequested_ByAbsentName() throws Exception {
         MvcResult mvcResult = null;
         String name = "kk";
-        String errorCode = TypeErrorCode.TYPE_NOT_FOUND.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_NOT_FOUND.getErrorCode();
         String fieldName = "name";
 
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_NAME, name))
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_NAME, name))
                 .andDo(print())
                 .andReturn();
 
@@ -562,11 +508,11 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Delete_ShouldReturn_204Response_And_NoResponseBody_WhenDeleted_ById() throws Exception {
-        Long id = 3l;
+    public void test_TaxModel_Delete_ShouldReturn_204Response_And_NoResponseBody_WhenDeleted_ById() throws Exception {
+        Long id = 2l;
         MvcResult mvcResult = null;
 
-        mvcResult = this.mockMvc.perform(delete(TYPE_MODEL_URI_BY_ID, id))
+        mvcResult = this.mockMvc.perform(delete(TAX_MODEL_URI_BY_ID, id))
                 .andDo(print())
                 .andReturn();
 
@@ -576,13 +522,13 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Delete_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001__WhenDeleted_ByEmptyId() throws Exception {
+    public void test_TaxModel_Delete_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001__WhenDeleted_ByEmptyId() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "id";
 
-        mvcResult = this.mockMvc.perform(delete(TYPE_MODEL_URI_BY_ID, " "))
+        mvcResult = this.mockMvc.perform(delete(TAX_MODEL_URI_BY_ID, " "))
                 .andDo(print())
                 .andReturn();
 
@@ -593,13 +539,13 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Delete_ShouldReturn_422Response_And_ErrorCode_LMS_TYPE_003_WhenDeleted_ByInvalidId() throws Exception {
+    public void test_TaxModel_Delete_ShouldReturn_422Response_And_ErrorCode_LMS_TAX_003_WhenDeleted_ByInvalidId() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "id";
 
-        mvcResult = this.mockMvc.perform(delete(TYPE_MODEL_URI_BY_ID, "r"))
+        mvcResult = this.mockMvc.perform(delete(TAX_MODEL_URI_BY_ID, "r"))
                 .andDo(print())
                 .andReturn();
 
@@ -610,12 +556,12 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Delete_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_005_WhenDeleted_ByInactiveId() throws Exception {
-        Long id = 4l;
+    public void test_TaxModel_Delete_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_005_WhenDeleted_ByInactiveId() throws Exception {
+        Long id = 3l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_INACTIVE.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_INACTIVE.getErrorCode();
 
-        mvcResult = this.mockMvc.perform(delete(TYPE_MODEL_URI_BY_ID, id))
+        mvcResult = this.mockMvc.perform(delete(TAX_MODEL_URI_BY_ID, id))
                 .andDo(print())
                 .andReturn();
 
@@ -626,13 +572,13 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Delete_ShouldReturn_404Response_And_ErrorCode_LMS_TYPE_002_WhenDeleted_ByAbsentId() throws Exception {
+    public void test_TaxModel_Delete_ShouldReturn_404Response_And_ErrorCode_LMS_TAX_002_WhenDeleted_ByAbsentId() throws Exception {
         Long id = 111l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_NOT_FOUND.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_NOT_FOUND.getErrorCode();
         String fieldName = "id";
 
-        mvcResult = this.mockMvc.perform(delete(TYPE_MODEL_URI_BY_ID, id))
+        mvcResult = this.mockMvc.perform(delete(TAX_MODEL_URI_BY_ID, id))
                 .andDo(print())
                 .andReturn();
 
@@ -643,14 +589,14 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Put_ShouldReturn_204Response_And_NoResponseBody_WhenUpdated_ById_AndTypeModelDetails() throws Exception {
+    public void test_TaxModel_Put_ShouldReturn_204Response_And_NoResponseBody_WhenUpdated_ById_AndTaxModelDetails() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
-        typeModelForm1.setName("Ferran");
+        taxModelForm1.setName("Ferran");
 
-        mvcResult = this.mockMvc.perform(put(TYPE_MODEL_URI_BY_ID, id)
+        mvcResult = this.mockMvc.perform(put(TAX_MODEL_URI_BY_ID, id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
+                .content(om.writeValueAsString(taxModelForm1)))
                 .andDo(print())
                 .andReturn();
 
@@ -660,15 +606,15 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenUpdated_ByEmptyId_AndTypeModelDetails() throws Exception {
+    public void test_TaxModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenUpdated_ByEmptyId_AndTaxModelDetails() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "id";
 
-        mvcResult = this.mockMvc.perform(put(TYPE_MODEL_URI_BY_ID, " ")
+        mvcResult = this.mockMvc.perform(put(TAX_MODEL_URI_BY_ID, " ")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
+                .content(om.writeValueAsString(taxModelForm1)))
                 .andDo(print())
                 .andReturn();
 
@@ -679,15 +625,15 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Put_ShouldReturn_422Response_And_ErrorCode_LMS_TYPE_003_WhenUpdated_ByInvalidId_AndTypeModelDetails() throws Exception {
+    public void test_TaxModel_Put_ShouldReturn_422Response_And_ErrorCode_LMS_TAX_003_WhenUpdated_ByInvalidId_AndTaxModelDetails() throws Exception {
         String id = "r";
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "id";
 
-        mvcResult = this.mockMvc.perform(put(TYPE_MODEL_URI_BY_ID, id)
+        mvcResult = this.mockMvc.perform(put(TAX_MODEL_URI_BY_ID, id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
+                .content(om.writeValueAsString(taxModelForm1)))
                 .andDo(print())
                 .andReturn();
 
@@ -699,15 +645,15 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Put_ShouldReturn_404Response_And_ErrorCode_LMS_TYPE_002_WhenUpdated_ByAbsentId_AndTypeModelDetails() throws Exception {
+    public void test_TaxModel_Put_ShouldReturn_404Response_And_ErrorCode_LMS_TAX_002_WhenUpdated_ByAbsentId_AndTaxModelDetails() throws Exception {
         Long id = 41l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_NOT_FOUND.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_NOT_FOUND.getErrorCode();
         String fieldName = "id";
 
-        mvcResult = this.mockMvc.perform(put(TYPE_MODEL_URI_BY_ID, id)
+        mvcResult = this.mockMvc.perform(put(TAX_MODEL_URI_BY_ID, id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
+                .content(om.writeValueAsString(taxModelForm1)))
                 .andDo(print())
                 .andReturn();
 
@@ -719,14 +665,14 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_005_WhenUpdated_ByInactiveId_AndTypeModelDetails() throws Exception {
-        Long id = 4l;
+    public void test_TaxModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_005_WhenUpdated_ByInactiveId_AndTaxModelDetails() throws Exception {
+        Long id = 3l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_INACTIVE.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_INACTIVE.getErrorCode();
 
-        mvcResult = this.mockMvc.perform(put(TYPE_MODEL_URI_BY_ID, id)
+        mvcResult = this.mockMvc.perform(put(TAX_MODEL_URI_BY_ID, id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
+                .content(om.writeValueAsString(taxModelForm1)))
                 .andDo(print())
                 .andReturn();
 
@@ -737,19 +683,19 @@ public class TypeModelIntegrationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(longs = { -3, 33, 3})
-    public void test_TypeModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenUpdatedWith_InvalidAbsentInactive_TypeModelId(Long typeLovId) throws Exception {
+    @ValueSource(longs = { -3 })
+    public void test_TaxModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenUpdatedWith_InvalidAbsentInactive_TaxModelId(Long taxTypeModelId) throws Exception {
         Long id = 1L;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "typeLovId";
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
+        String fieldName = "taxTypeModelId";
         String message = "invalid";
-        typeModelForm1.setTypeLovId(typeLovId);
+        taxModelForm1.setTaxTypeModelId(taxTypeModelId);
 
-        mvcResult = mockMvc.perform(put(TYPE_MODEL_URI_BY_ID, id)
+        mvcResult = mockMvc.perform(put(TAX_MODEL_URI_BY_ID, id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
-                .andDo(print())
+                .content(om.writeValueAsString(taxModelForm1)))
+                                                                                                                           .andDo(print())
                 .andReturn();
 
         Assert.assertNotNull(mvcResult);
@@ -760,15 +706,39 @@ public class TypeModelIntegrationTest {
 
     }
 
+    @ParameterizedTest
+    @ValueSource(longs = { 33, 3 })
+    public void test_TaxModel_Put_ShouldReturn_404Response_And_ErrorCode_LMS_TAX_002_WhenUpdatedWith_AbsentInactive_TaxModelId(Long taxTypeModelId) throws Exception {
+        Long id = 1L;
+        MvcResult mvcResult = null;
+        String errorCode = TaxErrorCode.TAX_NOT_FOUND.getErrorCode();
+        String fieldName = "taxTypeModelId";
+        String message = "unavailable";
+        taxModelForm1.setTaxTypeModelId(taxTypeModelId);
+
+        mvcResult = mockMvc.perform(put(TAX_MODEL_URI_BY_ID, id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(om.writeValueAsString(taxModelForm1)))
+                .andDo(print())
+                .andReturn();
+
+        Assert.assertNotNull(mvcResult);
+        Assert.assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
+        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
+        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
+        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(message));
+
+    }
+
     @Test
-    public void test_TypeModel_Put_ShouldReturn_422Response_And_ErrorCode_LMS_TYPE_003_WhenUpdated_ById_AndNoTypeModelDetails() throws Exception {
+    public void test_TaxModel_Put_ShouldReturn_422Response_And_ErrorCode_LMS_TAX_003_WhenUpdated_ById_AndNoTaxModelDetails() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED.getErrorCode();
         String fieldName = "form";
         String message = "not provided";
 
-        mvcResult = this.mockMvc.perform(put(TYPE_MODEL_URI_BY_ID, id)
+        mvcResult = this.mockMvc.perform(put(TAX_MODEL_URI_BY_ID, id)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andReturn();
@@ -781,16 +751,16 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequested_ById_AndInvalidName() throws Exception {
+    public void test_TaxModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenRequested_ById_AndInvalidName() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "name";
-        typeModelForm1.setName("");
+        taxModelForm1.setName("");
 
-        mvcResult = mockMvc.perform(put(TYPE_MODEL_URI_BY_ID, id)
+        mvcResult = mockMvc.perform(put(TAX_MODEL_URI_BY_ID, id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
+                .content(om.writeValueAsString(taxModelForm1)))
                 .andDo(print())
                 .andReturn();
 
@@ -801,16 +771,16 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Put_ShouldReturn_422Response_And_ErrorCode_LMS_TYPE_003_WhenUpdated_ById_AndEmptyTypeModelDetails() throws Exception {
+    public void test_TaxModel_Put_ShouldReturn_422Response_And_ErrorCode_LMS_TAX_003_WhenUpdated_ById_AndEmptyTaxModelDetails() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED.getErrorCode();
         String fieldName = "form";
         String message = "fields are expected with new values";
 
-        mvcResult = this.mockMvc.perform(put(TYPE_MODEL_URI_BY_ID, id)
+        mvcResult = this.mockMvc.perform(put(TAX_MODEL_URI_BY_ID, id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(new TypeModelForm())))
+                .content(om.writeValueAsString(new TaxModelForm())))
                 .andDo(print())
                 .andReturn();
 
@@ -822,16 +792,16 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Put_ShouldReturn_409Response_And_ErrorCode_LMS_TYPE_004_WhenUpdated_ById_AndDuplicateTypeModelDetails() throws Exception {
+    public void test_TaxModel_Put_ShouldReturn_409Response_And_ErrorCode_LMS_TAX_004_WhenUpdated_ById_AndDuplicateTaxModelDetails() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_EXISTS.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_EXISTS.getErrorCode();
         String field1Name = "name";
-        typeModelForm1.setName(typeModelEntity1.getName());
+        taxModelForm1.setName(taxModelEntity1.getName());
 
-        mvcResult = mockMvc.perform(put(TYPE_MODEL_URI_BY_ID, id)
+        mvcResult = mockMvc.perform(put(TAX_MODEL_URI_BY_ID, id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(typeModelForm1)))
+                .content(om.writeValueAsString(taxModelForm1)))
                 .andDo(print())
                 .andReturn();
 
@@ -842,12 +812,12 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Patch_ShouldReturn_204Response_And_NoResponseBody_WhenUpdated_ById_AndTypeModelDetails() throws Exception {
-        Long id = 4l;
+    public void test_TaxModel_Patch_ShouldReturn_204Response_And_NoResponseBody_WhenUpdated_ById_AndTaxModelDetails() throws Exception {
+        Long id = 2l;
         MvcResult mvcResult = null;
 
-        mvcResult = this.mockMvc.perform(patch(TYPE_MODEL_URI_BY_ID, id)
-                .contentType(MEDIA_TYPE_APPLICATION_JSON_PATCH)
+        mvcResult = this.mockMvc.perform(patch(TAX_MODEL_URI_BY_ID, id)
+                .contentType(MEDIA_TAX_APPLICATION_JSON_PATCH)
                 .content(om.writeValueAsString(patches)))
                 .andDo(print())
                 .andReturn();
@@ -858,13 +828,13 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Patch_ShouldReturn_400Response_And_ErrorCode_TOAB_COMMON_001_WhenUpdated_ByEmptyId_AndTypeModelDetails() throws Exception {
+    public void test_TaxModel_Patch_ShouldReturn_400Response_And_ErrorCode_TOAB_COMMON_001_WhenUpdated_ByEmptyId_AndTaxModelDetails() throws Exception {
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "id";
 
-        mvcResult = this.mockMvc.perform(patch(TYPE_MODEL_URI_BY_ID, " ")
-                .contentType(MEDIA_TYPE_APPLICATION_JSON_PATCH)
+        mvcResult = this.mockMvc.perform(patch(TAX_MODEL_URI_BY_ID, " ")
+                .contentType(MEDIA_TAX_APPLICATION_JSON_PATCH)
                 .content(om.writeValueAsString(patches)))
                 .andDo(print())
                 .andReturn();
@@ -877,17 +847,17 @@ public class TypeModelIntegrationTest {
 
     @ParameterizedTest
     @ValueSource(strings = { "-3", "33", "3" })
-    public void test_TypeModel_Patch_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenUpdatedWith_InvalidAbsentInactive_TypeModelId(String fieldValue) throws Exception {
+    public void test_TaxModel_Patch_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenUpdatedWith_InvalidAbsentInactive_TaxModelId(String fieldValue) throws Exception {
         Long id = 1L;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "typeLovId";
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
+        String fieldName = "taxTypeModelId";
         String message = "invalid";
         patches = Arrays.asList(
                 new PatchOperationForm("replace", "/" + fieldName, fieldValue));
 
-        mvcResult = mockMvc.perform(patch(TYPE_MODEL_URI_BY_ID, id)
-                .contentType(MEDIA_TYPE_APPLICATION_JSON_PATCH)
+        mvcResult = mockMvc.perform(patch(TAX_MODEL_URI_BY_ID, id)
+                .contentType(MEDIA_TAX_APPLICATION_JSON_PATCH)
                 .content(om.writeValueAsString(patches)))
                 .andDo(print())
                 .andReturn();
@@ -901,14 +871,14 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Patch_ShouldReturn_422Response_And_ErrorCode_LMS_TYPE_003_WhenUpdated_ByInvalidId_AndTypeModelDetails() throws Exception {
+    public void test_TaxModel_Patch_ShouldReturn_422Response_And_ErrorCode_LMS_TAX_003_WhenUpdated_ByInvalidId_AndTaxModelDetails() throws Exception {
         String id = "r";
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "id";
 
-        mvcResult = this.mockMvc.perform(patch(TYPE_MODEL_URI_BY_ID, id)
-                .contentType(MEDIA_TYPE_APPLICATION_JSON_PATCH)
+        mvcResult = this.mockMvc.perform(patch(TAX_MODEL_URI_BY_ID, id)
+                .contentType(MEDIA_TAX_APPLICATION_JSON_PATCH)
                 .content(om.writeValueAsString(patches)))
                 .andDo(print())
                 .andReturn();
@@ -921,14 +891,14 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Patch_ShouldReturn_404Response_And_ErrorCode_LMS_TYPE_002_WhenUpdated_ByAbsentId_AndTypeModelDetails() throws Exception {
+    public void test_TaxModel_Patch_ShouldReturn_404Response_And_ErrorCode_LMS_TAX_002_WhenUpdated_ByAbsentId_AndTaxModelDetails() throws Exception {
         Long id = 411l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_NOT_FOUND.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_NOT_FOUND.getErrorCode();
         String fieldName = "id";
 
-        mvcResult = this.mockMvc.perform(patch(TYPE_MODEL_URI_BY_ID, id)
-                .contentType(MEDIA_TYPE_APPLICATION_JSON_PATCH)
+        mvcResult = this.mockMvc.perform(patch(TAX_MODEL_URI_BY_ID, id)
+                .contentType(MEDIA_TAX_APPLICATION_JSON_PATCH)
                 .content(om.writeValueAsString(patches)))
                 .andDo(print())
                 .andReturn();
@@ -941,18 +911,18 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Patch_ShouldReturn_409Response_And_ErrorCode_LMS_TYPE_002_WhenUpdated_ById_AndDuplicateTypeModelDetails() throws Exception {
-        Long id = 3l;
+    public void test_TaxModel_Patch_ShouldReturn_409Response_And_ErrorCode_LMS_TAX_002_WhenUpdated_ById_AndDuplicateTaxModelDetails() throws Exception {
+        Long id = 2l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_EXISTS.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_EXISTS.getErrorCode();
         String fieldName = "name";
-        String fieldValue = typeModelEntity3.getName();
+        String fieldValue = taxModelEntity2.getName();
         patches = Arrays.asList(
                 new PatchOperationForm("replace", "/" + fieldName, fieldValue));
 
 
-        mvcResult = this.mockMvc.perform(patch(TYPE_MODEL_URI_BY_ID, id)
-                .contentType(MEDIA_TYPE_APPLICATION_JSON_PATCH)
+        mvcResult = this.mockMvc.perform(patch(TAX_MODEL_URI_BY_ID, id)
+                .contentType(MEDIA_TAX_APPLICATION_JSON_PATCH)
                 .content(om.writeValueAsString(patches)))
                 .andDo(print())
                 .andReturn();
@@ -965,14 +935,14 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Patch_ShouldReturn_422Response_And_ErrorCode_LMS_TYPE_003_WhenUpdated_ById_AndNoTypeModelDetails() throws Exception {
+    public void test_TaxModel_Patch_ShouldReturn_422Response_And_ErrorCode_LMS_TAX_003_WhenUpdated_ById_AndNoTaxModelDetails() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED.getErrorCode();
         String fieldName = "patch";
         String message = "not provided";
 
-        mvcResult = this.mockMvc.perform(patch(TYPE_MODEL_URI_BY_ID, id))
+        mvcResult = this.mockMvc.perform(patch(TAX_MODEL_URI_BY_ID, id))
                 .andDo(print())
                 .andReturn();
 
@@ -984,16 +954,16 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Patch_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequested_ById_AndInvalidActive() throws Exception {
+    public void test_TaxModel_Patch_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenRequested_ById_AndInvalidActive() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "active";
         patches = Arrays.asList(
                 new PatchOperationForm("replace", "/active", "x"));
 
-        mvcResult = mockMvc.perform(patch(TYPE_MODEL_URI_BY_ID, id)
-                .contentType(MEDIA_TYPE_APPLICATION_JSON_PATCH)
+        mvcResult = mockMvc.perform(patch(TAX_MODEL_URI_BY_ID, id)
+                .contentType(MEDIA_TAX_APPLICATION_JSON_PATCH)
                 .content(om.writeValueAsString(patches)))
                 .andDo(print())
                 .andReturn();
@@ -1006,7 +976,7 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Patch_ShouldReturn_400Response_And_ErrorCode_TOAB_COMMON_001_WhenRequested_ById_AndInvalidName() throws Exception {
+    public void test_TaxModel_Patch_ShouldReturn_400Response_And_ErrorCode_TOAB_COMMON_001_WhenRequested_ById_AndInvalidName() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
         String errorCode = TOABErrorCode.PATCH_ATTRIBUTE_INVALID.getErrorCode();
@@ -1014,8 +984,8 @@ public class TypeModelIntegrationTest {
         patches = Arrays.asList(
                 new PatchOperationForm("replace", "/name", ""));
 
-        mvcResult = mockMvc.perform(patch(TYPE_MODEL_URI_BY_ID, id)
-                .contentType(MEDIA_TYPE_APPLICATION_JSON_PATCH)
+        mvcResult = mockMvc.perform(patch(TAX_MODEL_URI_BY_ID, id)
+                .contentType(MEDIA_TAX_APPLICATION_JSON_PATCH)
                 .content(om.writeValueAsString(patches)))
                 .andDo(print())
                 .andReturn();
@@ -1028,16 +998,16 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Patch_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequested_ById_AndInvalidDefinitionOfTypeModelAttribute() throws Exception {
+    public void test_TaxModel_Patch_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenRequested_ById_AndInvalidDefinitionOfTaxModelAttribute() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
         String fieldName = "path";
         patches = Arrays.asList(
                 new PatchOperationForm("replace", "/x", "x"));
 
-        mvcResult = mockMvc.perform(patch(TYPE_MODEL_URI_BY_ID, id)
-                .contentType(MEDIA_TYPE_APPLICATION_JSON_PATCH)
+        mvcResult = mockMvc.perform(patch(TAX_MODEL_URI_BY_ID, id)
+                .contentType(MEDIA_TAX_APPLICATION_JSON_PATCH)
                 .content(om.writeValueAsString(patches)))
                 .andDo(print())
                 .andReturn();
@@ -1050,28 +1020,62 @@ public class TypeModelIntegrationTest {
     }
 
     @Test
-    public void test_TypeModel_Get_ShouldReturn_200Response_And_TypeModelDetails_WhenRequested_ByTypeLOVId() throws Exception {
+    public void test_TaxModel_Get_ShouldReturn_200Response_And_TaxModelDetails_WhenRequested_ByTaxTypeModelId() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
+        long expectedTaxModelCount = 2;
 
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_TYPE_LOV_ID, id))
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_TAX_TYPE_MODEL_ID, id))
                 .andDo(print())
                 .andReturn();
 
         Assert.assertNotNull(mvcResult);
         Assert.assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        Assert.assertEquals(om.writeValueAsString(Arrays.asList(typeModelVo1, typeModelVo2)), mvcResult.getResponse().getContentAsString());
-        Assert.assertEquals(2, om.readValue(mvcResult.getResponse().getContentAsString(), TypeModelVo[].class).length);
+        Assert.assertEquals(om.writeValueAsString(Arrays.asList(taxModelVo1, taxModelVo2)), mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals(expectedTaxModelCount, om.readValue(mvcResult.getResponse().getContentAsString(), TaxModelVo[].class).length);
     }
 
     @ParameterizedTest
     @ValueSource(strings = { " ", "r", "-3", "33", "3" })
-    public void test_TypeModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TYPE_001_WhenRequestedBy_EmptyInvalidAbsentInactive_TypeLOVId(String typeLovId) throws Exception {
+    public void test_TaxModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenRequestedBy_EmptyInvalidAbsentInactive_TaxTypeModelId(String taxTypeModelId) throws Exception {
         MvcResult mvcResult = null;
-        String errorCode = TypeErrorCode.TYPE_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "typeLovId";
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
+        String fieldName = "taxTypeModelId";
 
-        mvcResult = this.mockMvc.perform(get(TYPE_MODEL_URI_BY_TYPE_LOV_ID, typeLovId))
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_TAX_TYPE_MODEL_ID, taxTypeModelId))
+                .andDo(print())
+                .andReturn();
+
+        Assert.assertNotNull(mvcResult);
+        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
+        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
+        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
+    }
+
+    @Test
+    public void test_TaxModel_Get_ShouldReturn_200Response_And_TaxModelDetails_WhenRequested_ByCurrencyTypeModelId() throws Exception {
+        Long id = 2l;
+        MvcResult mvcResult = null;
+        long expectedTaxModelCount = 3;
+
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_CURRENCY_TYPE_MODEL_ID, id))
+                .andDo(print())
+                .andReturn();
+
+        Assert.assertNotNull(mvcResult);
+        Assert.assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
+        Assert.assertEquals(om.writeValueAsString(Arrays.asList(taxModelVo1, taxModelVo2, taxModelVo3)), mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals(expectedTaxModelCount, om.readValue(mvcResult.getResponse().getContentAsString(), TaxModelVo[].class).length);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { " ", "r", "-3", "33", "3" })
+    public void test_TaxModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenRequestedBy_EmptyInvalidAbsentInactive_CurrencyTypeModelId(String currencyTypeModelId) throws Exception {
+        MvcResult mvcResult = null;
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
+        String fieldName = "currencyTypeModelId";
+
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_CURRENCY_TYPE_MODEL_ID, currencyTypeModelId))
                 .andDo(print())
                 .andReturn();
 
