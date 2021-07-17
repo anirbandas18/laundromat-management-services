@@ -32,7 +32,7 @@ public class TypeModelDtoValidator implements Validator {
     public void validate(Object target, Errors errors) {
         TypeModelDto dto = (TypeModelDto) target;
         Optional<String> optTypeLovId = dto.getTypeLovId();
-        if((optTypeLovId.isPresent())) {
+        if(optTypeLovId.isPresent() && StringUtils.hasText(StringUtils.trimWhitespace(optTypeLovId.get()))) {
             boolean isValid = true;
             if(optTypeLovId.get() == null) {
                 isValid = false;

@@ -20,6 +20,7 @@
         <module>tax-service</module>
         <!--<module>discount-service</module>-->
         <module>common-service</module>
+        <module>access-service</module>
     </modules>
 
     <properties>

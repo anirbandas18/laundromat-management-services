@@ -79,7 +79,7 @@ public class TaxModelDto2EntityConverter implements ComparativePatchConverter<Ta
             Errors internalErrors = new DirectFieldBindingResult(taxTypeModelId, "TaxModelDto.taxTypeModelId");
             taxTypeModelValidator.validate(taxTypeModelId, internalErrors);
             if(internalErrors.hasErrors()) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID);
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID.getValue());
                 throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "taxTypeModelId" });
             }
             actualEntity.setTaxTypeModelId(Long.parseLong(optTaxTypeModelId.get()));
@@ -97,7 +97,7 @@ public class TaxModelDto2EntityConverter implements ComparativePatchConverter<Ta
                 Errors internalErrors = new DirectFieldBindingResult(currencyTypeModelIdActual, "TaxModelDto.currencyTypeModel.id");
                 currencyTypeModelValidator.validate(currencyTypeModelIdActual, internalErrors);
                 if(internalErrors.hasErrors()) {
-                    log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID);
+                    log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID.getValue());
                     throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "currencyTypeModel.id" });
                 }
                 currencyTypeModelEntity.setId(Long.parseLong(optCurrencyTypeModelId.get()));

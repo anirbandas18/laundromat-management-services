@@ -44,7 +44,7 @@ public class TaxModelDtoValidator implements Validator {
         TaxModelDto dto = (TaxModelDto) target;
 
         Optional<String> optTaxTypeModelId = dto.getTaxTypeModelId();
-        if((optTaxTypeModelId.isPresent())) {
+        if(optTaxTypeModelId.isPresent() && StringUtils.hasText(StringUtils.trimWhitespace(optTaxTypeModelId.get()))) {
             boolean isValid = true;
             try {
                 Long taxTypeModelId = Long.parseLong(optTaxTypeModelId.get());
@@ -56,13 +56,13 @@ public class TaxModelDtoValidator implements Validator {
                     taxTypeModelValidator.validate(taxTypeModelId, internalErrors);
                     if(internalErrors.hasErrors()) {
                         isValid = false;
-                        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID);
+                        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID.getValue());
                     }
                 }
             } catch (NumberFormatException e) {
                 isValid = false;
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID);
-                log.error(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID, e);
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID.getValue());
+                log.error(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID.getValue(), e);
             }
             if(!isValid) {
                 errors.rejectValue("taxTypeModelId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
@@ -71,11 +71,11 @@ public class TaxModelDtoValidator implements Validator {
         }
 
         Optional<TypeModelDto> optCurrencyTypeModel = dto.getCurrencyTypeModel();
-        if((optCurrencyTypeModel.isPresent())) {
+        if(optCurrencyTypeModel.isPresent()) {
             boolean isValid = true;
             TypeModelDto currencyTypeModel = optCurrencyTypeModel.get();
             Optional<String> optCurrencyTypeModelId = currencyTypeModel.getId();
-            if(optCurrencyTypeModelId.isPresent()) {
+            if(optCurrencyTypeModelId.isPresent() && StringUtils.hasText(StringUtils.trimWhitespace(optCurrencyTypeModelId.get()))) {
                 String currencyTypeModelIdExpected = optCurrencyTypeModelId.get();
                 try {
                     Long currencyTypeModelIdActual = Long.parseLong(currencyTypeModelIdExpected);
@@ -87,13 +87,13 @@ public class TaxModelDtoValidator implements Validator {
                         currencyTypeModelValidator.validate(currencyTypeModelIdActual, internalErrors);
                         if(internalErrors.hasErrors()) {
                             isValid = false;
-                            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID);
+                            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID.getValue());
                         }
                     }
                 } catch (NumberFormatException e) {
                     isValid = false;
-                    log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID);
-                    log.error(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID, e);
+                    log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID.getValue());
+                    log.error(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_CURRENCY_TYPE_MODEL_ID_INVALID.getValue(), e);
                 }
 
             }
@@ -109,7 +109,7 @@ public class TaxModelDtoValidator implements Validator {
         }
 
         Optional<String> optRate = dto.getRate();
-        if((optRate.isPresent())) {
+        if(optRate.isPresent() && StringUtils.hasText(StringUtils.trimWhitespace(optRate.get()))) {
             boolean isValid = true;
             if(optRate.get() == null) {
                 isValid = false;

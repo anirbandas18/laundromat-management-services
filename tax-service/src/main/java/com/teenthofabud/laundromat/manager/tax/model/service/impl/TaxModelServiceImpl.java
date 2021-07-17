@@ -302,13 +302,13 @@ public class TaxModelServiceImpl implements TaxModelService {
     public void updateTaxModel(Long id, TaxModelForm form) throws TaxModelException {
         log.info("Updating TaxModelForm by id: {}", id);
 
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID, id);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID.getValue(), id);
         Optional<TaxModelEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE, id);
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE.getValue(), id);
             throw new TaxModelException(TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID, id);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID.getValue(), id);
 
         TaxModelEntity actualEntity = optActualEntity.get();
         if(!actualEntity.getActive()) {
@@ -365,7 +365,7 @@ public class TaxModelServiceImpl implements TaxModelService {
         if(actualEntity == null) {
             log.debug("Unable to update {}", actualEntity);
             throw new TaxModelException(TaxErrorCode.TAX_ACTION_FAILURE,
-                    new Object[]{ "update", "unable to persist currency type LOV details" });
+                    new Object[]{ "update", "unable to persist currency tax model details" });
         }
         log.info("Updated existing TaxModelEntity with id: {} to version: {}", actualEntity.getId(), actualEntity.getVersion());
     }
@@ -375,13 +375,13 @@ public class TaxModelServiceImpl implements TaxModelService {
     public void deleteTaxModel(Long id) throws TaxModelException {
         log.info("Soft deleting TaxModelEntity by id: {}", id);
 
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID, id);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID.getValue(), id);
         Optional<TaxModelEntity> optEntity = repository.findById(id);
         if(optEntity.isEmpty()) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE, id);
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE.getValue(), id);
             throw new TaxModelException(TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID, id);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID.getValue(), id);
 
         TaxModelEntity actualEntity = optEntity.get();
         if(!actualEntity.getActive()) {
@@ -398,7 +398,7 @@ public class TaxModelServiceImpl implements TaxModelService {
         if(expectedEntity == null) {
             log.debug("Unable to soft delete {}", actualEntity);
             throw new TaxModelException(TaxErrorCode.TAX_ACTION_FAILURE,
-                    new Object[]{ "deletion", "unable to soft delete current type LOV details with id:" + id });
+                    new Object[]{ "deletion", "unable to soft delete current tax model details with id:" + id });
         }
 
         log.info("Soft deleted existing TaxModelEntity with id: {}", actualEntity.getId());
@@ -409,13 +409,13 @@ public class TaxModelServiceImpl implements TaxModelService {
     public void applyPatchOnTaxModel(Long id, List<PatchOperationForm> patches) throws TaxModelException {
         log.info("Patching TaxModelEntity by id: {}", id);
 
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID, id);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TAX_MODEL_ENTITY_ID.getValue(), id);
         Optional<TaxModelEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE, id);
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_NO_TAX_MODEL_ENTITY_ID_AVAILABLE.getValue(), id);
             throw new TaxModelException(TaxErrorCode.TAX_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID, id);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_FOUND_TAX_MODEL_ENTITY_ID.getValue(), id);
 
         TaxModelEntity actualEntity = optActualEntity.get();
         if(patches == null || (patches != null && patches.isEmpty())) {
@@ -501,26 +501,26 @@ public class TaxModelServiceImpl implements TaxModelService {
         if(patchedTaxModelForm.getName().isPresent() && patchedTaxModelForm.getTaxTypeModelId().isPresent()
                 && (patchedTaxModelForm.getCurrencyTypeModel().isEmpty()
                 || (patchedTaxModelForm.getCurrencyTypeModel().isPresent() && patchedTaxModelForm.getCurrencyTypeModel().get().getId().isEmpty()))) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID.getValue(),
                     patchedTaxModelForm.getName().get(), patchedTaxModelForm.getTaxTypeModelId().get());
             boolean sameEntitySw = patchedTaxModelForm.getName().get().equals(actualEntity.getName())
                     && patchedTaxModelForm.getTaxTypeModelId().get().equals(actualEntity.getTaxTypeModelId().toString());
             boolean duplicateEntitySw =  repository.existsByNameAndTaxTypeModelId(
                     patchedTaxModelForm.getName().get(), Long.parseLong(patchedTaxModelForm.getTaxTypeModelId().get()));
             if(sameEntitySw || duplicateEntitySw) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_TAX_TYPE_MODEL_ID,
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_TAX_TYPE_MODEL_ID.getValue(),
                         patchedTaxModelForm.getName().get(), patchedTaxModelForm.getTaxTypeModelId().get());
                 throw new TaxModelException(TaxErrorCode.TAX_EXISTS,
                         new Object[]{ "name " + patchedTaxModelForm.getName().get() + ", taxTypeModelId " + patchedTaxModelForm.getTaxTypeModelId().get() });
             }
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID.getValue(),
                     patchedTaxModelForm.getName().get(), patchedTaxModelForm.getTaxTypeModelId().get());
         }
 
         // name = true, taxTypeModelId = true, currencyTypeModel.id = true
         if(patchedTaxModelForm.getName().isPresent() && patchedTaxModelForm.getTaxTypeModelId().isPresent()
                 && patchedTaxModelForm.getCurrencyTypeModel().isPresent() && patchedTaxModelForm.getCurrencyTypeModel().get().getId().isPresent()) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                     patchedTaxModelForm.getName().get(), patchedTaxModelForm.getTaxTypeModelId().get(),
                     patchedTaxModelForm.getCurrencyTypeModel().get().getId().get());
             boolean sameEntitySw = patchedTaxModelForm.getName().get().equals(actualEntity.getName())
@@ -530,14 +530,14 @@ public class TaxModelServiceImpl implements TaxModelService {
                     Long.parseLong(patchedTaxModelForm.getTaxTypeModelId().get()),
                     Long.parseLong(patchedTaxModelForm.getCurrencyTypeModel().get().getId().get()));
             if(sameEntitySw || duplicateEntitySw) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID,
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                         patchedTaxModelForm.getName().get(), patchedTaxModelForm.getTaxTypeModelId().get(),
                         patchedTaxModelForm.getCurrencyTypeModel().get().getId().get());
                 throw new TaxModelException(TaxErrorCode.TAX_EXISTS,
                         new Object[]{ "name " + patchedTaxModelForm.getName().get() + ", taxTypeModelId " + patchedTaxModelForm.getTaxTypeModelId().get()
                                 + ", currencyTypeModel.id " + patchedTaxModelForm.getCurrencyTypeModel().get().getId().get() });
             }
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                     patchedTaxModelForm.getName().get(), patchedTaxModelForm.getTaxTypeModelId().get(),
                     patchedTaxModelForm.getCurrencyTypeModel().get().getId().get());
         }
@@ -545,19 +545,19 @@ public class TaxModelServiceImpl implements TaxModelService {
         // name = true, taxTypeModelId = false, currencyTypeModel.id = true
         if(patchedTaxModelForm.getName().isPresent() && patchedTaxModelForm.getTaxTypeModelId().isEmpty()
                 && patchedTaxModelForm.getCurrencyTypeModel().isPresent() && patchedTaxModelForm.getCurrencyTypeModel().get().getId().isPresent()) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_CURRENCY_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                     patchedTaxModelForm.getName().get(),  patchedTaxModelForm.getCurrencyTypeModel().get().getId().get());
             boolean sameEntitySw = patchedTaxModelForm.getName().get().equals(actualEntity.getName())
                     && patchedTaxModelForm.getCurrencyTypeModel().get().getId().get().equals(actualEntity.getCurrencyTypeModel().getId().toString());
             boolean duplicateEntitySw =  repository.existsByNameAndCurrencyTypeModelId(patchedTaxModelForm.getName().get(),
                     Long.parseLong(patchedTaxModelForm.getCurrencyTypeModel().get().getId().get()));
             if(sameEntitySw || duplicateEntitySw) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_CURRENCY_TYPE_MODEL_ID,
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                         patchedTaxModelForm.getName().get(), patchedTaxModelForm.getCurrencyTypeModel().get().getId().get());
                 throw new TaxModelException(TaxErrorCode.TAX_EXISTS, new Object[]{ "name " + patchedTaxModelForm.getName().get()
                         + ", currencyTypeModel.id " + patchedTaxModelForm.getCurrencyTypeModel().get().getId().get() });
             }
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_CURRENCY_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                     patchedTaxModelForm.getName().get(),  patchedTaxModelForm.getCurrencyTypeModel().get().getId().get());
         }
 
@@ -565,18 +565,18 @@ public class TaxModelServiceImpl implements TaxModelService {
         if(patchedTaxModelForm.getName().isPresent() && patchedTaxModelForm.getTaxTypeModelId().isEmpty()
                 && (patchedTaxModelForm.getCurrencyTypeModel().isEmpty()
                 || (patchedTaxModelForm.getCurrencyTypeModel().isPresent() && patchedTaxModelForm.getCurrencyTypeModel().get().getId().isEmpty()))) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                     patchedTaxModelForm.getName().get(),  actualEntity.getTaxTypeModelId(), actualEntity.getCurrencyTypeModel().getId());
             boolean sameEntitySw = patchedTaxModelForm.getName().get().equals(actualEntity.getName());
             boolean duplicateEntitySw =  repository.existsByNameAndTaxTypeModelIdAndCurrencyTypeModelId(patchedTaxModelForm.getName().get(),
                     actualEntity.getTaxTypeModelId(), actualEntity.getCurrencyTypeModel().getId());
             if(sameEntitySw || duplicateEntitySw) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID,
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                         patchedTaxModelForm.getName().get(), actualEntity.getTaxTypeModelId(), actualEntity.getCurrencyTypeModel().getId());
                 throw new TaxModelException(TaxErrorCode.TAX_EXISTS, new Object[]{ "name " + patchedTaxModelForm.getName().get()
                         + ", taxTypeModelId " + actualEntity.getTaxTypeModelId() + ", currencyTypeModel.id " + actualEntity.getCurrencyTypeModel().getId() });
             }
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                     patchedTaxModelForm.getName().get(), actualEntity.getTaxTypeModelId(), actualEntity.getCurrencyTypeModel().getId());
         }
 
@@ -587,42 +587,42 @@ public class TaxModelServiceImpl implements TaxModelService {
         if(StringUtils.hasText(StringUtils.trimWhitespace(taxModelForm.getName())) && taxModelForm.getTaxTypeModelId() != null
                 && (taxModelForm.getCurrencyTypeModel() == null
                 || (taxModelForm.getCurrencyTypeModel() != null && taxModelForm.getCurrencyTypeModel().getId() == null))) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID.getValue(),
                     taxModelForm.getName(), taxModelForm.getTaxTypeModelId());
             boolean sameEntitySw = taxModelForm.getName().equals(actualEntity.getName())
-                    && taxModelForm.getTaxTypeModelId().equals(actualEntity.getTaxTypeModelId().toString());
+                    && taxModelForm.getTaxTypeModelId().equals(actualEntity.getTaxTypeModelId());
             boolean duplicateEntitySw =  repository.existsByNameAndTaxTypeModelId(
                     taxModelForm.getName(), taxModelForm.getTaxTypeModelId());
             if(sameEntitySw || duplicateEntitySw) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_TAX_TYPE_MODEL_ID,
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_TAX_TYPE_MODEL_ID.getValue(),
                         taxModelForm.getName(), taxModelForm.getTaxTypeModelId());
                 throw new TaxModelException(TaxErrorCode.TAX_EXISTS,
                         new Object[]{ "name " + taxModelForm.getName() + ", taxTypeModelId " + taxModelForm.getTaxTypeModelId() });
             }
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID.getValue(),
                     taxModelForm.getName(), taxModelForm.getTaxTypeModelId());
         }
 
         // name = true, taxTypeModelId = true, currencyTypeModel.id = true
         if(StringUtils.hasText(StringUtils.trimWhitespace(taxModelForm.getName())) && taxModelForm.getTaxTypeModelId() != null
                 && taxModelForm.getCurrencyTypeModel() != null && taxModelForm.getCurrencyTypeModel().getId() != null) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                     taxModelForm.getName(), taxModelForm.getTaxTypeModelId(),
                     taxModelForm.getCurrencyTypeModel().getId());
             boolean sameEntitySw = taxModelForm.getName().equals(actualEntity.getName())
                     && taxModelForm.getTaxTypeModelId().equals(actualEntity.getTaxTypeModelId().toString())
-                    && taxModelForm.getCurrencyTypeModel().getId().equals(actualEntity.getCurrencyTypeModel().getId().toString());
+                    && taxModelForm.getCurrencyTypeModel().getId().equals(actualEntity.getCurrencyTypeModel().getId());
             boolean duplicateEntitySw =  repository.existsByNameAndTaxTypeModelIdAndCurrencyTypeModelId(taxModelForm.getName(),
                     taxModelForm.getTaxTypeModelId(), taxModelForm.getCurrencyTypeModel().getId());
             if(sameEntitySw || duplicateEntitySw) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID,
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                         taxModelForm.getName(), taxModelForm.getTaxTypeModelId(),
                         taxModelForm.getCurrencyTypeModel().getId());
                 throw new TaxModelException(TaxErrorCode.TAX_EXISTS,
                         new Object[]{ "name " + taxModelForm.getName() + ", taxTypeModelId " + taxModelForm.getTaxTypeModelId()
                                 + ", currencyTypeModel.id " + taxModelForm.getCurrencyTypeModel().getId() });
             }
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                     taxModelForm.getName(), taxModelForm.getTaxTypeModelId(),
                     taxModelForm.getCurrencyTypeModel().getId());
         }
@@ -630,18 +630,18 @@ public class TaxModelServiceImpl implements TaxModelService {
         // name = true, taxTypeModelId = false, currencyTypeModel.id = true
         if(StringUtils.hasText(StringUtils.trimWhitespace(taxModelForm.getName())) && taxModelForm.getTaxTypeModelId() == null
                 && taxModelForm.getCurrencyTypeModel() != null && taxModelForm.getCurrencyTypeModel().getId() != null) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_CURRENCY_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                     taxModelForm.getName(),  taxModelForm.getCurrencyTypeModel().getId());
             boolean sameEntitySw = taxModelForm.getName().equals(actualEntity.getName())
-                    && taxModelForm.getCurrencyTypeModel().getId().equals(actualEntity.getCurrencyTypeModel().getId().toString());
+                    && taxModelForm.getCurrencyTypeModel().getId().equals(actualEntity.getCurrencyTypeModel().getId());
             boolean duplicateEntitySw =  repository.existsByNameAndCurrencyTypeModelId(taxModelForm.getName(), taxModelForm.getCurrencyTypeModel().getId());
             if(sameEntitySw || duplicateEntitySw) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_CURRENCY_TYPE_MODEL_ID,
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                         taxModelForm.getName(), taxModelForm.getCurrencyTypeModel().getId());
                 throw new TaxModelException(TaxErrorCode.TAX_EXISTS, new Object[]{ "name " + taxModelForm.getName()
                         + ", currencyTypeModel.id " + taxModelForm.getCurrencyTypeModel().getId() });
             }
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_CURRENCY_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                     taxModelForm.getName(),  taxModelForm.getCurrencyTypeModel().getId());
         }
 
@@ -649,18 +649,18 @@ public class TaxModelServiceImpl implements TaxModelService {
         if(StringUtils.hasText(StringUtils.trimWhitespace(taxModelForm.getName())) && taxModelForm.getTaxTypeModelId() == null
                 && (taxModelForm.getCurrencyTypeModel() == null
                 || (taxModelForm.getCurrencyTypeModel() != null && taxModelForm.getCurrencyTypeModel().getId() == null))) {
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                     taxModelForm.getName(),  actualEntity.getTaxTypeModelId(), actualEntity.getCurrencyTypeModel().getId());
             boolean sameEntitySw = taxModelForm.getName().equals(actualEntity.getName());
             boolean duplicateEntitySw =  repository.existsByNameAndTaxTypeModelIdAndCurrencyTypeModelId(taxModelForm.getName(),
                     actualEntity.getTaxTypeModelId(), actualEntity.getCurrencyTypeModel().getId());
             if(sameEntitySw || duplicateEntitySw) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID,
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_EXISTS_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                         taxModelForm.getName(), actualEntity.getTaxTypeModelId(), actualEntity.getCurrencyTypeModel().getId());
                 throw new TaxModelException(TaxErrorCode.TAX_EXISTS, new Object[]{ "name " + taxModelForm.getName()
                         + ", taxTypeModelId " + actualEntity.getTaxTypeModelId() + ", currencyTypeModel.id " + actualEntity.getCurrencyTypeModel().getId() });
             }
-            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID,
+            log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_NON_EXISTENCE_BY_NAME_AND_TAX_TYPE_MODEL_ID_AND_CURRENCY_TYPE_MODEL_ID.getValue(),
                     taxModelForm.getName(), actualEntity.getTaxTypeModelId(), actualEntity.getCurrencyTypeModel().getId());
         }
 

@@ -56,7 +56,7 @@ public class TaxModelController {
     @Operation(summary = "Create new Tax Model details by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Id of newly created Tax Model",
-                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Void.class)) }),
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Long.class)) }),
             @ApiResponse(responseCode = "400", description = "Tax Model attribute's value is invalid",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
             @ApiResponse(responseCode = "409", description = "Tax Model already exists with the given attribute values",
@@ -99,7 +99,7 @@ public class TaxModelController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_VALID, id);
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_VALID.getValue(), id);
                 if(form != null) {
                     service.updateTaxModel(actualId, form);
                     log.debug("Responding with successful updation of attributes for existing tax model");
@@ -108,11 +108,11 @@ public class TaxModelController {
                 log.debug("TaxModelForm is null");
                 throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED, new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_INVALID, id);
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_INVALID.getValue(), id);
                 throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_EMPTY);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_EMPTY.getValue());
         throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -136,16 +136,16 @@ public class TaxModelController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_VALID, id);
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_VALID.getValue(), id);
                 service.deleteTaxModel(actualId);
                 log.debug("Responding with successful deletion of existing tax model");
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } catch (NumberFormatException e) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_INVALID, id);
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_INVALID.getValue(), id);
                 throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_EMPTY);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_EMPTY.getValue());
         throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -170,7 +170,7 @@ public class TaxModelController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_VALID, id);
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_VALID.getValue(), id);
                 if(dtoList != null) {
                     service.applyPatchOnTaxModel(actualId, dtoList);
                     log.debug("Responding with successful patch of attributes for existing tax model");
@@ -179,11 +179,11 @@ public class TaxModelController {
                 log.debug("tax model patch document is null");
                 throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_INVALID, id);
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_INVALID.getValue(), id);
                 throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_EMPTY);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_EMPTY.getValue());
         throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -196,9 +196,9 @@ public class TaxModelController {
     @GetMapping
     public Set<TaxModelVo> getAllTaxModelNaturallyOrdered() {
         log.debug("Requesting all available tax models by their natural orders");
-        Set<TaxModelVo> naturallyOrderedStudents = service.retrieveAllByNaturalOrdering();
+        Set<TaxModelVo> naturallyOrderedTaxModels = service.retrieveAllByNaturalOrdering();
         log.debug("Responding with all available tax models by their natural orders");
-        return naturallyOrderedStudents;
+        return naturallyOrderedTaxModels;
     }
 
     @Operation(summary = "Get all Tax Model details by name")
@@ -213,7 +213,7 @@ public class TaxModelController {
     })
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("name/{name}")
-    public List<TaxModelVo> getAllStudentsByName(@PathVariable String name) throws TaxModelException {
+    public List<TaxModelVo> getAllTaxModelsByName(@PathVariable String name) throws TaxModelException {
         log.debug("Requesting all available tax models with given name");
         if(StringUtils.hasText(name)) {
             List<TaxModelVo> matchedByNames = service.retrieveAllMatchingDetailsByName(name);
@@ -240,16 +240,16 @@ public class TaxModelController {
         if(StringUtils.hasText(id)) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_VALID, id);
-                TaxModelVo studentDetails = service.retrieveDetailsById(actualId);
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_VALID.getValue(), id);
+                TaxModelVo taxModelDetails = service.retrieveDetailsById(actualId);
                 log.debug("Responding with successful retrieval of existing tax model details by id");
-                return studentDetails;
+                return taxModelDetails;
             } catch (NumberFormatException e) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_INVALID, id);
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_INVALID.getValue(), id);
                 throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_EMPTY);
+        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_ID_EMPTY.getValue());
         throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 

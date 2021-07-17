@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(value = "type-service", url = "${lms.tax.type-service.url}", fallback = TypeServiceClientFallbackImpl.class)
+@FeignClient(value = "type-service-client", url = "${lms.tax.type-service.url}", fallback = TypeServiceClientFallbackImpl.class)
 public interface TypeServiceClient {
 
     @GetMapping("/model/{id}")

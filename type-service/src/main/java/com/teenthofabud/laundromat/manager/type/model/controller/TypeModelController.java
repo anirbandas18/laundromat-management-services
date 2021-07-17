@@ -47,7 +47,7 @@ public class TypeModelController {
     @Operation(summary = "Create new Type Model details by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Id of newly created Type Model",
-                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Void.class)) }),
+                    content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Long.class)) }),
             @ApiResponse(responseCode = "400", description = "Type Model attribute's value is invalid",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
             @ApiResponse(responseCode = "409", description = "Type Model already exists with the given attribute values",
@@ -92,7 +92,7 @@ public class TypeModelController {
         if(StringUtils.hasText(StringUtils.trimWhitespace(id))) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_VALID, id);
+                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_VALID.getValue(), id);
                 if(form != null) {
                     service.updateTypeModel(actualId, form);
                     log.debug("Responding with successful updation of attributes for existing type model");
@@ -102,11 +102,11 @@ public class TypeModelController {
                 throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED,
                         new Object[]{ "form", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_INVALID, id);
+                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_INVALID.getValue(), id);
                 throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_EMPTY);
+        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_EMPTY.getValue());
         throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -130,16 +130,16 @@ public class TypeModelController {
         if(StringUtils.hasText(StringUtils.trimWhitespace(id))) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_VALID, id);
+                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_VALID.getValue(), id);
                 service.deleteTypeModel(actualId);
                 log.debug("Responding with successful deletion of existing type model");
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } catch (NumberFormatException e) {
-                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_INVALID, id);
+                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_INVALID.getValue(), id);
                 throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_EMPTY);
+        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_EMPTY.getValue());
         throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -164,7 +164,7 @@ public class TypeModelController {
         if(StringUtils.hasText(StringUtils.trimWhitespace(id))) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_VALID, id);
+                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_VALID.getValue(), id);
                 if(dtoList != null) {
                     service.applyPatchOnTypeModel(actualId, dtoList);
                     log.debug("Responding with successful patch of attributes for existing type model");
@@ -173,11 +173,11 @@ public class TypeModelController {
                 log.debug("type model patch document is null");
                 throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_UNEXPECTED, new Object[]{ "patch", TOABBaseMessageTemplate.MSG_TEMPLATE_NOT_PROVIDED });
             } catch (NumberFormatException e) {
-                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_INVALID, id);
+                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_INVALID.getValue(), id);
                 throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_EMPTY);
+        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_EMPTY.getValue());
         throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
@@ -190,9 +190,9 @@ public class TypeModelController {
     @GetMapping
     public Set<TypeModelVo> getAllTypeModelNaturallyOrdered() {
         log.debug("Requesting all available type models by their natural orders");
-        Set<TypeModelVo> naturallyOrderedStudents = service.retrieveAllByNaturalOrdering();
+        Set<TypeModelVo> naturallyOrderedTypeModels = service.retrieveAllByNaturalOrdering();
         log.debug("Responding with all available type models by their natural orders");
-        return naturallyOrderedStudents;
+        return naturallyOrderedTypeModels;
     }
 
     @Operation(summary = "Get all Type Model details by name")
@@ -207,7 +207,7 @@ public class TypeModelController {
     })
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("name/{name}")
-    public List<TypeModelVo> getAllStudentsByName(@PathVariable String name) throws TypeModelException {
+    public List<TypeModelVo> getAllTypeModelsByName(@PathVariable String name) throws TypeModelException {
         log.debug("Requesting all available type models with given name");
         if(StringUtils.hasText(StringUtils.trimWhitespace(name))) {
             List<TypeModelVo> matchedByNames = service.retrieveAllMatchingDetailsByName(name);
@@ -234,16 +234,16 @@ public class TypeModelController {
         if(StringUtils.hasText(StringUtils.trimWhitespace(id))) {
             try {
                 Long actualId = Long.parseLong(id);
-                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_VALID, id);
-                TypeModelVo studentDetails = service.retrieveDetailsById(actualId);
+                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_VALID.getValue(), id);
+                TypeModelVo typeModelDetails = service.retrieveDetailsById(actualId);
                 log.debug("Responding with successful retrieval of existing type model details by id");
-                return studentDetails;
+                return typeModelDetails;
             } catch (NumberFormatException e) {
-                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_INVALID, id);
+                log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_INVALID.getValue(), id);
                 throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
             }
         }
-        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_EMPTY);
+        log.debug(TypeModelMessageTemplate.MSG_TEMPLATE_TYPE_MODEL_ID_EMPTY.getValue());
         throw new TypeModelException(TypeErrorCode.TYPE_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 

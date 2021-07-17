@@ -11,7 +11,7 @@
 
     <groupId>com.teenthofabud.laundromat.manager</groupId>
     <artifactId>laundromat-management-tax-service</artifactId>
-    <version>1.8.9-SNAPSHOT</version>
+    <version>1.8.11-RELEASE</version>
     <packaging>jar</packaging>
     <name>tax-service</name>
 
@@ -41,6 +41,15 @@
                     <buildArgs>
                         <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>
+                        -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
+                    </jvmArguments>
                 </configuration>
             </plugin>
         </plugins>

@@ -205,14 +205,14 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         }
         log.debug("All attributes of TypeLOVForm are valid");
 
-        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_EXISTENCE_BY_NAME, form.getName());
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_EXISTENCE_BY_NAME.getValue(), form.getName());
         TypeLOVEntity expectedEntity = form2EntityConverter.convert(form);
         if(repository.existsByName(expectedEntity.getName())) {
-            log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_EXISTS_BY_NAME, expectedEntity.getName());
+            log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_EXISTS_BY_NAME.getValue(), expectedEntity.getName());
             throw new TypeLOVException(TypeErrorCode.TYPE_EXISTS,
                     new Object[]{ "name", form.getName() });
         }
-        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_NON_EXISTENCE_BY_NAME, expectedEntity.getName());
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_NON_EXISTENCE_BY_NAME.getValue(), expectedEntity.getName());
 
         log.debug("Saving {}", expectedEntity);
         TypeLOVEntity actualEntity = repository.save(expectedEntity);
@@ -232,13 +232,13 @@ public class TypeLOVServiceImpl implements TypeLOVService {
     public void updateTypeLOV(Long id, TypeLOVForm form) throws TypeLOVException {
         log.info("Updating TypeLOVForm by id: {}", id);
 
-        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TYPE_LOV_ENTITY_ID, id);
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TYPE_LOV_ENTITY_ID.getValue(), id);
         Optional<TypeLOVEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
-            log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_NO_TYPE_LOV_ENTITY_ID_AVAILABLE, id);
+            log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_NO_TYPE_LOV_ENTITY_ID_AVAILABLE.getValue(), id);
             throw new TypeLOVException(TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_FOUND_TYPE_LOV_ENTITY_ID, id);
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_FOUND_TYPE_LOV_ENTITY_ID.getValue(), id);
 
         TypeLOVEntity actualEntity = optActualEntity.get();
         if(!actualEntity.getActive()) {
@@ -274,14 +274,14 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         }
         log.debug("Successfully compared and copied attributes from TypeLOVForm to TypeLOVEntity");
 
-        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_EXISTENCE_BY_NAME, form.getName());
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_EXISTENCE_BY_NAME.getValue(), form.getName());
         TypeLOVEntity expectedEntity = optExpectedEntity.get();
         if(actualEntity.getName().compareTo(expectedEntity.getName()) == 0 || repository.existsByName(expectedEntity.getName())) {
-            log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_EXISTS_BY_NAME, expectedEntity.getName());
+            log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_EXISTS_BY_NAME.getValue(), expectedEntity.getName());
             throw new TypeLOVException(TypeErrorCode.TYPE_EXISTS,
                     new Object[]{ "name", actualEntity.getName() });
         }
-        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_NON_EXISTENCE_BY_NAME, expectedEntity.getName());
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_NON_EXISTENCE_BY_NAME.getValue(), expectedEntity.getName());
 
         entitySelfMapper.compareAndMap(expectedEntity, actualEntity);
         log.debug("Compared and copied attributes from TypeLOVEntity to TypeLOVForm");
@@ -304,13 +304,13 @@ public class TypeLOVServiceImpl implements TypeLOVService {
     public void deleteTypeLOV(Long id) throws TypeLOVException {
         log.info("Soft deleting TypeLOVEntity by id: {}", id);
 
-        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TYPE_LOV_ENTITY_ID, id);
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TYPE_LOV_ENTITY_ID.getValue(), id);
         Optional<TypeLOVEntity> optEntity = repository.findById(id);
         if(optEntity.isEmpty()) {
-            log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_NO_TYPE_LOV_ENTITY_ID_AVAILABLE, id);
+            log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_NO_TYPE_LOV_ENTITY_ID_AVAILABLE.getValue(), id);
             throw new TypeLOVException(TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_FOUND_TYPE_LOV_ENTITY_ID, id);
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_FOUND_TYPE_LOV_ENTITY_ID.getValue(), id);
 
         TypeLOVEntity actualEntity = optEntity.get();
         if(!actualEntity.getActive()) {
@@ -357,13 +357,13 @@ public class TypeLOVServiceImpl implements TypeLOVService {
     public void applyPatchOnTypeLOV(Long id, List<PatchOperationForm> patches) throws TypeLOVException {
         log.info("Patching TypeLOVEntity by id: {}", id);
 
-        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TYPE_LOV_ENTITY_ID, id);
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_SEARCHING_FOR_TYPE_LOV_ENTITY_ID.getValue(), id);
         Optional<TypeLOVEntity> optActualEntity = repository.findById(id);
         if(optActualEntity.isEmpty()) {
-            log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_NO_TYPE_LOV_ENTITY_ID_AVAILABLE, id);
+            log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_NO_TYPE_LOV_ENTITY_ID_AVAILABLE.getValue(), id);
             throw new TypeLOVException(TypeErrorCode.TYPE_NOT_FOUND, new Object[] { "id", String.valueOf(id) });
         }
-        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_FOUND_TYPE_LOV_ENTITY_ID, id);
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_FOUND_TYPE_LOV_ENTITY_ID.getValue(), id);
 
         TypeLOVEntity actualEntity = optActualEntity.get();
         if(patches == null || (patches != null && patches.isEmpty())) {
@@ -423,13 +423,13 @@ public class TypeLOVServiceImpl implements TypeLOVService {
         }
         log.debug("All attributes of patched TypeLOVDto are valid");
 
-        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_EXISTENCE_BY_NAME, patchedTypeLOVForm.getName().get());
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_EXISTENCE_BY_NAME.getValue(), patchedTypeLOVForm.getName().get());
         if(actualEntity.getName().compareTo(patchedTypeLOVForm.getName().get()) == 0 || repository.existsByName(patchedTypeLOVForm.getName().get())) {
-            log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_EXISTS_BY_NAME, patchedTypeLOVForm.getName().get());
+            log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_EXISTS_BY_NAME.getValue(), patchedTypeLOVForm.getName().get());
             throw new TypeLOVException(TypeErrorCode.TYPE_EXISTS,
                     new Object[]{ "name", patchedTypeLOVForm.getName().get() });
         }
-        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_NON_EXISTENCE_BY_NAME, patchedTypeLOVForm.getName().get());
+        log.debug(TypeLOVMessageTemplate.MSG_TEMPLATE_TYPE_LOV_NON_EXISTENCE_BY_NAME.getValue(), patchedTypeLOVForm.getName().get());
 
 
         log.debug("Comparatively copying patched attributes from TypeLOVDto to TypeLOVEntity");
