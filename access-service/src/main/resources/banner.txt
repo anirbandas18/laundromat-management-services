@@ -1,0 +1,29 @@
+
+
+
+               AAA                  CCCCCCCCCCCCC       CCCCCCCCCCCCCEEEEEEEEEEEEEEEEEEEEEE   SSSSSSSSSSSSSSS    SSSSSSSSSSSSSSS
+              A:::A              CCC::::::::::::C    CCC::::::::::::CE::::::::::::::::::::E SS:::::::::::::::S SS:::::::::::::::S
+             A:::::A           CC:::::::::::::::C  CC:::::::::::::::CE::::::::::::::::::::ES:::::SSSSSS::::::SS:::::SSSSSS::::::S
+            A:::::::A         C:::::CCCCCCCC::::C C:::::CCCCCCCC::::CEE::::::EEEEEEEEE::::ES:::::S     SSSSSSSS:::::S     SSSSSSS
+           A:::::::::A       C:::::C       CCCCCCC:::::C       CCCCCC  E:::::E       EEEEEES:::::S            S:::::S
+          A:::::A:::::A     C:::::C             C:::::C                E:::::E             S:::::S            S:::::S
+         A:::::A A:::::A    C:::::C             C:::::C                E::::::EEEEEEEEEE    S::::SSSS          S::::SSSS
+        A:::::A   A:::::A   C:::::C             C:::::C                E:::::::::::::::E     SS::::::SSSSS      SS::::::SSSSS
+       A:::::A     A:::::A  C:::::C             C:::::C                E:::::::::::::::E       SSS::::::::SS      SSS::::::::SS
+      A:::::AAAAAAAAA:::::A C:::::C             C:::::C                E::::::EEEEEEEEEE          SSSSSS::::S        SSSSSS::::S
+     A:::::::::::::::::::::AC:::::C             C:::::C                E:::::E                         S:::::S            S:::::S
+    A:::::AAAAAAAAAAAAA:::::AC:::::C       CCCCCCC:::::C       CCCCCC  E:::::E       EEEEEE            S:::::S            S:::::S
+   A:::::A             A:::::AC:::::CCCCCCCC::::C C:::::CCCCCCCC::::CEE::::::EEEEEEEE:::::ESSSSSSS     S:::::SSSSSSSS     S:::::S
+  A:::::A               A:::::ACC:::::::::::::::C  CC:::::::::::::::CE::::::::::::::::::::ES::::::SSSSSS:::::SS::::::SSSSSS:::::S
+ A:::::A                 A:::::A CCC::::::::::::C    CCC::::::::::::CE::::::::::::::::::::ES:::::::::::::::SS S:::::::::::::::SS
+AAAAAAA                   AAAAAAA   CCCCCCCCCCCCC       CCCCCCCCCCCCCEEEEEEEEEEEEEEEEEEEEEE SSSSSSSSSSSSSSS    SSSSSSSSSSSSSSS
+
+
+
+
+
+   : : ${application.title} : :             (v${application.version})
+
+
+https://patorjk.com/software/taag/#p=display&f=Doh&t=ACCESS
+
