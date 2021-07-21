@@ -24,14 +24,10 @@ public class UserRoleEntity extends TOABBaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ToString.Include
     private Long id;
-    /*@EmbeddedId
-    private PermissionMap permissionMapping;*/
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    //@MapsId("userId")
     @JoinColumn(name = "user_model_id")
     private UserTypeEntity userType;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    //@MapsId("operationId")
     @JoinColumn(name = "role_model_id")
     private RoleEntity role;
 

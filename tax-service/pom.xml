@@ -21,7 +21,7 @@
     </properties>
 
     <build>
-        <finalName>tax-app</finalName>
+        <finalName>tax-app-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>com.spotify</groupId>

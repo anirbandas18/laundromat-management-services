@@ -2,6 +2,7 @@ package com.teenthofabud.laundromat.manager.access.role.data;
 
 import com.teenthofabud.core.common.data.entity.TOABBaseEntity;
 import com.teenthofabud.laundromat.manager.access.permission.data.PermissionEntity;
+import com.teenthofabud.laundromat.manager.access.rolepermission.data.RolePermissionEntity;
 import com.teenthofabud.laundromat.manager.access.userrole.data.UserRoleEntity;
 import lombok.*;
 
@@ -27,4 +28,6 @@ public class RoleEntity extends TOABBaseEntity {
     private String description;
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRoleEntity> userRoles;
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RolePermissionEntity> rolePermissions;
 }

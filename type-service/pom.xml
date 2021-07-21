@@ -20,7 +20,7 @@
     </properties>
 
     <build>
-        <finalName>type-app</finalName>
+        <finalName>type-app-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>com.spotify</groupId>
