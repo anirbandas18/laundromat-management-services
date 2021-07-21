@@ -16,7 +16,7 @@ public class PermissionEntity2VoConverter implements Converter<PermissionEntity,
         TypeModelVo resource = new TypeModelVo();
         resource.setName(entity.getResource().getName());
         resource.setId(entity.getResource().getId());
-        vo.setReource(resource);
+        vo.setResource(resource);
         TypeModelVo operation = new TypeModelVo();
         operation.setName(entity.getOperation().getName());
         operation.setId(entity.getOperation().getId());

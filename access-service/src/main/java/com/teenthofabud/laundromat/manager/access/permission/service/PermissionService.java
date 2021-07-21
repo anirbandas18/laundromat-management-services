@@ -17,6 +17,7 @@ public interface PermissionService {
     public PermissionVo retrieveDetailsById(long id) throws PermissionException;
 
     public List<PermissionVo> retrieveAllMatchingDetailsByResource(Long resourceId) throws PermissionException;
+
     public List<PermissionVo> retrieveAllMatchingDetailsByOperation(Long operationId) throws PermissionException;
 
     public Long createPermission(PermissionForm form) throws PermissionException;

@@ -21,7 +21,7 @@ public class PermissionVo implements Comparable<PermissionVo> {
     private Long operationId;
 */
     @ToString.Include
-    private TypeModelVo reource;
+    private TypeModelVo resource;
     @ToString.Include
     private TypeModelVo operation;
 

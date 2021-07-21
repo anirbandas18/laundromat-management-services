@@ -85,11 +85,9 @@ public class PermissionIntegrationTest {
     private PermissionVo permissionVo1;
     private PermissionVo permissionVo2;
     private PermissionVo permissionVo3;
-    //private PermissionVo permissionVo4;
     private PermissionEntity permissionEntity1;
     private PermissionEntity permissionEntity2;
     private PermissionEntity permissionEntity3;
-    //private PermissionEntity permissionEntity4;
     private List<PatchOperationForm> patches;
 
     @BeforeAll
@@ -106,26 +104,20 @@ public class PermissionIntegrationTest {
         permissionVo1 = new PermissionVo();
         permissionVo1.setId(1L);
         permissionVo1.setActive(Boolean.TRUE);
-        permissionVo1.setReource(new TypeModelVo(1L, "Resource 1"));
+        permissionVo1.setResource(new TypeModelVo(1L, "Resource 1"));
         permissionVo1.setOperation(new TypeModelVo(1L, "Operation 1"));
 
         permissionVo2 = new PermissionVo();
         permissionVo2.setId(2L);
         permissionVo2.setActive(Boolean.TRUE);
-        permissionVo2.setReource(new TypeModelVo(1L, "Resource 1"));
+        permissionVo2.setResource(new TypeModelVo(1L, "Resource 1"));
         permissionVo2.setOperation(new TypeModelVo(2L, "Operation 2"));
 
         permissionVo3 = new PermissionVo();
         permissionVo3.setId(3L);
         permissionVo3.setActive(Boolean.TRUE);
-        permissionVo3.setReource(new TypeModelVo(2L, "Resource 2"));
+        permissionVo3.setResource(new TypeModelVo(2L, "Resource 2"));
         permissionVo3.setOperation(new TypeModelVo(1L, "Operation 1"));
-
-        /*permissionVo4 = new PermissionVo();
-        permissionVo4.setId(4L);
-        permissionVo4.setActive(Boolean.FALSE);
-        permissionVo4.setName("Sample Permission 4");
-        permissionVo4.setDescription("This belongs to group 2 for e2e testing");*/
 
         resourceEntity1 = new ResourceEntity();
         resourceEntity1.setActive(Boolean.TRUE);
@@ -191,16 +183,6 @@ public class PermissionIntegrationTest {
         permissionEntity3.setModifiedOn(LocalDateTime.now());
         permissionEntity3.setVersion(0);
 
-        /*permissionEntity4 = new PermissionEntity();
-        permissionEntity4.setActive(Boolean.FALSE);
-        permissionEntity4.setCreatedBy(CREATED_BY_USER_ID);
-        permissionEntity4.setCreatedOn(LocalDateTime.now());
-        permissionEntity4.setModifiedBy(CREATED_BY_USER_ID);
-        permissionEntity4.setModifiedOn(LocalDateTime.now());
-        permissionEntity4.setVersion(0);
-        permissionEntity4.setResource(resourceEntity2);
-        permissionEntity4.setOperation(operationEntity2);*/
-
         om.registerModule(new Jdk8Module());
         om.registerModule(new JavaTimeModule());
 
@@ -223,7 +205,6 @@ public class PermissionIntegrationTest {
         em.merge(permissionEntity1);
         em.merge(permissionEntity2);
         em.merge(permissionEntity3);
-        //em.merge(permissionEntity4);
     }
 
     @AfterEach
@@ -235,11 +216,9 @@ public class PermissionIntegrationTest {
         permissionEntity3.setResource(null);
         permissionEntity3.setOperation(null);
 
-
         em.remove(permissionEntity1);
         em.remove(permissionEntity2);
         em.remove(permissionEntity3);
-        //em.remove(permissionEntity4);
 
         em.remove(resourceEntity1);
         em.remove(resourceEntity2);
@@ -330,6 +309,7 @@ public class PermissionIntegrationTest {
         Assert.assertEquals(HttpStatus.CONFLICT.value(), mvcResult.getResponse().getStatus());
         Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
         Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(field1Name));
+        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(field2Name));
     }
 
     @Test

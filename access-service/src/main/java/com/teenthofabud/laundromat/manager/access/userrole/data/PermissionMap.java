@@ -1,4 +1,4 @@
-/*
+package com.teenthofabud.laundromat.manager.access.userrole.data;/*
 package com.teenthofabud.laundromat.manager.access.permission.data;
 
 import lombok.EqualsAndHashCode;

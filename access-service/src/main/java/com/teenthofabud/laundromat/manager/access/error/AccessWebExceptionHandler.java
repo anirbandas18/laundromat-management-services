@@ -2,11 +2,16 @@ package com.teenthofabud.laundromat.manager.access.error;
 
 import brave.Tracer;
 import com.teenthofabud.core.common.data.vo.ErrorVo;
+import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.core.common.handler.TOABBaseWebExceptionHandler;
 import com.teenthofabud.core.common.handler.TOABMessageSource;
 import com.teenthofabud.laundromat.manager.access.operation.data.OperationException;
 import com.teenthofabud.laundromat.manager.access.permission.data.PermissionException;
 import com.teenthofabud.laundromat.manager.access.resource.data.ResourceException;
+import com.teenthofabud.laundromat.manager.access.role.data.RoleException;
+import com.teenthofabud.laundromat.manager.access.rolepermission.data.RolePermissionException;
+import com.teenthofabud.laundromat.manager.access.userrole.data.UserRoleException;
+import com.teenthofabud.laundromat.manager.access.usertype.data.UserTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,20 +34,9 @@ public class AccessWebExceptionHandler implements TOABBaseWebExceptionHandler {
 
     private Tracer tracer;
 
-    @ExceptionHandler(ResourceException.class)
-    public ResponseEntity<ErrorVo> handleResourceException(ResourceException e) {
-        ResponseEntity<ErrorVo>  response = parseExceptionToResponse(e, messageSource, tracer);
-        return response;
-    }
-
-    @ExceptionHandler(OperationException.class)
-    public ResponseEntity<ErrorVo> handleOperationException(OperationException e) {
-        ResponseEntity<ErrorVo>  response = parseExceptionToResponse(e, messageSource, tracer);
-        return response;
-    }
-
-    @ExceptionHandler(PermissionException.class)
-    public ResponseEntity<ErrorVo> handlePermissionException(PermissionException e) {
+    @ExceptionHandler(value = { ResourceException.class, OperationException.class, PermissionException.class,
+            UserTypeException.class, RoleException.class, UserRoleException.class, RolePermissionException.class })
+    public ResponseEntity<ErrorVo> handleAccessSubDomainExceptions(TOABBaseException e) {
         ResponseEntity<ErrorVo>  response = parseExceptionToResponse(e, messageSource, tracer);
         return response;
     }

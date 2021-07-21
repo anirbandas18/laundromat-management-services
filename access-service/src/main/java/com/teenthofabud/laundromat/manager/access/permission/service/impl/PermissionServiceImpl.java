@@ -216,7 +216,7 @@ public class PermissionServiceImpl implements PermissionService {
             log.debug(PermissionMessageTemplate.MSG_TEMPLATE_PERMISSION_EXISTS_BY_RESOURCE_ID_OPERATION_ID.getValue(),
                     form.getResourceId(), form.getOperationId());
             throw new PermissionException(AccessErrorCode.ACCESS_EXISTS,
-                    new Object[]{ "resourceId", form.getResourceId(), "operationId", form.getOperationId() });
+                    new Object[]{ "resourceId: " + form.getResourceId(), "operationId: " + form.getOperationId() });
         }
         log.debug(PermissionMessageTemplate.MSG_TEMPLATE_PERMISSION_NON_EXISTENCE_BY_RESOURCE_ID_OPERATION_ID.getValue(),
                 form.getResourceId(), form.getOperationId());

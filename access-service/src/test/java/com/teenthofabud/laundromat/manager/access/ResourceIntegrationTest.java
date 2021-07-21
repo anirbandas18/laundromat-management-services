@@ -81,11 +81,11 @@ public class ResourceIntegrationTest {
     @BeforeAll
     private void setUp() {
         resourceForm = new ResourceForm();
-        resourceForm.setName("Demo LOV");
+        resourceForm.setName("Demo Resource");
         resourceForm.setDescription("This is for e2e testing of services");
 
         patches = Arrays.asList(
-                new PatchOperationForm("replace", "/name", "Sample LOV"),
+                new PatchOperationForm("replace", "/name", "Sample Resource"),
                 new PatchOperationForm("replace", "/active", "true"),
                 new PatchOperationForm("replace", "/description", "Patching description attribute of this Resource resource"));
 
@@ -176,11 +176,11 @@ public class ResourceIntegrationTest {
         em.remove(resourceEntity4);
 
         resourceForm = new ResourceForm();
-        resourceForm.setName("Demo LOV");
+        resourceForm.setName("Demo Resource");
         resourceForm.setDescription("This is for e2e testing of services");
 
         patches = Arrays.asList(
-                new PatchOperationForm("replace", "/name", "Sample LOV"),
+                new PatchOperationForm("replace", "/name", "Sample Resource"),
                 new PatchOperationForm("replace", "/active", "true"),
                 new PatchOperationForm("replace", "/description", "Patching description attribute of this Resource resource"));
     }

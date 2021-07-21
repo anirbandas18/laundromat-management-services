@@ -85,11 +85,11 @@ public class OperationIntegrationTest {
     @BeforeAll
     private void setUp() {
         operationForm = new OperationForm();
-        operationForm.setName("Demo LOV");
+        operationForm.setName("Demo Operation");
         operationForm.setDescription("This is for e2e testing of services");
 
         patches = Arrays.asList(
-                new PatchOperationForm("replace", "/name", "Sample LOV"),
+                new PatchOperationForm("replace", "/name", "Sample Operation"),
                 new PatchOperationForm("replace", "/active", "true"),
                 new PatchOperationForm("replace", "/description", "Patching description attribute of this Operation operation"));
 
@@ -180,11 +180,11 @@ public class OperationIntegrationTest {
         em.remove(operationEntity4);
 
         operationForm = new OperationForm();
-        operationForm.setName("Demo LOV");
+        operationForm.setName("Demo Operation");
         operationForm.setDescription("This is for e2e testing of services");
 
         patches = Arrays.asList(
-                new PatchOperationForm("replace", "/name", "Sample LOV"),
+                new PatchOperationForm("replace", "/name", "Sample Operation"),
                 new PatchOperationForm("replace", "/active", "true"),
                 new PatchOperationForm("replace", "/description", "Patching description attribute of this Operation operation"));
     }
