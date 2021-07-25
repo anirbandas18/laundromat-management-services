@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "permission_model")
+@Table(name = "permission_lov")
 public class PermissionEntity extends TOABBaseEntity {
 
     @Id
@@ -27,10 +27,10 @@ public class PermissionEntity extends TOABBaseEntity {
     @ToString.Include
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "resource_model_id")
+    @JoinColumn(name = "resource_lov_id")
     private ResourceEntity resource;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "operation_model_id")
+    @JoinColumn(name = "operation_lov_id")
     private OperationEntity operation;
     @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RolePermissionEntity> rolePermissions;

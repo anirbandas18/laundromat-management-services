@@ -30,7 +30,7 @@ public class TaxWebExceptionHandler implements TOABBaseWebExceptionHandler {
     private Tracer tracer;
 
     @ExceptionHandler(value = {TaxLOVException.class, TaxModelException.class })
-    public ResponseEntity<ErrorVo> handleTaxException(TOABBaseException e) {
+    public ResponseEntity<ErrorVo> handleTaxSubDomainException(TOABBaseException e) {
         ResponseEntity<ErrorVo>  response = parseExceptionToResponse(e, messageSource, tracer);
         return response;
     }

@@ -120,7 +120,7 @@ public class TaxModelDtoValidator implements Validator {
                     Float rate = Float.parseFloat(optRate.get());
                     if(rate < 0L) {
                         isValid = false;
-                        log.debug("TaxModelDto.rate is invalid: taxLovId <= 0");
+                        log.debug("TaxModelDto.rate is invalid: rate <= 0");
                     }
                 } catch (NumberFormatException e) {
                     isValid = false;

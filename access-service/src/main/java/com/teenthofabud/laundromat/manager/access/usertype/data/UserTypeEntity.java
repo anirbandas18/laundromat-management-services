@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "user_model")
+@Table(name = "user_lov")
 public class UserTypeEntity extends TOABBaseEntity {
 
     @Id

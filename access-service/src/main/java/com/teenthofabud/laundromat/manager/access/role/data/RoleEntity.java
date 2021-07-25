@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "role_model")
+@Table(name = "role_lov")
 public class RoleEntity extends TOABBaseEntity {
 
     @Id

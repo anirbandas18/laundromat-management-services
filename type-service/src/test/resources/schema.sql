@@ -1,5 +1,5 @@
 create table if not exists type_lov (
-    id identity,
+    id identity not null,
     name varchar2(20) not null,
     description varchar2(100) not null,
     created_on datetime default current_timestamp,
@@ -13,7 +13,7 @@ create table if not exists type_lov (
 create index if not exists idx_type_lov_name on type_lov(name);
 
 create table if not exists type_model (
-    id identity,
+    id identity not null,
     type_lov_id int not null,
     name varchar2(20) not null,
     description varchar2(100) not null,

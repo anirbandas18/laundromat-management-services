@@ -13,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "role_permission")
+@Table(name = "role_permission_model")
 public class RolePermissionEntity extends TOABBaseEntity {
 
     @Id
@@ -21,7 +21,7 @@ public class RolePermissionEntity extends TOABBaseEntity {
     @ToString.Include
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "role_model_id")
+    @JoinColumn(name = "role_lov_id")
     private RoleEntity role;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "permission_model_id")

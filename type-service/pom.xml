@@ -11,7 +11,7 @@
 
     <groupId>com.teenthofabud.laundromat.manager</groupId>
     <artifactId>laundromat-management-type-service</artifactId>
-    <version>1.8.11-RELEASE</version>
+    <version>1.9.0-RELEASE</version>
     <packaging>jar</packaging>
     <name>type-service</name>
 

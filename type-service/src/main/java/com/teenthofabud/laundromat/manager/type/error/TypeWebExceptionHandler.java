@@ -1,6 +1,7 @@
 package com.teenthofabud.laundromat.manager.type.error;
 
 import brave.Tracer;
+import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.core.common.handler.TOABBaseWebExceptionHandler;
 import com.teenthofabud.core.common.data.vo.ErrorVo;
 import com.teenthofabud.core.common.handler.TOABMessageSource;
@@ -28,14 +29,8 @@ public class TypeWebExceptionHandler implements TOABBaseWebExceptionHandler {
 
     private Tracer tracer;
 
-    @ExceptionHandler(TypeLOVException.class)
-    public ResponseEntity<ErrorVo> handleTypeLOVException(TypeLOVException e) {
-        ResponseEntity<ErrorVo>  response = parseExceptionToResponse(e, messageSource, tracer);
-        return response;
-    }
-
-    @ExceptionHandler(TypeModelException.class)
-    public ResponseEntity<ErrorVo> handleTypeModelException(TypeModelException e) {
+    @ExceptionHandler(value = { TypeLOVException.class, TypeModelException.class })
+    public ResponseEntity<ErrorVo> handleTypeSubDomainException(TOABBaseException e) {
         ResponseEntity<ErrorVo>  response = parseExceptionToResponse(e, messageSource, tracer);
         return response;
     }

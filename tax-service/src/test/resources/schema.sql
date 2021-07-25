@@ -1,5 +1,5 @@
 create table if not exists tax_lov (
-    id identity,
+    id identity not null,
     name varchar(20) not null, -- discount, cashback
     description varchar(100),
     created_on timestamp default current_timestamp,
@@ -16,7 +16,7 @@ create index if not exists idx_tax_lov_name on tax_lov(name);
 
 
 create table if not exists tax_model (
-    id identity,
+    id identity not null,
     tax_lov_id int not null,
     currency_type_model_id int not null,
     rate float not null,

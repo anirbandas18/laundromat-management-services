@@ -23,7 +23,7 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "operation_model")
+@Table(name = "operation_lov")
 public class OperationEntity extends TOABBaseEntity {
 
     @Id
