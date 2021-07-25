@@ -10,6 +10,7 @@ import com.teenthofabud.core.common.data.vo.ErrorVo;
 import com.teenthofabud.core.common.data.vo.TypeModelVo;
 import com.teenthofabud.core.common.error.TOABErrorCode;
 import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
+import com.teenthofabud.laundromat.manager.tax.lov.data.TaxLOVEntity;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelVo;
@@ -77,7 +78,7 @@ public class TaxModelIntegrationTest {
     private static final String TAX_MODEL_URI = "/model";
     private static final String TAX_MODEL_URI_BY_ID = "/model/{id}";
     private static final String TAX_MODEL_URI_BY_NAME = "/model/name/{name}";
-    private static final String TAX_MODEL_URI_BY_TAX_TYPE_MODEL_ID = "/model/taxtypemodelid/{taxTaxModelId}";
+    private static final String TAX_MODEL_URI_BY_TAX_LOV_ID = "/model/taxlovid/{taxLovId}";
     private static final String TAX_MODEL_URI_BY_CURRENCY_TYPE_MODEL_ID = "/model/currencytypemodelid/{currencyTaxModelId}";
 
     @Autowired
@@ -96,9 +97,11 @@ public class TaxModelIntegrationTest {
 
     private TypeModelForm currencyTypeModelForm;
     private TypeModelEntity currencyTypeModelEntity;
-    private TypeModelVo taxTypeModelVo1;
-    private TypeModelVo taxTypeModelVo2;
+    private TaxLOVEntity taxLovEntity1;
+    private TaxLOVEntity taxLovEntity2;
     private TypeModelVo currencyTypeModelVo;
+    private TypeModelVo taxLovVo1;
+    private TypeModelVo taxLovVo2;
 
     private TaxModelForm taxModelForm1;
     private TaxModelForm taxModelForm2;
@@ -118,15 +121,15 @@ public class TaxModelIntegrationTest {
 
         taxModelForm1 = new TaxModelForm();
         taxModelForm1.setName("Demo Tax");
-        taxModelForm1.setDescription("This belongs to taxTypeModelId 1 and currencyTypeModelId 2 for e2e testing");
-        taxModelForm1.setTaxTypeModelId(1L);
+        taxModelForm1.setDescription("This belongs to taxLovId 1 and currencyTypeModelId 2 for e2e testing");
+        taxModelForm1.setTaxLovId(1L);
         taxModelForm1.setCurrencyTypeModel(currencyTypeModelForm);
         taxModelForm1.setRate(8F);
 
         taxModelForm2 = new TaxModelForm();
         taxModelForm2.setName("Another Tax");
         taxModelForm2.setDescription("This is for e2e testing of services");
-        taxModelForm2.setTaxTypeModelId(2L);
+        taxModelForm2.setTaxLovId(2L);
         taxModelForm2.setCurrencyTypeModel(currencyTypeModelForm);
         taxModelForm2.setRate(8F);
 
@@ -135,13 +138,31 @@ public class TaxModelIntegrationTest {
                 new PatchOperationForm("replace", "/active", "true"),
                 new PatchOperationForm("replace", "/description", "Patching description attribute of this Tax Model resource"));
 
-        taxTypeModelVo1 = new TypeModelVo();
-        taxTypeModelVo1.setId(1L);
-        taxTypeModelVo1.setName("Tax Type Model 1");
+        taxLovVo1 = new TypeModelVo();
+        taxLovVo1.setId(1L);
+        taxLovVo1.setName("Tax LOV 1");
 
-        taxTypeModelVo2 = new TypeModelVo();
-        taxTypeModelVo2.setId(22L);
-        taxTypeModelVo2.setName("Tax Type Model 2");
+        taxLovVo2 = new TypeModelVo();
+        taxLovVo2.setId(2L);
+        taxLovVo2.setName("Tax LOV 2");
+
+        taxLovEntity1 = new TaxLOVEntity();
+        taxLovEntity1.setActive(Boolean.TRUE);
+        taxLovEntity1.setCreatedBy(CREATED_BY_USER_ID);
+        taxLovEntity1.setCreatedOn(LocalDateTime.now());
+        taxLovEntity1.setModifiedBy(CREATED_BY_USER_ID);
+        taxLovEntity1.setModifiedOn(LocalDateTime.now());
+        taxLovEntity1.setVersion(0);
+        taxLovEntity1.setName("Tax LOV 1");
+
+        taxLovEntity2 = new TaxLOVEntity();
+        taxLovEntity2.setActive(Boolean.TRUE);
+        taxLovEntity2.setCreatedBy(CREATED_BY_USER_ID);
+        taxLovEntity2.setCreatedOn(LocalDateTime.now());
+        taxLovEntity2.setModifiedBy(CREATED_BY_USER_ID);
+        taxLovEntity2.setModifiedOn(LocalDateTime.now());
+        taxLovEntity2.setVersion(0);
+        taxLovEntity2.setName("Tax LOV 2");
 
         currencyTypeModelVo = new TypeModelVo();
         currencyTypeModelVo.setId(2L);
@@ -151,27 +172,27 @@ public class TaxModelIntegrationTest {
         taxModelVo1.setId(1L);
         taxModelVo1.setActive(Boolean.TRUE);
         taxModelVo1.setName("Test Tax Model 1");
-        taxModelVo1.setDescription("This belongs to taxTypeModelId 1 and currencyTypeModelId 2 for e2e testing");
+        taxModelVo1.setDescription("This belongs to taxLovId 1 and currencyTypeModelId 2 for e2e testing");
         taxModelVo1.setRate(5F);
-        taxModelVo1.setTaxTypeModel(taxTypeModelVo1);
+        taxModelVo1.setTaxLov(taxLovVo1);
         taxModelVo1.setCurrencyTypeModel(currencyTypeModelVo);
 
         taxModelVo2 = new TaxModelVo();
         taxModelVo2.setId(2L);
         taxModelVo2.setActive(Boolean.TRUE);
         taxModelVo2.setName("Test Tax Model 2");
-        taxModelVo2.setDescription("This belongs to taxTypeModelId 1 and currencyTypeModelId 2 for e2e testing");
+        taxModelVo2.setDescription("This belongs to taxLovId 1 and currencyTypeModelId 2 for e2e testing");
         taxModelVo2.setRate(5F);
-        taxModelVo2.setTaxTypeModel(taxTypeModelVo1);
+        taxModelVo2.setTaxLov(taxLovVo1);
         taxModelVo2.setCurrencyTypeModel(currencyTypeModelVo);
 
         taxModelVo3 = new TaxModelVo();
         taxModelVo3.setId(3L);
         taxModelVo3.setActive(Boolean.FALSE);
         taxModelVo3.setName("Test Tax Model 3");
-        taxModelVo3.setDescription("This belongs to taxTypeModelId 22 and currencyTypeModelId 2 for e2e testing");
+        taxModelVo3.setDescription("This belongs to taxLovId 22 and currencyTypeModelId 2 for e2e testing");
         taxModelVo3.setRate(53F);
-        taxModelVo3.setTaxTypeModel(taxTypeModelVo2);
+        taxModelVo3.setTaxLov(taxLovVo2);
         taxModelVo3.setCurrencyTypeModel(currencyTypeModelVo);
 
         currencyTypeModelEntity = new TypeModelEntity();
@@ -186,8 +207,7 @@ public class TaxModelIntegrationTest {
         taxModelEntity1.setModifiedOn(LocalDateTime.now());
         taxModelEntity1.setVersion(0);
         taxModelEntity1.setName("Test Tax Model 1");
-        taxModelEntity1.setDescription("This belongs to taxTypeModelId 1 and currencyTypeModelId 2 for e2e testing");
-        taxModelEntity1.setTaxTypeModelId(1L);
+        taxModelEntity1.setDescription("This belongs to taxLovId 1 and currencyTypeModelId 2 for e2e testing");
         taxModelEntity1.setRate(5F);
         taxModelEntity1.setCurrencyTypeModel(currencyTypeModelEntity);
 
@@ -199,8 +219,7 @@ public class TaxModelIntegrationTest {
         taxModelEntity2.setModifiedOn(LocalDateTime.now());
         taxModelEntity2.setVersion(0);
         taxModelEntity2.setName("Test Tax Model 2");
-        taxModelEntity2.setDescription("This belongs to taxTypeModelId 1 and currencyTypeModelId 2 for e2e testing");
-        taxModelEntity2.setTaxTypeModelId(1L);
+        taxModelEntity2.setDescription("This belongs to taxLovId 1 and currencyTypeModelId 2 for e2e testing");
         taxModelEntity2.setRate(5F);
         taxModelEntity2.setCurrencyTypeModel(currencyTypeModelEntity);
 
@@ -212,8 +231,7 @@ public class TaxModelIntegrationTest {
         taxModelEntity3.setModifiedOn(LocalDateTime.now());
         taxModelEntity3.setVersion(0);
         taxModelEntity3.setName("Test Tax Model 3");
-        taxModelEntity3.setDescription("This belongs to taxTypeModelId 22 and currencyTypeModelId 2 for e2e testing");
-        taxModelEntity3.setTaxTypeModelId(22L);
+        taxModelEntity3.setDescription("This belongs to taxLovId 22 and currencyTypeModelId 2 for e2e testing");
         taxModelEntity3.setRate(53F);
         taxModelEntity3.setCurrencyTypeModel(currencyTypeModelEntity);
 
@@ -246,6 +264,13 @@ public class TaxModelIntegrationTest {
 
     @BeforeEach
     private void init() {
+        taxLovEntity1 = em.merge(taxLovEntity1);
+        taxLovEntity2 = em.merge(taxLovEntity2);
+
+        taxModelEntity1.setTaxLov(taxLovEntity1);
+        taxModelEntity2.setTaxLov(taxLovEntity1);
+        taxModelEntity3.setTaxLov(taxLovEntity2);
+
         em.merge(taxModelEntity1);
         em.merge(taxModelEntity2);
         em.merge(taxModelEntity3);
@@ -253,9 +278,16 @@ public class TaxModelIntegrationTest {
 
     @AfterEach
     private void destroy() {
+        taxModelEntity1.setTaxLov(null);
+        taxModelEntity2.setTaxLov(null);
+        taxModelEntity3.setTaxLov(null);
+
         em.remove(taxModelEntity1);
         em.remove(taxModelEntity2);
         em.remove(taxModelEntity3);
+
+        em.remove(taxLovEntity1);
+        em.remove(taxLovEntity2);
 
         currencyTypeModelForm = new TypeModelForm();
         currencyTypeModelForm.setId(2L);
@@ -263,15 +295,15 @@ public class TaxModelIntegrationTest {
 
         taxModelForm1 = new TaxModelForm();
         taxModelForm1.setName("Demo Tax");
-        taxModelForm1.setDescription("This belongs to taxTypeModelId 1 and currencyTypeModelId 2 for e2e testing");
-        taxModelForm1.setTaxTypeModelId(1L);
+        taxModelForm1.setDescription("This belongs to taxLovId 1 and currencyTypeModelId 2 for e2e testing");
+        taxModelForm1.setTaxLovId(1L);
         taxModelForm1.setCurrencyTypeModel(currencyTypeModelForm);
         taxModelForm1.setRate(8F);
 
         taxModelForm2 = new TaxModelForm();
         taxModelForm2.setName("Another Tax");
         taxModelForm2.setDescription("This is for e2e testing of services");
-        taxModelForm2.setTaxTypeModelId(2L);
+        taxModelForm2.setTaxLovId(2L);
         taxModelForm2.setCurrencyTypeModel(currencyTypeModelForm);
         taxModelForm2.setRate(8F);
 
@@ -357,12 +389,12 @@ public class TaxModelIntegrationTest {
 
     @ParameterizedTest
     @ValueSource(longs = { -3, 33, 3 })
-    public void test_TaxModel_Post_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenPostedWith_InvalidAbsentInactive_TaxModelId(Long taxTypeModelId) throws Exception {
+    public void test_TaxModel_Post_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenPostedWith_InvalidAbsentInactive_TaxModelId(Long taxLovId) throws Exception {
         MvcResult mvcResult = null;
         String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "taxTypeModelId";
+        String fieldName = "taxLovId";
         String message = "invalid";
-        taxModelForm1.setTaxTypeModelId(taxTypeModelId);
+        taxModelForm1.setTaxLovId(taxLovId);
 
         mvcResult = mockMvc.perform(post(TAX_MODEL_URI)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -684,13 +716,13 @@ public class TaxModelIntegrationTest {
 
     @ParameterizedTest
     @ValueSource(longs = { -3 })
-    public void test_TaxModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenUpdatedWith_InvalidAbsentInactive_TaxModelId(Long taxTypeModelId) throws Exception {
+    public void test_TaxModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenUpdatedWith_InvalidAbsentInactive_TaxModelId(Long taxLovId) throws Exception {
         Long id = 1L;
         MvcResult mvcResult = null;
         String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "taxTypeModelId";
+        String fieldName = "taxLovId";
         String message = "invalid";
-        taxModelForm1.setTaxTypeModelId(taxTypeModelId);
+        taxModelForm1.setTaxLovId(taxLovId);
 
         mvcResult = mockMvc.perform(put(TAX_MODEL_URI_BY_ID, id)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -708,13 +740,13 @@ public class TaxModelIntegrationTest {
 
     @ParameterizedTest
     @ValueSource(longs = { 33, 3 })
-    public void test_TaxModel_Put_ShouldReturn_404Response_And_ErrorCode_LMS_TAX_002_WhenUpdatedWith_AbsentInactive_TaxModelId(Long taxTypeModelId) throws Exception {
+    public void test_TaxModel_Put_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenUpdatedWith_AbsentInactive_TaxModelId(Long taxLovId) throws Exception {
         Long id = 1L;
         MvcResult mvcResult = null;
-        String errorCode = TaxErrorCode.TAX_NOT_FOUND.getErrorCode();
-        String fieldName = "taxTypeModelId";
-        String message = "unavailable";
-        taxModelForm1.setTaxTypeModelId(taxTypeModelId);
+        String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
+        String fieldName = "taxLovId";
+        String message = "invalid";
+        taxModelForm1.setTaxLovId(taxLovId);
 
         mvcResult = mockMvc.perform(put(TAX_MODEL_URI_BY_ID, id)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -723,7 +755,7 @@ public class TaxModelIntegrationTest {
                 .andReturn();
 
         Assert.assertNotNull(mvcResult);
-        Assert.assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
+        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
         Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
         Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
         Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(message));
@@ -851,7 +883,7 @@ public class TaxModelIntegrationTest {
         Long id = 1L;
         MvcResult mvcResult = null;
         String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "taxTypeModelId";
+        String fieldName = "taxLovId";
         String message = "invalid";
         patches = Arrays.asList(
                 new PatchOperationForm("replace", "/" + fieldName, fieldValue));
@@ -1020,12 +1052,12 @@ public class TaxModelIntegrationTest {
     }
 
     @Test
-    public void test_TaxModel_Get_ShouldReturn_200Response_And_TaxModelDetails_WhenRequested_ByTaxTypeModelId() throws Exception {
+    public void test_TaxModel_Get_ShouldReturn_200Response_And_TaxModelDetails_WhenRequested_ByTaxLovId() throws Exception {
         Long id = 1l;
         MvcResult mvcResult = null;
         long expectedTaxModelCount = 2;
 
-        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_TAX_TYPE_MODEL_ID, id))
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_TAX_LOV_ID, id))
                 .andDo(print())
                 .andReturn();
 
@@ -1036,13 +1068,14 @@ public class TaxModelIntegrationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { " ", "r", "-3", "33", "3" })
-    public void test_TaxModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenRequestedBy_EmptyInvalidAbsentInactive_TaxTypeModelId(String taxTypeModelId) throws Exception {
+    @ValueSource(strings = { " ", "r" })
+    public void test_TaxModel_Get_ShouldReturn_400Response_And_ErrorCode_LMS_TAX_001_WhenRequestedBy_EmptyInvalid_TaxLovId(String taxLovId) throws Exception {
         MvcResult mvcResult = null;
         String errorCode = TaxErrorCode.TAX_ATTRIBUTE_INVALID.getErrorCode();
-        String fieldName = "taxTypeModelId";
+        String fieldName = "taxLovId";
+        String message = "invalid";
 
-        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_TAX_TYPE_MODEL_ID, taxTypeModelId))
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_TAX_LOV_ID, taxLovId))
                 .andDo(print())
                 .andReturn();
 
@@ -1050,6 +1083,26 @@ public class TaxModelIntegrationTest {
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
         Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
         Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
+        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(message));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "-3", "33", "3" })
+    public void test_TaxModel_Get_ShouldReturn_404Response_And_ErrorCode_LMS_TAX_002_WhenRequestedBy_InvalidAbsentInactive_TaxLovId(String taxLovId) throws Exception {
+        MvcResult mvcResult = null;
+        String errorCode = TaxErrorCode.TAX_NOT_FOUND.getErrorCode();
+        String fieldName = "taxLovId";
+        String message = "unavailable";
+
+        mvcResult = this.mockMvc.perform(get(TAX_MODEL_URI_BY_TAX_LOV_ID, taxLovId))
+                .andDo(print())
+                .andReturn();
+
+        Assert.assertNotNull(mvcResult);
+        Assert.assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
+        Assert.assertEquals(errorCode, om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getCode());
+        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(fieldName));
+        Assert.assertTrue(om.readValue(mvcResult.getResponse().getContentAsString(), ErrorVo.class).getMessage().contains(message));
     }
 
     @Test

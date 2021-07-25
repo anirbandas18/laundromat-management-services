@@ -20,7 +20,7 @@ public class TaxModelDto {
     @ToString.Include
     private Optional<String> rate;
     @ToString.Include
-    private Optional<String> taxTypeModelId;
+    private Optional<String> taxLovId;
     @ToString.Include
     private Optional<TypeModelDto> currencyTypeModel;
 
@@ -28,7 +28,7 @@ public class TaxModelDto {
         this.name = Optional.empty();
         this.description = Optional.empty();
         this.active = Optional.empty();
-        this.taxTypeModelId = Optional.empty();
+        this.taxLovId = Optional.empty();
         this.rate = Optional.empty();
         this.currencyTypeModel = Optional.of(new TypeModelDto());
     }

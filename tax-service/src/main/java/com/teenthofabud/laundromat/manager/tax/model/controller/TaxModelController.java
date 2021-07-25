@@ -253,34 +253,34 @@ public class TaxModelController {
         throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "id", id });
     }
 
-    @Operation(summary = "Get all Tax Model details by taxTypeModelId")
+    @Operation(summary = "Get all Tax Model details by taxLovId")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Retrieve the details of Tax Model that belong to the given taxTypeModelId",
+            @ApiResponse(responseCode = "200", description = "Retrieve the details of Tax Model that belong to the given taxLovId",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             array = @ArraySchema(schema = @Schema(implementation = TaxModelVo.class))) }),
-            @ApiResponse(responseCode = "400", description = "Tax Model taxTypeModelId is invalid",
+            @ApiResponse(responseCode = "400", description = "Tax Model taxLovId is invalid",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) }),
-            @ApiResponse(responseCode = "404", description = "No Tax Model belongs to the given taxTypeModelId",
+            @ApiResponse(responseCode = "404", description = "No Tax Model belongs to the given taxLovId",
                     content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorVo.class)) })
     })
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("taxtypemodelid/{taxTypeModelId}")
-    public List<TaxModelVo> getTaxModelDetailsByTaxTypeModelId(@PathVariable String taxTypeModelId) throws TaxModelException {
-        log.debug("Requesting all available tax models by taxTypeModelId");
-        if(StringUtils.hasText(taxTypeModelId)) {
+    @GetMapping("taxlovid/{taxLovId}")
+    public List<TaxModelVo> getTaxModelDetailsByTaxLovId(@PathVariable String taxLovId) throws TaxModelException {
+        log.debug("Requesting all available tax models by taxLovId");
+        if(StringUtils.hasText(taxLovId)) {
             try {
-                Long actualTaxTypeModelId = Long.parseLong(taxTypeModelId);
-                log.debug("taxTypeModelId: {} is semantically valid", taxTypeModelId);
-                List<TaxModelVo> taxModelDetails = service.retrieveDetailsByTaxTypeModelId(actualTaxTypeModelId);
-                log.debug("Responding with successful retrieval of all available tax model details by taxTypeModelId");
+                Long actualTaxLovId = Long.parseLong(taxLovId);
+                log.debug("taxLovId: {} is semantically valid", taxLovId);
+                List<TaxModelVo> taxModelDetails = service.retrieveDetailsByTaxLov(actualTaxLovId);
+                log.debug("Responding with successful retrieval of all available tax model details by taxLovId");
                 return taxModelDetails;
             } catch (NumberFormatException e) {
-                log.debug("taxTypeModelId: {} is invalid", taxTypeModelId);
-                throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "taxTypeModelId", taxTypeModelId });
+                log.debug("taxLovId: {} is invalid", taxLovId);
+                throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "taxLovId", taxLovId });
             }
         }
-        log.debug("taxTypeModelId is empty");
-        throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "taxTypeModelId", taxTypeModelId });
+        log.debug("taxLovId is empty");
+        throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "taxLovId", taxLovId });
     }
 
     @Operation(summary = "Get all Tax Model details by currencyTypeModelId")
@@ -301,7 +301,7 @@ public class TaxModelController {
             try {
                 Long actualCurrencyTypeModelId = Long.parseLong(currencyTypeModelId);
                 log.debug("currencyTypeModelId: {} is semantically valid", currencyTypeModelId);
-                List<TaxModelVo> taxModelDetails = service.retrieveDetailsByCurrencyTypeModelId(actualCurrencyTypeModelId);
+                List<TaxModelVo> taxModelDetails = service.retrieveDetailsByCurrencyTypeModel(actualCurrencyTypeModelId);
                 log.debug("Responding with successful retrieval of all available tax model details by currencyTypeModelId");
                 return taxModelDetails;
             } catch (NumberFormatException e) {

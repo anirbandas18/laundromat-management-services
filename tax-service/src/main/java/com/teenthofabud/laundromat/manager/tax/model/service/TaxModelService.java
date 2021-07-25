@@ -17,9 +17,9 @@ public interface TaxModelService {
 
     public TaxModelVo retrieveDetailsById(Long id) throws TaxModelException;
 
-    public List<TaxModelVo> retrieveDetailsByTaxTypeModelId(Long taxTypeModelId) throws TaxModelException;
+    public List<TaxModelVo> retrieveDetailsByTaxLov(Long taxLovId) throws TaxModelException;
 
-    public List<TaxModelVo> retrieveDetailsByCurrencyTypeModelId(Long currencyTypeModelId) throws TaxModelException;
+    public List<TaxModelVo> retrieveDetailsByCurrencyTypeModel(Long currencyTypeModelId) throws TaxModelException;
 
     public List<TaxModelVo> retrieveAllMatchingDetailsByName(String name) throws TaxModelException;
 

@@ -23,7 +23,7 @@ public class TaxModelVo implements Comparable<TaxModelVo> {
     @ToString.Include
     private TypeModelVo currencyTypeModel;
     @ToString.Include
-    private TypeModelVo taxTypeModel;
+    private TypeModelVo taxLov;
 
     @Override
     public int compareTo(TaxModelVo o) {

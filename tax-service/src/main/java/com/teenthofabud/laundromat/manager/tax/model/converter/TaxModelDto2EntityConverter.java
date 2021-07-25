@@ -6,7 +6,11 @@ import com.teenthofabud.core.common.data.entity.TypeModelEntity;
 import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
 import com.teenthofabud.laundromat.manager.tax.integration.type.validator.CurrencyTypeModelValidator;
-import com.teenthofabud.laundromat.manager.tax.integration.type.validator.TaxTypeModelValidator;
+import com.teenthofabud.laundromat.manager.tax.lov.data.TaxLOVEntity;
+import com.teenthofabud.laundromat.manager.tax.lov.data.TaxLOVException;
+import com.teenthofabud.laundromat.manager.tax.lov.data.TaxLOVVo;
+import com.teenthofabud.laundromat.manager.tax.lov.repository.TaxLOVRepository;
+import com.teenthofabud.laundromat.manager.tax.lov.service.TaxLOVService;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelDto;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelException;
@@ -32,16 +36,22 @@ public class TaxModelDto2EntityConverter implements ComparativePatchConverter<Ta
 
     private CurrencyTypeModelValidator currencyTypeModelValidator;
 
-    private TaxTypeModelValidator taxTypeModelValidator;
+    private TaxLOVRepository taxLovRepository;
+    private TaxLOVService taxLovService;
+
+    @Autowired
+    public void setTaxLovRepository(TaxLOVRepository taxLovRepository) {
+        this.taxLovRepository = taxLovRepository;
+    }
+
+    @Autowired
+    public void setTaxLovService(TaxLOVService taxLovService) {
+        this.taxLovService = taxLovService;
+    }
 
     @Autowired
     public void setCurrencyTypeModelValidator(CurrencyTypeModelValidator currencyTypeModelValidator) {
         this.currencyTypeModelValidator = currencyTypeModelValidator;
-    }
-
-    @Autowired
-    public void setTaxTypeModelValidator(TaxTypeModelValidator taxTypeModelValidator) {
-        this.taxTypeModelValidator = taxTypeModelValidator;
     }
 
     @Override
@@ -73,18 +83,24 @@ public class TaxModelDto2EntityConverter implements ComparativePatchConverter<Ta
             changeSW[i++] = true;
             log.debug("TaxModelDto.rate is valid");
         }
-        Optional<String> optTaxTypeModelId = dto.getTaxTypeModelId();
-        if(optTaxTypeModelId.isPresent()) {
-            Long taxTypeModelId = Long.parseLong(optTaxTypeModelId.get());
-            Errors internalErrors = new DirectFieldBindingResult(taxTypeModelId, "TaxModelDto.taxTypeModelId");
-            taxTypeModelValidator.validate(taxTypeModelId, internalErrors);
-            if(internalErrors.hasErrors()) {
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID.getValue());
-                throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "taxTypeModelId" });
+        Optional<String> optTaxLovId = dto.getTaxLovId();
+        if(optTaxLovId.isPresent()) {
+            Long taxLovId = Long.parseLong(optTaxLovId.get());
+            try {
+                TaxLOVVo taxLovVo = taxLovService.retrieveDetailsById(taxLovId);
+                if(!taxLovVo.getActive()) {
+                    log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_LOV_ID_INACTIVE.getValue());
+                    throw new TaxModelException(TaxErrorCode.TAX_INACTIVE, new Object[] { "taxLovId" });
+                }
+            } catch (TaxLOVException e) {
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_LOV_ID_INVALID.getValue());
+                log.error(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_LOV_ID_INVALID.getValue(), e);
+                throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object[] { "taxLovId" });
             }
-            actualEntity.setTaxTypeModelId(Long.parseLong(optTaxTypeModelId.get()));
+            Optional<TaxLOVEntity> optTaxLovEntity = taxLovRepository.findById(taxLovId);
+            actualEntity.setTaxLov(optTaxLovEntity.get());
             changeSW[i++] = true;
-            log.debug("TaxModelDto.taxTypeModelId is valid");
+            log.debug("TaxModelDto.taxLovId is valid");
         }
         Optional<TypeModelDto> optCurrencyTypeModel = dto.getCurrencyTypeModel();
         if(optCurrencyTypeModel.isPresent()) {

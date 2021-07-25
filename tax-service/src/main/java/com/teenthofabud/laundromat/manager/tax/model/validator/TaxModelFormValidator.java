@@ -2,9 +2,12 @@ package com.teenthofabud.laundromat.manager.tax.model.validator;
 
 import com.teenthofabud.core.common.data.form.TypeModelForm;
 import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
+import com.teenthofabud.laundromat.manager.tax.lov.data.TaxLOVException;
+import com.teenthofabud.laundromat.manager.tax.lov.data.TaxLOVVo;
+import com.teenthofabud.laundromat.manager.tax.lov.service.TaxLOVService;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;
 import com.teenthofabud.laundromat.manager.tax.integration.type.validator.CurrencyTypeModelValidator;
-import com.teenthofabud.laundromat.manager.tax.integration.type.validator.TaxTypeModelValidator;
+import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelMessageTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,13 +20,13 @@ import org.springframework.validation.Validator;
 @Slf4j
 public class TaxModelFormValidator implements Validator {
 
-    private TaxTypeModelValidator taxTypeModelValidator;
+    private TaxLOVService taxLOVService;
 
     @Autowired
-    public void setTaxTypeModelValidator(TaxTypeModelValidator taxTypeModelValidator) {
-        this.taxTypeModelValidator = taxTypeModelValidator;
+    public void setTaxLOVService(TaxLOVService taxLOVService) {
+        this.taxLOVService = taxLOVService;
     }
-
+    
     @Autowired
     public void setCurrencyTypeModelValidator(CurrencyTypeModelValidator currencyTypeModelValidator) {
         this.currencyTypeModelValidator = currencyTypeModelValidator;
@@ -39,16 +42,22 @@ public class TaxModelFormValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         TaxModelForm form = (TaxModelForm) target;
-        if(form.getTaxTypeModelId() == null || form.getTaxTypeModelId() <= 0L) {
-            log.debug("TaxModelForm.taxTypeModelId is invalid");
-            errors.rejectValue("taxTypeModelId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
+        if(form.getTaxLovId() == null || form.getTaxLovId() <= 0L) {
+            log.debug("TaxModelForm.taxLovId is invalid");
+            errors.rejectValue("taxLovId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
             return;
         } else {
-            Errors internalErrors = new DirectFieldBindingResult(form.getTaxTypeModelId(), "TaxModelForm.taxTypeModelId");
-            taxTypeModelValidator.validate(form.getTaxTypeModelId(), internalErrors);
-            if(internalErrors.hasErrors()) {
-                log.debug("TaxModelForm.taxTypeModelId is invalid");
-                errors.rejectValue("taxTypeModelId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
+            try {
+                TaxLOVVo taxLOVVo = taxLOVService.retrieveDetailsById(form.getTaxLovId());
+                if(!taxLOVVo.getActive()) {
+                    log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_LOV_ID_INACTIVE.getValue());
+                    errors.rejectValue("taxLovId", TaxErrorCode.TAX_INACTIVE.name());
+                    return;
+                }
+            } catch (TaxLOVException e) {
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_LOV_ID_INVALID.getValue());
+                log.error(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_LOV_ID_INVALID.getValue(), e);
+                errors.rejectValue("taxLovId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
             }
         }

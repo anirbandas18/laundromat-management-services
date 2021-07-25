@@ -2,6 +2,7 @@ package com.teenthofabud.laundromat.manager.tax.model.data;
 
 import com.teenthofabud.core.common.data.entity.TOABBaseEntity;
 import com.teenthofabud.core.common.data.entity.TypeModelEntity;
+import com.teenthofabud.laundromat.manager.tax.lov.data.TaxLOVEntity;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -9,7 +10,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Getter
 @Setter
@@ -44,7 +56,8 @@ public class TaxModelEntity extends TOABBaseEntity {
     private Float rate;
     @ToString.Include
     @EqualsAndHashCode.Include
-    @Column(name = "tax_type_model_id")
-    private Long taxTypeModelId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tax_lov_id")
+    private TaxLOVEntity taxLov;
 
 }

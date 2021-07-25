@@ -25,12 +25,12 @@ public class TaxModelFormRelaxedValidator implements RelaxedValidator<TaxModelFo
             return false;
         }
         log.debug("TaxModelForm.rate is valid");
-        if(form.getTaxTypeModelId() != null && form.getTaxTypeModelId() <= 0L) {
-            errors.rejectValue("taxTypeModelId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
-            log.debug("TaxModelForm.taxTypeModelId is empty");
+        if(form.getTaxLovId() != null && form.getTaxLovId() <= 0L) {
+            errors.rejectValue("taxLovId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
+            log.debug("TaxModelForm.taxLovId is empty");
             return false;
         }
-        log.debug("TaxModelForm.taxTypeModelId is valid");
+        log.debug("TaxModelForm.taxLovId is valid");
         if(form.getCurrencyTypeModel() != null &&
                 (form.getCurrencyTypeModel().getId() <= 0L
                         || StringUtils.isEmpty(StringUtils.trimWhitespace(form.getCurrencyTypeModel().getName())))) {

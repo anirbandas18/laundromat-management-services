@@ -1,11 +1,13 @@
 package com.teenthofabud.laundromat.manager.tax.model.validator;
 
 import com.teenthofabud.core.common.data.dto.TypeModelDto;
+import com.teenthofabud.laundromat.manager.tax.lov.data.TaxLOVException;
+import com.teenthofabud.laundromat.manager.tax.lov.data.TaxLOVVo;
+import com.teenthofabud.laundromat.manager.tax.lov.service.TaxLOVService;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelMessageTemplate;
 import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelDto;
 import com.teenthofabud.laundromat.manager.tax.integration.type.validator.CurrencyTypeModelValidator;
-import com.teenthofabud.laundromat.manager.tax.integration.type.validator.TaxTypeModelValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,11 +22,11 @@ import java.util.Optional;
 @Slf4j
 public class TaxModelDtoValidator implements Validator {
 
-    private TaxTypeModelValidator taxTypeModelValidator;
+    private TaxLOVService taxLovService;
 
     @Autowired
-    public void setTaxTypeModelValidator(TaxTypeModelValidator taxTypeModelValidator) {
-        this.taxTypeModelValidator = taxTypeModelValidator;
+    public void setTaxLovService(TaxLOVService taxLovService) {
+        this.taxLovService = taxLovService;
     }
 
     @Autowired
@@ -43,29 +45,28 @@ public class TaxModelDtoValidator implements Validator {
     public void validate(Object target, Errors errors) {
         TaxModelDto dto = (TaxModelDto) target;
 
-        Optional<String> optTaxTypeModelId = dto.getTaxTypeModelId();
-        if(optTaxTypeModelId.isPresent() && StringUtils.hasText(StringUtils.trimWhitespace(optTaxTypeModelId.get()))) {
+        Optional<String> optTaxLOVId = dto.getTaxLovId();
+        if(optTaxLOVId.isPresent() && StringUtils.hasText(StringUtils.trimWhitespace(optTaxLOVId.get()))) {
             boolean isValid = true;
             try {
-                Long taxTypeModelId = Long.parseLong(optTaxTypeModelId.get());
-                if(taxTypeModelId <= 0L) {
+                Long taxLovId = Long.parseLong(optTaxLOVId.get());
+                if(taxLovId <= 0L) {
                     isValid = false;
-                    log.debug("TaxModelDto.taxTypeModelId is invalid: taxTypeModelId <= 0");
+                    log.debug("TaxModelDto.taxLovId is invalid: taxLovId <= 0");
                 } else {
-                    Errors internalErrors = new DirectFieldBindingResult(taxTypeModelId, "TaxModelDto.taxTypeModelId");
-                    taxTypeModelValidator.validate(taxTypeModelId, internalErrors);
-                    if(internalErrors.hasErrors()) {
+                    TaxLOVVo taxLovVo = taxLovService.retrieveDetailsById(taxLovId);
+                    if(!taxLovVo.getActive()) {
                         isValid = false;
-                        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID.getValue());
+                        log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_LOV_ID_INACTIVE.getValue());
                     }
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | TaxLOVException e) {
                 isValid = false;
-                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID.getValue());
-                log.error(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_TYPE_MODEL_ID_INVALID.getValue(), e);
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_LOV_ID_INVALID.getValue());
+                log.error(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_LOV_ID_INVALID.getValue(), e);
             }
             if(!isValid) {
-                errors.rejectValue("taxTypeModelId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
+                errors.rejectValue("taxLovId", TaxErrorCode.TAX_ATTRIBUTE_INVALID.name());
                 return;
             }
         }
@@ -119,7 +120,7 @@ public class TaxModelDtoValidator implements Validator {
                     Float rate = Float.parseFloat(optRate.get());
                     if(rate < 0L) {
                         isValid = false;
-                        log.debug("TaxModelDto.rate is invalid: taxTypeModelId <= 0");
+                        log.debug("TaxModelDto.rate is invalid: taxLovId <= 0");
                     }
                 } catch (NumberFormatException e) {
                     isValid = false;

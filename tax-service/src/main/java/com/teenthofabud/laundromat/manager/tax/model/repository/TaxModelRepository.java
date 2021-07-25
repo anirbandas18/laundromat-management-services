@@ -16,18 +16,18 @@ public interface TaxModelRepository extends TOABAdvancedEntityBaseRepository<Tax
     public TaxModelEntity save(TaxModelEntity entity);
 
     @Lock(LockModeType.PESSIMISTIC_READ)
-    public List<TaxModelEntity> findByTaxTypeModelId(Long taxTypeModelId);
+    public List<TaxModelEntity> findByTaxLovId(Long taxLovId);
 
     @Lock(LockModeType.PESSIMISTIC_READ)
     public List<TaxModelEntity> findByCurrencyTypeModelId(Long currencyTypeModelId);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    public Boolean existsByNameAndTaxTypeModelId(String name, Long taxTypeModelId);
+    public Boolean existsByNameAndTaxLovId(String name, Long taxLovId);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     public Boolean existsByNameAndCurrencyTypeModelId(String name, Long currencyTypeModelId);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    public Boolean existsByNameAndTaxTypeModelIdAndCurrencyTypeModelId(String name, Long taxTypeModelId, Long currencyTypeModelId);
+    public Boolean existsByNameAndTaxLovIdAndCurrencyTypeModelId(String name, Long taxLovId, Long currencyTypeModelId);
 
 }

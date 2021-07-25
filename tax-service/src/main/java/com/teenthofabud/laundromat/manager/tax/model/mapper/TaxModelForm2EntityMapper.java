@@ -4,11 +4,16 @@ import com.teenthofabud.core.common.data.entity.TypeModelEntity;
 import com.teenthofabud.core.common.mapper.DualChannelMapper;
 import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.laundromat.manager.tax.error.TaxErrorCode;
+import com.teenthofabud.laundromat.manager.tax.lov.data.TaxLOVEntity;
+import com.teenthofabud.laundromat.manager.tax.lov.data.TaxLOVException;
+import com.teenthofabud.laundromat.manager.tax.lov.data.TaxLOVVo;
+import com.teenthofabud.laundromat.manager.tax.lov.repository.TaxLOVRepository;
+import com.teenthofabud.laundromat.manager.tax.lov.service.TaxLOVService;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelException;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelEntity;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelForm;
 import com.teenthofabud.laundromat.manager.tax.integration.type.validator.CurrencyTypeModelValidator;
-import com.teenthofabud.laundromat.manager.tax.integration.type.validator.TaxTypeModelValidator;
+import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelMessageTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,13 +28,18 @@ import java.util.Optional;
 @Slf4j
 public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEntity, TaxModelForm> {
 
+    private TaxLOVService taxLovService;
+    private TaxLOVRepository taxLovRepository;
 
     @Autowired
-    public void setTaxTypeModelValidator(TaxTypeModelValidator taxTypeModelValidator) {
-        this.taxTypeModelValidator = taxTypeModelValidator;
+    public void setTaxLovService(TaxLOVService taxLovService) {
+        this.taxLovService = taxLovService;
     }
 
-    private TaxTypeModelValidator taxTypeModelValidator;
+    @Autowired
+    public void setTaxLovRepository(TaxLOVRepository taxLovRepository) {
+        this.taxLovRepository = taxLovRepository;
+    }
 
     @Autowired
     public void setCurrencyTypeModelValidator(CurrencyTypeModelValidator currencyTypeModelValidator) {
@@ -89,22 +99,26 @@ public class TaxModelForm2EntityMapper implements DualChannelMapper<TaxModelEnti
             expectedEntity.setRate(actualEntity.getRate());
             log.debug("TaxModelForm.rate: is unchanged");
         }
-        if(form.getTaxTypeModelId() != null &&
-                !form.getTaxTypeModelId().equals(actualEntity.getTaxTypeModelId())) {
-            Errors internalErrors = new DirectFieldBindingResult(form.getTaxTypeModelId(), "TaxModelForm.taxTypeModelId");
-            taxTypeModelValidator.validate(form.getTaxTypeModelId(), internalErrors);
-            if(internalErrors.hasErrors()) {
-                log.debug("TaxModelForm.taxTypeModelId is invalid");
-                throw new TaxModelException(TaxErrorCode.TAX_NOT_FOUND, new Object [] { "taxTypeModelId", String.valueOf(form.getTaxTypeModelId()) });
-            } else {
-                expectedEntity.setTaxTypeModelId(form.getTaxTypeModelId());
+        if(form.getTaxLovId() != null && !form.getTaxLovId().equals(actualEntity.getTaxLov().getId())) {
+            try {
+                TaxLOVVo taxLOVVo = taxLovService.retrieveDetailsById(form.getTaxLovId());
+                if(!taxLOVVo.getActive()) {
+                    log.debug("TaxModelForm.taxLovId is inactive");
+                    throw new TaxModelException(TaxErrorCode.TAX_INACTIVE, new Object [] { "taxLovId", String.valueOf(form.getTaxLovId()) });
+                }
+                Optional<TaxLOVEntity> optTaxLOVEntity = taxLovRepository.findById(form.getTaxLovId());
+                expectedEntity.setTaxLov(optTaxLOVEntity.get());
                 changeSW = true;
-                log.debug("TaxModelForm.taxTypeModelId: {} is different as TaxModelEntity.taxTypeModelId: {}",
-                        form.getTaxTypeModelId(), actualEntity.getTaxTypeModelId());
+                log.debug("TaxModelForm.taxLovId: {} is different as TaxModelEntity.taxLov.id: {}",
+                        form.getTaxLovId(), actualEntity.getTaxLov().getId());
+            } catch (TaxLOVException e) {
+                log.debug(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_LOV_ID_INVALID.getValue());
+                log.error(TaxModelMessageTemplate.MSG_TEMPLATE_TAX_MODEL_DTO_TAX_LOV_ID_INVALID.getValue(), e);
+                throw new TaxModelException(TaxErrorCode.TAX_ATTRIBUTE_INVALID, new Object [] { "taxLovId", String.valueOf(form.getTaxLovId()) });
             }
         } else {
-            expectedEntity.setTaxTypeModelId(actualEntity.getTaxTypeModelId());
-            log.debug("TaxModelForm.taxTypeModelId: is unchanged");
+            expectedEntity.setTaxLov(actualEntity.getTaxLov());
+            log.debug("TaxModelForm.taxLovId: is unchanged");
         }
         if(expectedEntity.getCurrencyTypeModel() == null) {
             expectedEntity.setCurrencyTypeModel(new TypeModelEntity());

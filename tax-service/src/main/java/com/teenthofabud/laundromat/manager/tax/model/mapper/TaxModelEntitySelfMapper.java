@@ -36,11 +36,11 @@ public class TaxModelEntitySelfMapper implements SingleChannelMapper<TaxModelEnt
             changeSW = true;
             log.debug("Source TaxModelEntity.rate is valid");
         }
-        if(source.getTaxTypeModelId() != null && source.getTaxTypeModelId() > 0
-                && !source.getTaxTypeModelId().equals(target.getTaxTypeModelId())) {
-            target.setTaxTypeModelId(source.getTaxTypeModelId());
+        if(source.getTaxLov() != null && source.getTaxLov().getId() > 0
+                && !source.getTaxLov().getId().equals(target.getTaxLov().getId())) {
+            target.setTaxLov(source.getTaxLov());
             changeSW = true;
-            log.debug("Source TaxModelEntity.taxTypeModelId is valid");
+            log.debug("Source TaxModelEntity.taxLovId is valid");
         }
         if(source.getCurrencyTypeModel() != null && source.getCurrencyTypeModel().getId() != null && source.getCurrencyTypeModel().getId() > 0
                 && !source.getCurrencyTypeModel().getId().equals(target.getCurrencyTypeModel().getId())) {

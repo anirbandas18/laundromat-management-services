@@ -1,9 +1,11 @@
 package com.teenthofabud.laundromat.manager.tax.error;
 
 import brave.Tracer;
+import com.teenthofabud.core.common.error.TOABBaseException;
 import com.teenthofabud.core.common.handler.TOABBaseWebExceptionHandler;
 import com.teenthofabud.core.common.data.vo.ErrorVo;
 import com.teenthofabud.core.common.handler.TOABMessageSource;
+import com.teenthofabud.laundromat.manager.tax.lov.data.TaxLOVException;
 import com.teenthofabud.laundromat.manager.tax.model.data.TaxModelException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +29,8 @@ public class TaxWebExceptionHandler implements TOABBaseWebExceptionHandler {
 
     private Tracer tracer;
 
-    @ExceptionHandler(TaxModelException.class)
-    public ResponseEntity<ErrorVo> handleStudentException(TaxModelException e) {
+    @ExceptionHandler(value = {TaxLOVException.class, TaxModelException.class })
+    public ResponseEntity<ErrorVo> handleTaxException(TOABBaseException e) {
         ResponseEntity<ErrorVo>  response = parseExceptionToResponse(e, messageSource, tracer);
         return response;
     }

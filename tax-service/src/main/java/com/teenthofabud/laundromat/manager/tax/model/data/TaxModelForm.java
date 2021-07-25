@@ -24,7 +24,7 @@ public class TaxModelForm implements LOVForm {
     @Getter
     @Setter
     @ToString.Include
-    private Long taxTypeModelId; //  absolute value in nature for business logic reference, turnover rate is relatively high
+    private Long taxLovId; //  absolute value in nature for business logic reference, turnover rate is relatively high
 
     @Override
     public void setName(String name) {
